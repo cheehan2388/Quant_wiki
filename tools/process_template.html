@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>流程說明｜開心的 Quant Wiki</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light dark;
+  --bg:light-dark(#ffffff,#101418);--ink:light-dark(#101418,#e8ecf0);--muted:light-dark(#5b6670,#9aa6b1);
+  --line:light-dark(#e3e7eb,#26303a);--side:light-dark(#f5f7f9,#151b21);--hl:#ffd84a;--hl-ink:#101418}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.75 "Manrope","Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;overflow-x:clip}
+.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:18px max(4vw,16px);border-bottom:1px solid var(--line)}
+.top a{font-weight:800;color:var(--ink);text-decoration:none}
+.top .back{font-size:14px;font-weight:700;border:1px solid var(--line);border-radius:999px;padding:6px 14px;margin-left:auto}
+article{max-width:860px;margin:0 auto;padding:32px max(4vw,16px) 80px}
+h1{font-size:clamp(28px,4vw,40px);line-height:1.15;margin:0 0 16px;text-wrap:balance}
+h2{font-size:24px;margin:44px 0 10px;padding-top:16px;border-top:3px solid var(--ink)}
+h2::before{content:"";display:inline-block;width:12px;height:12px;background:var(--hl);margin-right:10px;vertical-align:2px}
+p,li{max-width:70ch}
+pre{background:var(--side);padding:14px 16px;border-radius:8px;overflow-x:auto;font-size:13.5px;line-height:1.5}
+code{font-size:.92em;background:var(--side);padding:1px 5px;border-radius:4px;overflow-wrap:anywhere}
+pre code{background:none;padding:0;overflow-wrap:normal}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:14.5px;line-height:1.5}
+.scroll{overflow-x:auto;margin:14px 0}
+th,td{text-align:left;vertical-align:top;padding:9px 10px;border-bottom:1px solid var(--line)}
+th{border-bottom:2px solid var(--ink);white-space:nowrap}
+strong{background:linear-gradient(transparent 62%,rgba(255,216,74,.7) 62%)}
+</style>
+</head>
+<body>
+<div class="top"><a href="index.html">開心的 Quant Wiki</a><span>流程說明</span><a class="back" href="index.html">← 回網站首頁</a></div>
+<article>__BODY__</article>
+<script>
+{for (const t of document.querySelectorAll('table')) {const w = document.createElement('div'); w.className = 'scroll'; t.parentNode.insertBefore(w, t); w.appendChild(t);}}
+</script>
+</body>
+</html>

@@ -40,7 +40,8 @@ body{background:var(--side);color:var(--ink);font:16px/1.55 "Manrope","Noto Sans
 .s th{border-bottom:3px solid var(--ink);font-weight:800}
 .s td:last-child{font-variant-numeric:tabular-nums}
 .foot{position:absolute;left:84px;right:84px;bottom:26px;display:flex;gap:18px;align-items:center;font-size:15px;color:var(--muted);border-top:1px solid var(--line);padding-top:12px}
-.foot .src b{color:var(--ink);font-weight:700}
+.foot .src a{color:var(--ink);font-weight:700;text-decoration:underline;text-decoration-color:var(--hl);text-decoration-thickness:3px;text-underline-offset:3px}
+.foot .src a:hover{background:var(--hl);color:var(--hl-ink)}
 .foot .n{margin-left:auto;font-variant-numeric:tabular-nums;white-space:nowrap}
 .tag{background:var(--chip);color:var(--ink);border-radius:4px;padding:1px 8px;font-size:13px;white-space:nowrap}
 /* cover */
@@ -49,7 +50,7 @@ body{background:var(--side);color:var(--ink);font:16px/1.55 "Manrope","Noto Sans
 .ly-cover p:nth-of-type(2){color:var(--muted);font-size:20px}
 .twins{position:absolute;right:40px;top:110px;width:470px;height:470px}
 .twins path{fill:none;stroke-width:7;stroke-linecap:round}
-.tw-a{stroke:var(--ink)}.tw-b{stroke:var(--link)}.tw-gap{fill:var(--hl);opacity:.45;stroke:none!important}
+.twins .tw-a{stroke:var(--ink)}.twins .tw-b{stroke:var(--link)}.twins .tw-gap{fill:var(--hl);opacity:.5;stroke:none}
 /* statement */
 .ly-statement{justify-content:center}
 .ly-statement h2{font-size:28px;color:var(--muted);font-weight:700;margin-bottom:20px}
@@ -102,6 +103,7 @@ body{background:var(--side);color:var(--ink);font:16px/1.55 "Manrope","Noto Sans
 .nav{position:fixed;right:18px;bottom:16px;display:flex;gap:8px}
 .nav button{width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:20px;cursor:pointer}
 .hint{position:fixed;left:18px;bottom:24px;font-size:13px;color:var(--muted)}
+.hint a{color:var(--ink);font-weight:700}
 /* reading mode (narrow screens) */
 body.read{overflow:auto;background:var(--bg)}
 body.read #wrap{position:static;display:block;place-items:normal}
@@ -115,7 +117,7 @@ body.read .foot{left:18px;right:18px;bottom:16px;font-size:12px;flex-wrap:wrap;g
 body.read .fig{overflow-x:auto}body.read .fig svg{min-width:560px;max-height:none;height:auto}
 body.read .tl{font-size:15px}body.read .tl li{grid-template-columns:minmax(0,1fr);gap:0}
 body.read .s table{font-size:14px}body.read .s th,body.read .s td{padding:8px}
-body.read .nav,body.read .hint{display:none}body.read #bar{display:none}
+body.read .nav{display:none}body.read .hint{position:static;display:block;padding:18px;font-size:15px}body.read .keys{display:none}body.read #bar{display:none}
 @media(prefers-reduced-motion:no-preference){.s.on{animation:fade .25s ease-out}@keyframes fade{from{opacity:0}}}
 </style>
 </head>
@@ -123,7 +125,7 @@ body.read .nav,body.read .hint{display:none}body.read #bar{display:none}
 <div id="bar"></div>
 <div id="wrap"><div id="stage" role="region" aria-roledescription="簡報" aria-label="__TITLE__"></div></div>
 <div class="nav"><button id="prev" aria-label="上一頁">←</button><button id="next" aria-label="下一頁">→</button></div>
-<div class="hint">← → 鍵換頁</div>
+<div class="hint"><a href="__HOME__" target="_top">← 網站首頁</a><span class="keys">　← → 鍵換頁</span></div>
 <script>
 {
 const SLIDES = /*__SLIDES__*/null;
@@ -135,7 +137,7 @@ const twins = `<svg class="twins" viewBox="0 0 470 470" aria-hidden="true">
 stage.innerHTML = SLIDES.map((s, i) => `
   <section class="s ly-${s.layout}" id="s${i + 1}" aria-label="第 ${i + 1} 頁">
     ${s.html}${s.layout === 'cover' ? twins : ''}
-    <div class="foot"><span class="src">知識來源（Wiki）：<b>${s.cites.join('、')}</b></span>
+    <div class="foot"><span class="src">知識來源（Wiki）：${s.cites.map(c => `<a href="${c.h}" target="_top">${c.t}</a>`).join('、')}</span>
       ${s.illustrative ? '<span class="tag ill">示意數字</span>' : ''}
       <span class="n">${i + 1} / ${SLIDES.length}</span></div>
   </section>`).join('');

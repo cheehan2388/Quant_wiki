@@ -26,6 +26,8 @@ a{color:var(--link)}
 .top h1 a{color:inherit;text-decoration:none}
 .q{background:var(--hl);color:var(--hl-ink);padding:2px 10px;border-radius:3px;font-weight:700;font-size:15px}
 .counts{margin-left:auto;color:var(--muted);font-size:13px}
+.sitehome{font-size:14px;font-weight:700;color:var(--ink);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:6px 14px;white-space:nowrap}
+.sitehome:hover{background:var(--chip)}
 .wrap{display:grid;grid-template-columns:250px minmax(0,1fr);max-width:1240px}
 nav{background:var(--side);border-right:1px solid var(--line);padding:18px 16px 40px;position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}
 nav h2{font-size:13px;color:var(--muted);margin:18px 0 6px;font-weight:700}
@@ -92,6 +94,7 @@ th{font-weight:700;border-bottom:2px solid var(--ink);white-space:nowrap}
   <h1><a href="#" id="homeLink">開心的 Quant Wiki</a> <span class="sub" id="sub"></span></h1>
   <span class="q">交易策略到底在賺誰的錢？</span>
   <span class="counts" id="counts"></span>
+  <a class="sitehome" id="siteHome" href="index.html">← 回網站首頁</a>
 </header>
 <details class="mnav" id="mnav"><summary>目錄</summary><nav id="nav2"></nav></details>
 <div class="wrap">
@@ -110,6 +113,7 @@ document.getElementById('counts').textContent =
 const TYPE = {overview:'總覽', source:'來源', strategy:'策略', player:'玩家', concept:'概念', case:'案例'};
 document.getElementById('sub').textContent = DATA.subtitle;
 document.getElementById('homeLink').href = '#' + DATA.home;
+document.getElementById('siteHome').href = DATA.site;
 const NAMES = Object.fromEntries(DATA.nav.flatMap(g => g.items).map(i => [i.slug, i.title]));
 const title = s => NAMES[s] || (DATA.pages[s] ? DATA.pages[s].title : s);
 function show() {

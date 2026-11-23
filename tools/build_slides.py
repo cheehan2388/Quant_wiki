@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 """把簡報稿（deck.md）轉成單一 HTML 簡報。
 
-用法：python3 tools/build_slides.py slides/pairs-trading/deck.md
-輸出：同一資料夾的 index.html。會先跑 check_slides.py，沒過就不產生。
+用法：python3 tools/build_slides.py slides/pairs-trading/deck.md [--out 檔案] [--base 網址]
+輸出：預設是同一資料夾的 index.html。會先跑 check_slides.py，沒過就不產生。
+每頁的「知識來源」會連到 Wiki：在配對交易篇裡的頁連到 pairs.html，其他連到 wiki.html。
+--base 是網站根目錄；站內用空字串（相對路徑），放到別處時填 GitHub Pages 網址。
 """
+import argparse
 import html
 import json
 import re
@@ -17,7 +20,13 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "tools"))
 from check_slides import parse  # noqa: E402
 
-deck = Path(sys.argv[1]).resolve()
+ap = argparse.ArgumentParser()
+ap.add_argument("deck")
+ap.add_argument("--out")
+ap.add_argument("--base", default="")
+args = ap.parse_args()
+deck = Path(args.deck).resolve()
+pairs = set((ROOT / "editions" / "pairs.txt").read_text(encoding="utf-8").split())
 r = subprocess.run([sys.executable, str(ROOT / "tools" / "check_slides.py"), str(deck)])
 if r.returncode != 0:
     sys.exit("簡報檢查沒過，不產生 HTML。")
@@ -68,13 +77,15 @@ def render(s):
 slides = []
 for s in parse(deck):
     slides.append({"id": s["id"], "layout": s["layout"], "html": render(s),
-                   "cites": [titles.get(c, c) for c in s["cites"]],
+                   "cites": [{"t": titles.get(c, c),
+                              "h": f'{args.base}{"pairs" if c in pairs else "wiki"}.html#{c}'}
+                             for c in s["cites"]],
                    "illustrative": "illustrative" in s["flags"]})
 
 tpl = (ROOT / "tools" / "slides_template.html").read_text(encoding="utf-8")
 title = re.sub(r"<.*?>", "", slides[0]["html"].split("</h1>")[0])
-out = deck.parent / "index.html"
-out.write_text(tpl.replace("__TITLE__", html.escape(title))
+out = Path(args.out).resolve() if args.out else deck.parent / "index.html"
+out.write_text(tpl.replace("__TITLE__", html.escape(title)).replace("__HOME__", args.base + "index.html")
                .replace("/*__SLIDES__*/null", json.dumps(slides, ensure_ascii=False).replace("</", "<\\/")),
                encoding="utf-8")
-print(f"已產生 {out.relative_to(ROOT)}，共 {len(slides)} 頁")
+print(f"已產生 {out.name}，共 {len(slides)} 頁")

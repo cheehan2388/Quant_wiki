@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>流程說明｜開心的 Quant Wiki</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light dark;
+  --bg:light-dark(#ffffff,#101418);--ink:light-dark(#101418,#e8ecf0);--muted:light-dark(#5b6670,#9aa6b1);
+  --line:light-dark(#e3e7eb,#26303a);--side:light-dark(#f5f7f9,#151b21);--hl:#ffd84a;--hl-ink:#101418}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.75 "Manrope","Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;overflow-x:clip}
+.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:18px max(4vw,16px);border-bottom:1px solid var(--line)}
+.top a{font-weight:800;color:var(--ink);text-decoration:none}
+.top .back{font-size:14px;font-weight:700;border:1px solid var(--line);border-radius:999px;padding:6px 14px;margin-left:auto}
+article{max-width:860px;margin:0 auto;padding:32px max(4vw,16px) 80px}
+h1{font-size:clamp(28px,4vw,40px);line-height:1.15;margin:0 0 16px;text-wrap:balance}
+h2{font-size:24px;margin:44px 0 10px;padding-top:16px;border-top:3px solid var(--ink)}
+h2::before{content:"";display:inline-block;width:12px;height:12px;background:var(--hl);margin-right:10px;vertical-align:2px}
+p,li{max-width:70ch}
+pre{background:var(--side);padding:14px 16px;border-radius:8px;overflow-x:auto;font-size:13.5px;line-height:1.5}
+code{font-size:.92em;background:var(--side);padding:1px 5px;border-radius:4px;overflow-wrap:anywhere}
+pre code{background:none;padding:0;overflow-wrap:normal}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:14.5px;line-height:1.5}
+.scroll{overflow-x:auto;margin:14px 0}
+th,td{text-align:left;vertical-align:top;padding:9px 10px;border-bottom:1px solid var(--line)}
+th{border-bottom:2px solid var(--ink);white-space:nowrap}
+strong{background:linear-gradient(transparent 62%,rgba(255,216,74,.7) 62%)}
+</style>
+</head>
+<body>
+<div class="top"><a href="index.html">開心的 Quant Wiki</a><span>流程說明</span><a class="back" href="index.html">← 回網站首頁</a></div>
+<article><h1>流程說明：loop 設計、實際執行紀錄、反思</h1>
+<p>這份文件說明「開心的 Quant Wiki・配對交易篇」的簡報是怎麼從 Wiki 產生的。
+簡報附錄第 15–17 頁是同樣內容的精簡版。</p>
+<h2>1. Loop／Graph 設計</h2>
+<pre><code>A 收錄迴圈（每篇資料跑一次，共 9 篇）
+  ① 取得資料 ──▶ ② 寫來源頁 ──▶ ③ 更新相關頁 ──▶ ④ check.py
+       ▲                              ▲                │
+       │                              └── 沒過：修 ────┤
+       └────────── 通過：收錄下一篇 ───────────────────┘
+                                                       │ 9 篇都收錄完
+B 簡報迴圈（每頁跑一次，共 18 頁）                     ▼
+  ⑤ 查詢 Wiki ──▶ ⑥ 寫一頁 ──▶ ⑦ check_slides.py ──▶ ⑧ 產生 HTML ──▶ ⑨ 截圖檢查
+       ▲              ▲              │                    ▲               │
+       │              └─ 沒過：重寫 ─┤                    └─ 版面壞了 ────┘
+       └─ Wiki 沒有這個資訊：回到 A 補收錄 ─┘
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>節點</th>
+<th>做什麼</th>
+<th>會重複嗎</th>
+<th>檢查什麼</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>① 取得資料</td>
+<td>找原文；讀不到全文就在來源頁寫明</td>
+<td>每篇一次</td>
+<td>人工：是不是一手資料</td>
+</tr>
+<tr>
+<td>② 寫來源頁</td>
+<td>填資料、方法、結果、四問題、原文與推論</td>
+<td>每篇一次</td>
+<td>由 ④ 檢查</td>
+</tr>
+<tr>
+<td>③ 更新相關頁</td>
+<td>策略、玩家、概念、案例頁：有就更新，沒有才新增</td>
+<td>每篇一次</td>
+<td>由 ④ 檢查；分支規則：出現 2 篇以上才拆頁</td>
+</tr>
+<tr>
+<td>④ check.py</td>
+<td>段落順序、四問題不能空、連結存在、出處存在、目錄與紀錄齊全、禁用字</td>
+<td>每次修改後</td>
+<td>沒過就退回 ③</td>
+</tr>
+<tr>
+<td>⑤ 查詢 Wiki</td>
+<td>每頁簡報只能用 Wiki 的內容</td>
+<td>每頁一次</td>
+<td>每頁標出引用的 Wiki 頁</td>
+</tr>
+<tr>
+<td>⑥ 寫一頁</td>
+<td>一頁只講一件事</td>
+<td>每頁一次</td>
+<td>由 ⑦ 檢查</td>
+</tr>
+<tr>
+<td>⑦ check_slides.py</td>
+<td>數字能在引用頁找到、術語先解釋再使用、每頁不超過 200 字</td>
+<td>每次修改後</td>
+<td>沒過就退回 ⑥；Wiki 沒資料就回到 A</td>
+</tr>
+<tr>
+<td>⑧ 產生 HTML</td>
+<td>build_slides.py；⑦ 沒過就拒絕產生</td>
+<td>每次</td>
+<td>—</td>
+</tr>
+<tr>
+<td>⑨ 截圖檢查</td>
+<td>桌面 18 頁逐頁截圖、手機閱讀模式、頁面錯誤</td>
+<td>每次</td>
+<td>版面壞了就改版型</td>
+</tr>
+</tbody>
+</table>
+<p><strong>為什麼這樣設計</strong>
+- <strong>收錄和簡報分成兩個迴圈</strong>：Wiki 是長期累積的知識庫，簡報只是其中一種輸出。簡報不准自己編內容，只能查 Wiki，所以 Wiki 的檢查做得好，簡報就不會亂寫。
+- <strong>能自動檢查的都寫成程式</strong>：人會漏看，程式不會。人工只負責程式判斷不了的事，例如語意對不對、是不是一手資料。
+- <strong>檢查沒過就退回最近的那一步</strong>，不是整個重來。</p>
+<h2>2. 一次實際執行的紀錄</h2>
+<p>完整紀錄在 <code>wiki/log.md</code>。以下是這次簡報迴圈的真實終端機輸出。</p>
+<p><strong>第 1 次執行 check_slides.py（失敗）</strong></p>
+<pre><code>共 16 頁
+簡報檢查失敗，共 7 個問題：
+ - 第 16 頁（sources）：正文 383 字，超過 200 字，新手讀不完
+ - 術語「放空」在第 3 頁（twins）出現，但沒有任何一頁解釋它
+ - 術語「平倉」在第 3 頁（twins）出現，但沒有任何一頁解釋它
+ - 術語「超額報酬」在第 7 頁（decline）出現，但沒有任何一頁解釋它
+ - 術語「相關性」在第 10 頁（ltcm2）出現，但沒有任何一頁解釋它
+ - 術語「保證金」在第 11 頁（limits）出現，但沒有任何一頁解釋它
+ - 術語「bps」在第 12 頁（answers）出現，但沒有任何一頁解釋它
+</code></pre>
+<p>→ 6 項術語沒先解釋：在第一次出現的那一頁補上白話定義。參考資料頁超過字數：判斷是規則本身不合理，改成參考資料頁不算字數。</p>
+<p><strong>驗證檢查器：故意改錯兩個數字（11% → 15%、−36% → −46%）</strong></p>
+<pre><code> - 第 6 頁（evidence）：數字 15 在引用的頁面 ['pairs-trading-2006'] 裡找不到
+ - 第 8 頁（perfect）：數字 46 在引用的頁面 ['twin-shares-2009', 'ltcm-2006'] 裡找不到
+</code></pre>
+<p><strong>第 2 次執行（通過，16 頁）</strong></p>
+<pre><code>共 16 頁
+簡報檢查通過
+</code></pre>
+<p><strong>加入附錄 3 頁後第 3 次執行（失敗）</strong></p>
+<pre><code>共 18 頁
+簡報檢查失敗，共 2 個問題：
+ - 第 16 頁（run）：正文 203 字，超過 200 字，新手讀不完
+ - 第 17 頁（reflect）：正文 206 字，超過 200 字，新手讀不完
+</code></pre>
+<p>→ 刪掉次要細節，縮短句子。</p>
+<p><strong>第 4 次執行（通過，18 頁）</strong></p>
+<pre><code>共 18 頁
+簡報檢查通過
+</code></pre>
+<p>收錄迴圈的代表紀錄（摘自 log.md）：
+- 收錄第 2 篇：check.py 失敗 7 項。來源頁連到「做市商」頁，但論文沒說價差被誰收走，沒有根據 → 拿掉連結，等第 4 篇有來源再建頁。
+- 收錄加密貨幣那篇：抓到 3 個版本矛盾的數字（10 億 vs 20 億美元、80% vs 85%、低於 vs 超過 15%）→ 全部寫進頁面，註明採用哪一個。
+- 收錄 LTCM：check.py 失敗 11 項（目錄漏列 7 頁、紀錄漏記 4 篇）→ 補上後通過。網路流傳的「23 億美元部位」沒有可靠出處，不採用。</p>
+<h2>3. 反思</h2>
+<p><strong>哪個節點最容易出錯？</strong>
+1. <strong>③ 更新相關頁</strong>：全部收錄紀錄裡，check.py 抓到的問題大多在這裡，包括目錄漏列、紀錄漏寫、連到沒有根據的頁面。這些都是機械性錯誤：不難，但很容易忘。
+2. <strong>① 取得資料</strong>：9 篇裡有 2 篇讀不到全文（Do &amp; Faff、Makarov &amp; Schoar）；本來想收錄的 Froot &amp; Dabora 也讀不到，只好換成別篇。二手文章的數字還互相矛盾（LTCM 的溢價有 8%、18%、20% 三種說法）。
+3. <strong>⑥ 寫一頁</strong>：寫稿時以為大家都懂的詞（放空、平倉、bps…），對完全沒碰過交易的人其實是障礙。第 1 次簡報檢查的 7 個問題裡有 6 個是這種。</p>
+<p><strong>怎麼調整檢查流程</strong>
+- <strong>加欄位，讓問題看得見</strong>：來源頁加了「讀了什麼」和「原文與推論」，可信度低的地方一眼就看得出來。
+- <strong>加規則</strong>：同一個數字有不同版本時，兩個都寫出來；概念要出現在 2 篇以上的來源才拆成獨立頁面。
+- <strong>檢查器本身也要被檢查</strong>：參考資料頁被字數規則誤判，所以修改了規則；也故意塞錯數字，確認數字檢查真的會抓，而不是永遠通過。
+- <strong>發現規則太緊就調整</strong>：「一次最多新增 3 頁」讓 bps、一價定律連續被延後兩輪，形成積壓。</p>
+<p><strong>下一步要改的</strong>
+- 目錄和紀錄應該由程式自動產生，而不是事後檢查有沒有漏。能自動化的就不要靠人記得。
+- 數字檢查目前只比對數值，不比對語意（例如 0.24% 被放在錯的年份也會通過）。可以改成同時比對數字前後的關鍵字。
+- 把「一次最多新增 3 頁」改成 5 頁，或改成超過時先列出清單讓人確認。</p></article>
+<script>
+{for (const t of document.querySelectorAll('table')) {const w = document.createElement('div'); w.className = 'scroll'; t.parentNode.insertBefore(w, t); w.appendChild(t);}}
+</script>
+</body>
+</html>

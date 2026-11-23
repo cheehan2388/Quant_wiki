@@ -2,7 +2,7 @@
 """把 wiki/ 轉成單一 HTML 檔（docs/index.html），方便瀏覽。
 
 用法：
-  python3 tools/build_viewer.py                 完整版 → docs/index.html
+  python3 tools/build_viewer.py                 完整版 → docs/wiki.html
   python3 tools/build_viewer.py --edition pairs  只放 editions/pairs.txt 列的頁 → docs/pairs.html
 每頁的 [[slug]] 會變成可點的連結（版本外的頁面變成純文字），側欄依類型分組，
 每頁底部列出「誰連到這頁」，{{figure:名稱}} 會換成 tools/figures 裡的圖。
@@ -24,6 +24,8 @@ GROUPS = [("overview", "總覽"), ("strategy", "策略"), ("case", "案例"), ("
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--edition")
+ap.add_argument("--base", default="", help="網站根目錄網址；站內用空字串（相對路徑）")
+ap.add_argument("--out")
 args = ap.parse_args()
 if args.edition:
     lines = (ROOT / "editions" / f"{args.edition}.txt").read_text(encoding="utf-8").splitlines()
@@ -31,7 +33,9 @@ if args.edition:
     OUT = ROOT / "docs" / f"{args.edition}.html"
 else:
     ONLY = None
-    OUT = ROOT / "docs" / "index.html"
+    OUT = ROOT / "docs" / "wiki.html"
+if args.out:
+    OUT = Path(args.out).resolve()
 
 
 def parse(p):
@@ -115,9 +119,9 @@ counts = {label: n for key, label in GROUPS[1:]
 home = ONLY[0] if ONLY else "who-pays"
 subtitle = "配對交易篇" if args.edition == "pairs" else "完整版"
 data = json.dumps({"pages": pages, "nav": nav, "counts": counts, "home": home,
-                   "subtitle": subtitle}, ensure_ascii=False)
+                   "subtitle": subtitle, "site": args.base + "index.html"}, ensure_ascii=False)
 
 TEMPLATE = (ROOT / "tools" / "viewer_template.html").read_text(encoding="utf-8")
 OUT.parent.mkdir(exist_ok=True)
 OUT.write_text(TEMPLATE.replace("/*__DATA__*/null", data.replace("</", "<\\/")), encoding="utf-8")
-print(f"已產生 {OUT.relative_to(ROOT)}，共 {len(pages)} 頁")
+print(f"已產生 {OUT.name}，共 {len(pages)} 頁")

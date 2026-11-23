@@ -120,3 +120,17 @@ updated: 2026-11-23
 
 - `raw/` 只能讀。`AGENTS.md`、`tools/check.py` 要使用者同意才能改。
 - 刪除任何 wiki 頁面前要先問使用者。
+
+## 10. 網站與「最新更新」
+
+網站放在 `docs/`，由 GitHub Pages 發布（main 分支的 `/docs`），網址是 https://cheehan2388.github.io/Quant_wiki/ 。
+
+- **首頁**（`docs/index.html`）是唯一入口：第一次來看簡報、想深入逛 Wiki、想知道做法看流程說明，右邊是「最新更新」。
+- **不要手改 `docs/` 裡的檔案**。一律改原始檔（`wiki/`、`slides/`、`site/updates.md`），再執行：
+
+  ```bash
+  python3 tools/build_site.py
+  ```
+  它會先跑兩個檢查器，任一沒過就停止，通過才重新產生整個 `docs/`。
+- **每次發布新內容，都要在 `site/updates.md` 最上面補一筆**：日期、標題、站內連結、一兩句說明。首頁的「最新更新」欄就是從這裡來的，最上面那筆會標「最新」。修錯字這類小改動不用記。
+- 簡報每頁的「知識來源」會連到 Wiki：在 `editions/pairs.txt` 裡的頁連到 `pairs.html`，其他連到 `wiki.html`。

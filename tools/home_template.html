@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>開心的 Quant Wiki</title>
+<meta name="description" content="用白話整理量化交易研究：交易策略到底在賺誰的錢？">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* VOICE: 一間小研究室的門口：友善、直接，三秒內知道該點哪裡
+   IDEA: 交易帳簿的封面加上一張「最新更新」公告欄
+   PICTURE: 兩條分開又靠回來的雙胞胎線，放在主要入口（簡報）旁邊
+   COLOUR and TYPE: 白底、墨色 #101418、黃 #ffd84a 只給主要按鈕和「最新」；Manrope + Noto Sans TC
+   LAYOUT: 左邊三個入口（簡報最大），右邊最新更新；窄螢幕依序堆疊 */
+:root{color-scheme:light dark;
+  --bg:light-dark(#ffffff,#101418);--ink:light-dark(#101418,#e8ecf0);--muted:light-dark(#5b6670,#9aa6b1);
+  --line:light-dark(#e3e7eb,#26303a);--side:light-dark(#f5f7f9,#151b21);--hl:#ffd84a;--hl-ink:#101418;
+  --link:light-dark(#1f4fd1,#8fb2ff)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Manrope","Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;overflow-x:clip}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 max(4vw,16px)}
+header{padding:26px 0 0}
+.brand{font-weight:800;font-size:19px;letter-spacing:-.01em}
+.hero{padding:34px 0 10px}
+.hero h1{font-size:clamp(34px,5vw,52px);line-height:1.08;margin:0 0 14px;font-weight:900;letter-spacing:-.02em;text-wrap:balance}
+.hero h1 mark{background:var(--hl);color:var(--hl-ink);padding:0 .12em;border-radius:4px}
+.hero p{margin:0;color:var(--muted);font-size:17px;max-width:40em}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:40px;padding:30px 0 60px;align-items:start}
+.main{display:flex;flex-direction:column;gap:18px}
+.primary{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:20px;align-items:center;
+  background:var(--side);border-radius:16px;padding:30px 30px 30px 32px;text-decoration:none}
+.step{font-size:14px;font-weight:800;color:var(--muted);margin:0 0 6px}
+.primary h2{font-size:clamp(26px,3.2vw,34px);line-height:1.15;margin:0 0 10px;font-weight:900;text-wrap:balance}
+.primary p{margin:0 0 20px;font-size:16px}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--hl);color:var(--hl-ink);font-weight:800;border-radius:999px;padding:12px 22px;min-height:44px;font-size:16px}
+.primary:hover .btn{box-shadow:0 0 0 3px var(--ink) inset}
+.twins{width:100%;height:auto}
+.twins path{fill:none;stroke-width:7;stroke-linecap:round}
+.twins .tw-a{stroke:var(--ink)}.twins .tw-b{stroke:var(--link)}.twins .tw-gap{fill:var(--hl);opacity:.5;stroke:none}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.entry{display:block;text-decoration:none;border-top:3px solid var(--ink);padding:16px 2px 4px}
+.entry h3{font-size:21px;margin:0 0 6px;font-weight:800}
+.entry p{margin:0 0 10px;color:var(--muted);font-size:15px}
+.entry .go{font-weight:800;font-size:15px}
+.entry:hover h3,.entry:focus-visible h3{text-decoration:underline;text-decoration-color:var(--hl);text-decoration-thickness:4px;text-underline-offset:4px}
+.more{font-size:14px;color:var(--muted);margin:6px 0 0}
+.more a{font-weight:700;color:var(--ink)}
+aside{position:sticky;top:20px}
+aside h2{font-size:18px;margin:0 0 4px;font-weight:800;display:flex;align-items:center;gap:8px}
+aside .sub{font-size:13px;color:var(--muted);margin:0 0 14px}
+.feed{list-style:none;margin:0;padding:0}
+.feed li{padding:14px 0;border-top:1px solid var(--line)}
+.feed time{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.feed a{display:block;font-weight:800;text-decoration:none;font-size:16px;line-height:1.35;margin:2px 0 4px}
+.feed a:hover{text-decoration:underline}
+.feed p{margin:0;font-size:14px;color:var(--muted);line-height:1.55}
+.new{background:var(--hl);color:var(--hl-ink);font-size:12px;font-weight:800;border-radius:4px;padding:1px 7px;margin-left:6px;vertical-align:2px}
+.feed li:nth-child(n+6){display:none}
+.feed.all li{display:block}
+.toggle{font:inherit;font-size:14px;font-weight:700;background:none;border:1px solid var(--line);border-radius:999px;padding:8px 14px;min-height:44px;color:var(--ink);cursor:pointer;margin-top:6px}
+a:focus-visible,.toggle:focus-visible{outline:3px solid var(--link);outline-offset:3px;border-radius:6px}
+footer{border-top:1px solid var(--line);padding:22px 0 40px;font-size:14px;color:var(--muted)}
+footer a{font-weight:700;color:var(--ink)}
+@media(max-width:900px){.grid{grid-template-columns:minmax(0,1fr)}aside{position:static}}
+@media(max-width:600px){.primary{grid-template-columns:minmax(0,1fr);padding:24px 20px}.primary svg{max-width:240px;order:-1}.row{grid-template-columns:minmax(0,1fr)}}
+@media(prefers-reduced-motion:no-preference){.tw-b{stroke-dasharray:900;stroke-dashoffset:900;animation:draw 1.4s .2s ease-out forwards}@keyframes draw{to{stroke-dashoffset:0}}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><div class="brand">開心的 Quant Wiki</div></header>
+  <section class="hero">
+    <h1>交易策略到底在<mark>賺誰的錢</mark>？</h1>
+    <p>用白話整理量化交易的研究。每個數字都查得到出處，不需要任何交易背景。</p>
+  </section>
+  <div class="grid">
+    <main class="main">
+      <a class="primary" href="slides.html">
+        <div>
+          <p class="step">第一次來？從這裡開始</p>
+          <h2>配對交易：賭雙胞胎會回來</h2>
+          <p>18 頁教學簡報，從原理、證據一路講到 LTCM 的故事，最後有 3 題小測驗。</p>
+          <span class="btn">開始看簡報・約 10 分鐘 →</span>
+        </div>
+        <svg class="twins" viewBox="20 110 430 230" aria-hidden="true">
+          <path class="tw-gap" d="M40,250 C120,240 160,230 200,200 C240,170 260,150 300,150 C340,150 360,190 430,200 L430,210 C360,205 330,300 290,300 C250,300 230,260 200,250 C160,240 120,255 40,255 Z"/>
+          <path class="tw-a" d="M40,255 C120,255 160,240 200,250 C230,260 250,300 290,300 C330,300 360,205 430,210"/>
+          <path class="tw-b" d="M40,250 C120,240 160,230 200,200 C240,170 260,150 300,150 C340,150 360,190 430,200"/>
+        </svg>
+      </a>
+      <div class="row">
+        <a class="entry" href="pairs.html">
+          <h3>想深入或查證：逛 Wiki</h3>
+          <p>配對交易篇共 __PAIRS_N__ 頁：研究、案例、概念。簡報每頁底下的出處都能點進來。</p>
+          <span class="go">進入配對交易篇 →</span>
+        </a>
+        <a class="entry" href="process.html">
+          <h3>想知道怎麼做出來的</h3>
+          <p>這份簡報如何從 Wiki 產生：流程圖、實際執行的檢查紀錄、反思。</p>
+          <span class="go">看流程說明 →</span>
+        </a>
+      </div>
+      <p class="more">更多：<a href="wiki.html">完整版 Wiki</a>（__WIKI_N__ 頁，其他主題持續整理中）</p>
+    </main>
+    <aside aria-labelledby="upd">
+      <h2 id="upd">最新更新</h2>
+      <p class="sub">新內容都會先出現在這裡</p>
+      <ul class="feed" id="feed">__FEED__</ul>
+      __TOGGLE__
+    </aside>
+  </div>
+  <footer>最後更新：__LAST__ ・ 原始碼與資料：<a href="__REPO__">GitHub</a> ・ 內容僅供學習，不是投資建議。</footer>
+</div>
+<script>
+{
+const b = document.getElementById('more');
+if (b) b.addEventListener('click', () => {
+  const f = document.getElementById('feed');
+  const open = f.classList.toggle('all');
+  b.textContent = open ? '收起' : '看全部更新';
+  b.setAttribute('aria-expanded', open);
+});
+}
+</script>
+</body>
+</html>
