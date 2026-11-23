@@ -17,7 +17,7 @@
 <text x="540" y="46" class="lg-ll">通過：收錄下一篇</text>
 <path d="M867,128 L867,215 L115,215 L115,262" class="lg-e" marker-end="url(#ah)"/>
 <text x="490" y="208" class="lg-ll">9 篇都收錄完</text>
-<text x="140" y="250" class="lg-t">B　簡報迴圈：每頁跑一次（共 18 頁）</text>
+<text x="140" y="250" class="lg-t">B　簡報迴圈：每頁跑一次（共 17 頁）</text>
 <g class="lg-n"><rect x="20" y="265" width="170" height="70" rx="10"/><text x="105" y="295">⑤ 查詢 Wiki</text><text x="105" y="317" class="lg-s">只用 Wiki 的內容</text></g>
 <g class="lg-n"><rect x="215" y="265" width="170" height="70" rx="10"/><text x="300" y="295">⑥ 寫一頁</text><text x="300" y="317" class="lg-s">標出引用的頁面</text></g>
 <g class="lg-c"><rect x="410" y="265" width="190" height="70" rx="10"/><text x="505" y="295">⑦ check_slides.py</text><text x="505" y="317" class="lg-s">數字、術語、字數</text></g>
