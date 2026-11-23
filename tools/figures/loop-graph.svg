@@ -1,0 +1,37 @@
+<svg viewBox="0 0 1000 470" xmlns="http://www.w3.org/2000/svg" role="img" class="fig-svg lg" aria-label="流程圖：上排是 Wiki 收錄迴圈，下排是簡報產生迴圈，各有檢查節點和退回的箭頭">
+<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="lg-head"/></marker>
+  <marker id="ahr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="lg-headr"/></marker>
+</defs>
+<text x="20" y="28" class="lg-t">A　收錄迴圈：每篇資料跑一次（共 9 篇）</text>
+<g class="lg-n"><rect x="20" y="58" width="190" height="70" rx="10"/><text x="115" y="88">① 取得資料</text><text x="115" y="110" class="lg-s">找原文，讀不到就標明</text></g>
+<g class="lg-n"><rect x="265" y="58" width="190" height="70" rx="10"/><text x="360" y="88">② 寫來源頁</text><text x="360" y="110" class="lg-s">四問題＋原文／推論</text></g>
+<g class="lg-n"><rect x="510" y="58" width="190" height="70" rx="10"/><text x="605" y="88">③ 更新相關頁</text><text x="605" y="110" class="lg-s">有就更新，沒有才新增</text></g>
+<g class="lg-c"><rect x="755" y="58" width="225" height="70" rx="10"/><text x="867" y="88">④ check.py</text><text x="867" y="110" class="lg-s">段落、連結、出處、目錄</text></g>
+<line x1="210" y1="93" x2="262" y2="93" class="lg-e" marker-end="url(#ah)"/>
+<line x1="455" y1="93" x2="507" y2="93" class="lg-e" marker-end="url(#ah)"/>
+<line x1="700" y1="93" x2="752" y2="93" class="lg-e" marker-end="url(#ah)"/>
+<path d="M830,128 C830,172 640,172 620,131" class="lg-r" marker-end="url(#ahr)"/>
+<text x="725" y="182" class="lg-rl">沒過：退回修改</text>
+<path d="M940,58 C940,18 140,18 115,55" class="lg-l" marker-end="url(#ah)"/>
+<text x="540" y="46" class="lg-ll">通過：收錄下一篇</text>
+<path d="M867,128 L867,215 L115,215 L115,262" class="lg-e" marker-end="url(#ah)"/>
+<text x="490" y="208" class="lg-ll">9 篇都收錄完</text>
+<text x="140" y="250" class="lg-t">B　簡報迴圈：每頁跑一次（共 18 頁）</text>
+<g class="lg-n"><rect x="20" y="265" width="170" height="70" rx="10"/><text x="105" y="295">⑤ 查詢 Wiki</text><text x="105" y="317" class="lg-s">只用 Wiki 的內容</text></g>
+<g class="lg-n"><rect x="215" y="265" width="170" height="70" rx="10"/><text x="300" y="295">⑥ 寫一頁</text><text x="300" y="317" class="lg-s">標出引用的頁面</text></g>
+<g class="lg-c"><rect x="410" y="265" width="190" height="70" rx="10"/><text x="505" y="295">⑦ check_slides.py</text><text x="505" y="317" class="lg-s">數字、術語、字數</text></g>
+<g class="lg-n"><rect x="625" y="265" width="160" height="70" rx="10"/><text x="705" y="295">⑧ 產生 HTML</text><text x="705" y="317" class="lg-s">build_slides.py</text></g>
+<g class="lg-c"><rect x="810" y="265" width="170" height="70" rx="10"/><text x="895" y="295">⑨ 截圖檢查</text><text x="895" y="317" class="lg-s">桌面＋手機</text></g>
+<line x1="190" y1="300" x2="212" y2="300" class="lg-e" marker-end="url(#ah)"/>
+<line x1="385" y1="300" x2="407" y2="300" class="lg-e" marker-end="url(#ah)"/>
+<line x1="600" y1="300" x2="622" y2="300" class="lg-e" marker-end="url(#ah)"/>
+<line x1="785" y1="300" x2="807" y2="300" class="lg-e" marker-end="url(#ah)"/>
+<path d="M480,335 C480,380 330,380 310,338" class="lg-r" marker-end="url(#ahr)"/>
+<text x="395" y="392" class="lg-rl">沒過：重寫那一頁</text>
+<path d="M895,335 C895,380 735,380 715,338" class="lg-r" marker-end="url(#ahr)"/>
+<text x="805" y="392" class="lg-rl">版面壞了：改版型</text>
+<path d="M530,335 C540,425 70,430 60,338" class="lg-r" marker-end="url(#ahr)"/>
+<text x="290" y="440" class="lg-rl">Wiki 沒有這個資訊：回到 A 補收錄</text>
+<g class="lg-key"><rect x="20" y="452" width="14" height="12" rx="3" class="lg-kc"/><text x="40" y="462">檢查節點</text><line x1="120" y1="458" x2="150" y2="458" class="lg-r"/><text x="156" y="462">沒過時退回</text></g>
+</svg>

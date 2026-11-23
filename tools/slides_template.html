@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* VOICE: 給完全沒碰過交易的人上的一堂課：冷靜、清楚、一頁只講一件事
+   IDEA: 交易帳簿的一頁頁筆記：每頁底下都寫著「這頁的知識來自 Wiki 的哪一頁」
+   PICTURE: 封面是兩條分開又靠回來的線（雙胞胎）；內頁的圖表本身就是主角
+   COLOUR and TYPE: 白底、墨色 #101418、黃 #ffd84a 只用在重點與定義；Manrope + Noto Sans TC
+   LAYOUT: 1280×720 舞台等比縮放；窄螢幕改成上下捲動的閱讀模式 */
+:root{color-scheme:light dark;
+  --bg:light-dark(#ffffff,#101418);--ink:light-dark(#101418,#e8ecf0);--muted:light-dark(#5b6670,#9aa6b1);
+  --line:light-dark(#e3e7eb,#26303a);--side:light-dark(#f5f7f9,#151b21);--hl:#ffd84a;--hl-ink:#101418;
+  --link:light-dark(#1f4fd1,#8fb2ff);--bad:#d6453d;--good:#1f8a5b;--chip:light-dark(#eef1f4,#1e2630)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html,body{margin:0;height:100%}
+body{background:var(--side);color:var(--ink);font:16px/1.55 "Manrope","Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;overflow:hidden}
+#wrap{position:fixed;inset:0;display:grid;place-items:center}
+#stage{width:1280px;height:720px;position:relative;background:var(--bg);transform-origin:center center;box-shadow:0 2px 30px rgba(0,0,0,.08);overflow:hidden}
+.s{position:absolute;inset:0;padding:56px 84px 92px;display:none;flex-direction:column;--fs:29px;font-size:var(--fs)}
+.s.on{display:flex}
+.s h1{font-size:64px;line-height:1.08;margin:0 0 22px;font-weight:900;letter-spacing:-.02em;text-wrap:balance}
+.s h2{font-size:46px;line-height:1.15;margin:0 0 26px;font-weight:800;letter-spacing:-.015em;text-wrap:balance}
+.s p{margin:0 0 16px;line-height:1.55}
+.s ul{margin:0 0 14px;padding-left:1.1em}
+.s li{margin:0 0 12px;line-height:1.5}
+.s li::marker{color:var(--muted)}
+.s strong{background:linear-gradient(transparent 60%,rgba(255,216,74,.75) 60%)}
+.s blockquote{margin:10px 0 0;padding:10px 18px;border-left:6px solid var(--hl);background:var(--side);border-radius:0 8px 8px 0;font-size:.8em}
+.s blockquote p{margin:0}
+.s blockquote strong{background:none}
+.s table{border-collapse:collapse;width:100%;margin:4px 0 22px;font-size:.92em}
+.s th,.s td{text-align:left;padding:12px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+.s th{border-bottom:3px solid var(--ink);font-weight:800}
+.s td:last-child{font-variant-numeric:tabular-nums}
+.foot{position:absolute;left:84px;right:84px;bottom:26px;display:flex;gap:18px;align-items:center;font-size:15px;color:var(--muted);border-top:1px solid var(--line);padding-top:12px}
+.foot .src b{color:var(--ink);font-weight:700}
+.foot .n{margin-left:auto;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tag{background:var(--chip);color:var(--ink);border-radius:4px;padding:1px 8px;font-size:13px;white-space:nowrap}
+/* cover */
+.ly-cover{justify-content:center;padding-right:520px}
+.ly-cover p:nth-of-type(1){display:inline-block;background:var(--hl);color:var(--hl-ink);font-weight:800;font-size:30px;padding:4px 14px;border-radius:4px;margin-bottom:26px}
+.ly-cover p:nth-of-type(2){color:var(--muted);font-size:20px}
+.twins{position:absolute;right:40px;top:110px;width:470px;height:470px}
+.twins path{fill:none;stroke-width:7;stroke-linecap:round}
+.tw-a{stroke:var(--ink)}.tw-b{stroke:var(--link)}.tw-gap{fill:var(--hl);opacity:.45;stroke:none!important}
+/* statement */
+.ly-statement{justify-content:center}
+.ly-statement h2{font-size:28px;color:var(--muted);font-weight:700;margin-bottom:20px}
+.ly-statement p{font-size:40px;line-height:1.35;font-weight:700;max-width:24em;text-wrap:balance}
+.ly-statement p+p{font-size:28px;font-weight:500;color:var(--ink)}
+/* figure */
+.fig{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;justify-content:center}
+.fig svg{width:100%;height:100%;max-height:460px}
+.ly-figure .fig{margin-bottom:8px}
+.fig-svg{font-family:inherit}
+.f-h{font-size:14px;font-weight:700;fill:var(--ink)}.f-lab{font-size:13px;fill:var(--ink)}
+.f-tick{font-size:12px;fill:var(--muted)}.f-note{font-size:12px;fill:var(--muted)}
+.f-a{fill:none;stroke:var(--ink);stroke-width:2}.f-b{fill:none;stroke:var(--link);stroke-width:2}
+.f-ka{fill:var(--ink)}.f-kb{fill:var(--link)}.f-s{fill:none;stroke:var(--ink);stroke-width:1.8}
+.f-band{stroke:var(--muted);stroke-dasharray:5 5}.f-zero{stroke:var(--muted)}.f-hold{fill:var(--hl);opacity:.3}
+.f-in{fill:var(--hl);stroke:var(--hl-ink);stroke-width:1.5}.f-out{fill:var(--bg);stroke:var(--ink);stroke-width:2}
+.tl{list-style:none;margin:0;padding:0 0 0 22px;border-left:3px solid var(--line);font-size:21px}
+.tl li{position:relative;margin:0;padding:4px 0 7px 16px;display:grid;grid-template-columns:8.6em minmax(0,1fr);gap:14px}
+.tl li::before{content:"";position:absolute;left:-32px;top:12px;width:15px;height:15px;border-radius:50%;background:var(--bg);border:3px solid var(--ink)}
+.tl li.bad::before{background:var(--bad);border-color:var(--bad)}.tl li.good::before{background:var(--hl);border-color:var(--hl-ink)}
+.tl b{white-space:nowrap}.fig-src{font-size:14px;color:var(--muted);margin:6px 0 0!important}
+/* loop graph */
+.lg text{font-size:17px;fill:var(--ink);text-anchor:middle;font-weight:700}
+.lg .lg-s{font-size:13px;font-weight:500;fill:var(--muted)}
+.lg .lg-t{text-anchor:start;font-size:16px;font-weight:800}
+.lg .lg-rl{font-size:13px;fill:var(--bad);font-weight:700}.lg .lg-ll{font-size:13px;fill:var(--muted);font-weight:600}
+.lg-n rect{fill:var(--bg);stroke:var(--ink);stroke-width:2}
+.lg-c rect,.lg-kc{fill:var(--hl);stroke:var(--hl-ink);stroke-width:2}
+.lg-c text{fill:var(--hl-ink)}.lg-c .lg-s{fill:#3c4650}
+.lg-e,.lg-l{fill:none;stroke:var(--ink);stroke-width:2}.lg-l{stroke-dasharray:6 5;stroke:var(--muted)}
+.lg-r{fill:none;stroke:var(--bad);stroke-width:2;stroke-dasharray:5 4}
+.lg-head{fill:var(--ink)}.lg-headr{fill:var(--bad)}
+.lg-key text{text-anchor:start;font-size:13px;font-weight:600;fill:var(--muted)}
+/* quiz */
+.quiz{display:flex;flex-direction:column;gap:14px}
+.q .qq{font-weight:700;margin:0 0 8px;font-size:.88em}
+.opts{display:flex;flex-wrap:wrap;gap:10px}
+.opt{font:inherit;font-size:.72em;padding:9px 16px;min-height:44px;border-radius:8px;border:2px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer;text-align:left}
+.opt:hover:not(:disabled){border-color:var(--ink)}
+.opt:focus-visible,.nav button:focus-visible{outline:3px solid var(--link);outline-offset:2px}
+.opt.right{border-color:var(--good);background:light-dark(#e6f4ec,#14301f)}
+.opt.wrong{border-color:var(--bad);background:light-dark(#fbe9e8,#3a1715)}
+.opt:disabled{cursor:default}
+.why{font-size:.68em;color:var(--muted);margin:8px 0 0!important}
+.score{font-weight:800;font-size:.8em;margin-top:6px}
+.ly-sources li{font-size:.78em;margin-bottom:8px}
+.ill{background:var(--hl);color:var(--hl-ink)}
+/* nav */
+#bar{position:fixed;left:0;top:0;height:4px;background:var(--hl);transition:width .2s}
+.nav{position:fixed;right:18px;bottom:16px;display:flex;gap:8px}
+.nav button{width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:20px;cursor:pointer}
+.hint{position:fixed;left:18px;bottom:24px;font-size:13px;color:var(--muted)}
+/* reading mode (narrow screens) */
+body.read{overflow:auto;background:var(--bg)}
+body.read #wrap{position:static;display:block;place-items:normal}
+body.read #stage{width:auto;height:auto;transform:none!important;box-shadow:none;overflow:visible}
+body.read .s{position:relative;display:flex;padding:34px 18px 70px;border-bottom:8px solid var(--side);--fs:17px!important;min-height:0}
+body.read .s h1{font-size:34px}body.read .s h2{font-size:25px;margin-bottom:16px}
+body.read .ly-cover{padding-right:18px;min-height:0}body.read .twins{position:static;width:100%;height:auto;max-width:300px;margin-top:10px}
+body.read .ly-cover p:nth-of-type(1){font-size:19px}
+body.read .ly-statement p{font-size:22px}body.read .ly-statement p+p{font-size:18px}
+body.read .foot{left:18px;right:18px;bottom:16px;font-size:12px;flex-wrap:wrap;gap:6px 12px}
+body.read .fig{overflow-x:auto}body.read .fig svg{min-width:560px;max-height:none;height:auto}
+body.read .tl{font-size:15px}body.read .tl li{grid-template-columns:minmax(0,1fr);gap:0}
+body.read .s table{font-size:14px}body.read .s th,body.read .s td{padding:8px}
+body.read .nav,body.read .hint{display:none}body.read #bar{display:none}
+@media(prefers-reduced-motion:no-preference){.s.on{animation:fade .25s ease-out}@keyframes fade{from{opacity:0}}}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<div id="wrap"><div id="stage" role="region" aria-roledescription="簡報" aria-label="__TITLE__"></div></div>
+<div class="nav"><button id="prev" aria-label="上一頁">←</button><button id="next" aria-label="下一頁">→</button></div>
+<div class="hint">← → 鍵換頁</div>
+<script>
+{
+const SLIDES = /*__SLIDES__*/null;
+const stage = document.getElementById('stage');
+const twins = `<svg class="twins" viewBox="0 0 470 470" aria-hidden="true">
+  <path class="tw-gap" d="M40,250 C120,240 160,230 200,200 C240,170 260,150 300,150 C340,150 360,190 430,200 L430,210 C360,205 330,300 290,300 C250,300 230,260 200,250 C160,240 120,255 40,255 Z"/>
+  <path class="tw-a" d="M40,255 C120,255 160,240 200,250 C230,260 250,300 290,300 C330,300 360,205 430,210"/>
+  <path class="tw-b" d="M40,250 C120,240 160,230 200,200 C240,170 260,150 300,150 C340,150 360,190 430,200"/></svg>`;
+stage.innerHTML = SLIDES.map((s, i) => `
+  <section class="s ly-${s.layout}" id="s${i + 1}" aria-label="第 ${i + 1} 頁">
+    ${s.html}${s.layout === 'cover' ? twins : ''}
+    <div class="foot"><span class="src">知識來源（Wiki）：<b>${s.cites.join('、')}</b></span>
+      ${s.illustrative ? '<span class="tag ill">示意數字</span>' : ''}
+      <span class="n">${i + 1} / ${SLIDES.length}</span></div>
+  </section>`).join('');
+const secs = [...stage.querySelectorAll('.s')];
+let cur = 0;
+function fit(sec) {
+  if (document.body.classList.contains('read')) return;
+  let fs = 29;
+  sec.style.setProperty('--fs', fs + 'px');
+  const limit = 720 - 92;
+  const tooTall = () => [...sec.children].filter(c => !c.classList.contains('foot') && !c.classList.contains('twins'))
+    .some(c => c.offsetTop + c.offsetHeight > limit);
+  while (tooTall() && fs > 17) { fs -= 1; sec.style.setProperty('--fs', fs + 'px'); }
+}
+function show(i) {
+  cur = Math.max(0, Math.min(SLIDES.length - 1, i));
+  secs.forEach((s, k) => s.classList.toggle('on', k === cur));
+  fit(secs[cur]);
+  document.getElementById('bar').style.width = ((cur + 1) / SLIDES.length * 100) + '%';
+  if (location.hash !== '#s' + (cur + 1)) history.replaceState(null, '', '#s' + (cur + 1));
+}
+function scale() {
+  const read = innerWidth < 760 || innerHeight < 430;
+  document.body.classList.toggle('read', read);
+  if (read) { secs.forEach(s => s.classList.add('on')); stage.style.transform = ''; return; }
+  secs.forEach((s, k) => s.classList.toggle('on', k === cur));
+  const k = Math.min(innerWidth / 1280, innerHeight / 720) * 0.96;
+  stage.style.transform = `scale(${k})`;
+  fit(secs[cur]);
+}
+document.getElementById('prev').onclick = () => show(cur - 1);
+document.getElementById('next').onclick = () => show(cur + 1);
+addEventListener('keydown', e => {
+  if (document.body.classList.contains('read')) return;
+  if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); show(cur + 1); }
+  if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); show(cur - 1); }
+  if (e.key === 'Home') show(0);
+  if (e.key === 'End') show(SLIDES.length - 1);
+});
+let tx = null;
+stage.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive: true});
+stage.addEventListener('touchend', e => {
+  if (tx === null || document.body.classList.contains('read')) return;
+  const dx = e.changedTouches[0].clientX - tx;
+  if (Math.abs(dx) > 50) show(cur + (dx < 0 ? 1 : -1));
+  tx = null;
+});
+for (const q of stage.querySelectorAll('.q')) {
+  q.addEventListener('click', e => {
+    const b = e.target.closest('.opt');
+    if (!b || b.disabled) return;
+    const btns = [...q.querySelectorAll('.opt')];
+    btns.forEach(x => { x.disabled = true; if (x.dataset.ok === '1') x.classList.add('right'); });
+    if (b.dataset.ok !== '1') b.classList.add('wrong');
+    q.dataset.done = b.dataset.ok;
+    q.querySelector('.why').hidden = false;
+    const all = [...stage.querySelectorAll('.q')], done = all.filter(x => x.dataset.done !== undefined);
+    const sc = q.closest('.s').querySelector('.score');
+    if (done.length === all.length) sc.textContent = `答對 ${done.filter(x => x.dataset.done === '1').length} / ${all.length} 題`;
+    fit(q.closest('.s'));
+  });
+}
+const m = location.hash.match(/^#s(\d+)$/);
+cur = m ? Number(m[1]) - 1 : 0;
+addEventListener('resize', scale);
+addEventListener('hashchange', () => { const h = location.hash.match(/^#s(\d+)$/); if (h) show(Number(h[1]) - 1); });
+scale(); show(cur);
+}
+</script>
+</body>
+</html>
