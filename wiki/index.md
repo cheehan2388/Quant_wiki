@@ -12,9 +12,11 @@ updated: 2026-11-23
 ## 來源（sources）
 - [[momentum-1993]]：買贏家、賣輸家（Jegadeesh & Titman 1993）
 - [[overtrading-2000]]：交易有害你的財富（Barber & Odean 2000）
+- [[pairs-trading-2006]]：配對交易（Gatev, Goetzmann & Rouwenhorst 2006）
 
 ## 策略（strategies）
 - [[momentum]]：動量策略
+- [[pairs-trading]]：配對交易
 
 ## 玩家（players）
 - [[retail]]：散戶
@@ -22,6 +24,8 @@ updated: 2026-11-23
 
 ## 概念（concepts）
 - [[transaction-costs]]：交易成本
+- [[bid-ask-spread]]：買賣價差
+- [[excess-return]]：超額報酬
 
 ## 其他
 - [[log]]：收錄紀錄

@@ -70,4 +70,5 @@ Wiki 的推論：如果作者說得對，賺的就是「反應慢的人」的錢
 ## 相關頁面
 
 - 策略：[[momentum]]
+- 概念：[[excess-return]]、[[transaction-costs]]
 - 總覽：[[who-pays]]

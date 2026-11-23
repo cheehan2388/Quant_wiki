@@ -1,7 +1,7 @@
 ---
 title: 散戶
 type: player
-sources: [overtrading-2000]
+sources: [overtrading-2000, pairs-trading-2006]
 updated: 2026-11-23
 ---
 
@@ -19,6 +19,7 @@ updated: 2026-11-23
 
 - **頻繁交易**：每次買賣都付佣金和買賣價差，交易越多，淨報酬越低。交易最多的那 20% 家戶每年輸大盤約 6.5 個百分點。見 [[overtrading-2000]]、[[transaction-costs]]。
 - 作者認為背後原因是過度自信。
+- **放空比較難**：配對交易需要放空，研究指出散戶比大型機構更難借到券。見 [[pairs-trading-2006]]。
 
 ## 相關頁面
 

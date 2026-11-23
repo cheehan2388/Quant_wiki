@@ -42,4 +42,5 @@ updated: 2026-11-23
 ## 相關頁面
 
 - 總覽：[[who-pays]]
-- 對照：同樣靠價格「暫時偏離」賺錢的方向相反版本，見待寫清單 [[todo]]
+- 方向相反：[[pairs-trading]]（動量賭偏離會延續，配對交易賭偏離會回來）
+- 概念：[[excess-return]]、[[transaction-costs]]
