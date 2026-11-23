@@ -42,3 +42,10 @@ updated: 2026-11-23
 - 更新：[[overtrading-2000]]（做市商連結補上，但保留「推論」標示）、[[bid-ask-spread]]（價差為什麼存在）、[[transaction-costs]]（速度成本）、[[pairs-trading]]、index、who-pays、todo。
 - 分支判斷：本來想建「高頻交易者」玩家頁，但它和策略頁 [[hft-latency-arb]] 內容幾乎重複，改成併進 [[arbitrageurs]] 的「快速版」。一價定律到 2 篇、bps 第二次延後，都因 3 頁上限。
 - 檢查：腳本一次通過。人工檢查發現 [[who-pays]] 的高頻列寫了「論文原話」，對照來源頁確認論文確實直接說成本轉嫁給一般投資人，保留。
+
+## 2026-11-23 #5 收錄 crypto-arb-2020
+- 讀：**沒有拿到期刊全文**。讀了期刊摘要、作者說明文、2018 年工作論文片段、CFA 摘要。來源頁的「讀了什麼」已標明可信度低一級。
+- 新增：[[crypto-arb-2020]]、[[cross-exchange-arb]]、[[law-of-one-price]]、[[bps]]（後兩頁是前幾輪延後的）。
+- 更新：[[arbitrageurs]]（跨國版、資本不足）、[[retail]]（溢價市場的買家）、[[pairs-trading-2006]]、[[hft-race-2015]]、[[momentum-1993]]、[[hft-latency-arb]]、[[pairs-trading]]、index、who-pays（加上「五篇看下來的共同點」）、todo（加上你的 OKX–Binance 實驗）。
+- 檢查抓到 3 個版本差異，都寫進來源頁：總利潤 10 億 vs 20 億美元、共同成分 80% vs 85%、韓國溢價「低於 15%」vs「超過 15%」。前兩個是作者不同版本，用期刊版；第三個是二手摘要和作者原文矛盾，用作者原文。
+- 人工檢查：來源頁原本把 [[brokers-exchanges]] 列為相關玩家，但內文沒有實質內容支持，拿掉。

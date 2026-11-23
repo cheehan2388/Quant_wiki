@@ -70,5 +70,5 @@ NBER 會議版全文的前半部（資料、實證結果、模型的主要結論
 
 - 策略：[[hft-latency-arb]]
 - 玩家：[[market-makers]]、[[arbitrageurs]]
-- 概念：[[bid-ask-spread]]、[[transaction-costs]]
+- 概念：[[bid-ask-spread]]、[[transaction-costs]]、[[law-of-one-price]]
 - 總覽：[[who-pays]]

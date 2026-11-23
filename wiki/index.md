@@ -14,11 +14,13 @@ updated: 2026-11-23
 - [[overtrading-2000]]：交易有害你的財富（Barber & Odean 2000）
 - [[pairs-trading-2006]]：配對交易（Gatev, Goetzmann & Rouwenhorst 2006）
 - [[hft-race-2015]]：高頻交易軍備競賽（Budish, Cramton & Shim 2015）
+- [[crypto-arb-2020]]：加密貨幣的交易與套利（Makarov & Schoar 2020）
 
 ## 策略（strategies）
 - [[momentum]]：動量策略
 - [[pairs-trading]]：配對交易
 - [[hft-latency-arb]]：高頻延遲套利
+- [[cross-exchange-arb]]：跨交易所套利
 
 ## 玩家（players）
 - [[retail]]：散戶
@@ -30,6 +32,8 @@ updated: 2026-11-23
 - [[transaction-costs]]：交易成本
 - [[bid-ask-spread]]：買賣價差
 - [[excess-return]]：超額報酬
+- [[bps]]：bps（基點）
+- [[law-of-one-price]]：一價定律
 
 ## 其他
 - [[log]]：收錄紀錄

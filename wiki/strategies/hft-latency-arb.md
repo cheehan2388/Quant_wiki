@@ -42,6 +42,7 @@ updated: 2026-11-23
 ## 相關頁面
 
 - 玩家：[[arbitrageurs]]
-- 同類（套利）：[[pairs-trading]]
+- 同類（套利）：[[pairs-trading]]、[[cross-exchange-arb]]
+- 概念：[[law-of-one-price]]
 - 概念：[[bid-ask-spread]]
 - 總覽：[[who-pays]]

@@ -44,5 +44,5 @@ updated: 2026-11-23
 
 - 誰在做：[[arbitrageurs]]
 - 方向相反：[[momentum]]
-- 概念：[[transaction-costs]]
+- 概念：[[transaction-costs]]、[[law-of-one-price]]
 - 總覽：[[who-pays]]
