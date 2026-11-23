@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
 """把 wiki/ 轉成單一 HTML 檔（docs/index.html），方便瀏覽。
 
-用法：python3 tools/build_viewer.py
-每頁的 [[slug]] 會變成可點的連結，側欄依類型分組，每頁底部列出「誰連到這頁」。
+用法：
+  python3 tools/build_viewer.py                 完整版 → docs/index.html
+  python3 tools/build_viewer.py --edition pairs  只放 editions/pairs.txt 列的頁 → docs/pairs.html
+每頁的 [[slug]] 會變成可點的連結（版本外的頁面變成純文字），側欄依類型分組，
+每頁底部列出「誰連到這頁」，{{figure:名稱}} 會換成 tools/figures 裡的圖。
 """
+import argparse
 import html
 import json
 import re
@@ -13,10 +17,21 @@ import markdown
 
 ROOT = Path(__file__).resolve().parent.parent
 WIKI = ROOT / "wiki"
-OUT = ROOT / "docs" / "index.html"
 LINK_RE = re.compile(r"\[\[([a-z0-9\-]+)\]\]")
-GROUPS = [("overview", "總覽"), ("source", "來源"), ("strategy", "策略"),
+FIG_RE = re.compile(r"\{\{figure:([a-z0-9\-]+)\}\}")
+GROUPS = [("overview", "總覽"), ("strategy", "策略"), ("case", "案例"), ("source", "來源"),
           ("player", "玩家"), ("concept", "概念")]
+
+ap = argparse.ArgumentParser()
+ap.add_argument("--edition")
+args = ap.parse_args()
+if args.edition:
+    lines = (ROOT / "editions" / f"{args.edition}.txt").read_text(encoding="utf-8").splitlines()
+    ONLY = [l.strip() for l in lines if l.strip() and not l.startswith("#")]
+    OUT = ROOT / "docs" / f"{args.edition}.html"
+else:
+    ONLY = None
+    OUT = ROOT / "docs" / "index.html"
 
 
 def parse(p):
@@ -31,6 +46,8 @@ def parse(p):
 
 raw = {}
 for p in sorted(WIKI.rglob("*.md")):
+    if ONLY is not None and p.stem not in ONLY:
+        continue
     meta, body = parse(p)
     raw[p.stem] = {"title": meta.get("title", p.stem), "type": meta.get("type", "overview"),
                    "updated": meta.get("updated", ""), "body": body}
@@ -49,14 +66,37 @@ def short(slug):
     return t
 
 
+ALL_TITLES = {}
+for p in WIKI.rglob("*.md"):
+    ALL_TITLES[p.stem] = re.sub(r"（.*?）$", "", parse(p)[0].get("title", p.stem))
+
+
+def figure(name):
+    for ext in (".svg", ".html"):
+        f = ROOT / "tools" / "figures" / f"{name}{ext}"
+        if f.exists():
+            return f'<figure class="fig">{f.read_text(encoding="utf-8")}</figure>'
+    return ""
+
+
+def link(m):
+    s = m.group(1)
+    if s in raw:
+        return f'<a class="wl" href="#{s}">{html.escape(short(s))}</a>'
+    return f'<span class="nl">{html.escape(ALL_TITLES.get(s, s))}</span>'
+
+
 pages = {}
 for s, d in raw.items():
     body = re.sub(r"^# .*\n", "", d["body"].lstrip(), count=1)
-    body = LINK_RE.sub(lambda m: f'<a class="wl" href="#{m.group(1)}">{html.escape(short(m.group(1)))}</a>'
-                       if m.group(1) in raw else m.group(0), body)
+    body = LINK_RE.sub(link, body)
+    figs = FIG_RE.findall(body)
+    body = FIG_RE.sub(lambda m: f"FIGTOKEN{m.group(1)}FIGTOKEN", body)
+    out = markdown.markdown(body, extensions=["tables"])
+    for f in figs:
+        out = out.replace(f"<p>FIGTOKEN{f}FIGTOKEN</p>", figure(f)).replace(f"FIGTOKEN{f}FIGTOKEN", figure(f))
     pages[s] = {"title": d["title"], "type": d["type"], "updated": d["updated"],
-                "html": markdown.markdown(body, extensions=["tables"]),
-                "back": sorted(backlinks[s])}
+                "html": out, "back": sorted(backlinks[s])}
 
 nav = []
 for key, label in GROUPS:
@@ -64,12 +104,18 @@ for key, label in GROUPS:
     if key == "source":
         items.sort(key=lambda s: s.rsplit("-", 1)[-1])
     if key == "overview":
-        order = ["who-pays", "index", "todo", "log"]
+        order = ["pairs-guide", "who-pays", "index", "todo", "log"]
         items = [s for s in order if s in items]
+    if not items:
+        continue
     nav.append({"label": label, "items": [{"slug": s, "title": short(s)} for s in items]})
 
-counts = {label: sum(1 for d in raw.values() if d["type"] == key) for key, label in GROUPS[1:]}
-data = json.dumps({"pages": pages, "nav": nav, "counts": counts}, ensure_ascii=False)
+counts = {label: n for key, label in GROUPS[1:]
+          if (n := sum(1 for d in raw.values() if d["type"] == key))}
+home = ONLY[0] if ONLY else "who-pays"
+subtitle = "配對交易篇" if args.edition == "pairs" else "完整版"
+data = json.dumps({"pages": pages, "nav": nav, "counts": counts, "home": home,
+                   "subtitle": subtitle}, ensure_ascii=False)
 
 TEMPLATE = (ROOT / "tools" / "viewer_template.html").read_text(encoding="utf-8")
 OUT.parent.mkdir(exist_ok=True)

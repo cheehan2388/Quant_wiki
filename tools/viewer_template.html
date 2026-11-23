@@ -56,6 +56,26 @@ th{font-weight:700;border-bottom:2px solid var(--ink);white-space:nowrap}
 .back b{display:block;margin-bottom:6px}
 .back a{margin-right:14px;white-space:nowrap}
 .mnav{display:none}
+.sub{color:var(--muted);font-weight:600;font-size:15px}
+.nl{color:var(--muted)}
+.fig{margin:22px 0;padding:16px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
+.fig{overflow-x:auto}.fig-svg{width:100%;min-width:560px;height:auto;display:block;font-family:inherit}
+.f-h{font-size:14px;font-weight:700;fill:var(--ink)}
+.f-lab{font-size:13px;fill:var(--ink)}.f-tick{font-size:12px;fill:var(--muted)}
+.f-note{font-size:12px;fill:var(--muted)}
+.f-a{fill:none;stroke:var(--ink);stroke-width:2}.f-b{fill:none;stroke:var(--link);stroke-width:2}
+.f-ka{fill:var(--ink)}.f-kb{fill:var(--link)}
+.f-s{fill:none;stroke:var(--ink);stroke-width:1.8}
+.f-band{stroke:var(--muted);stroke-dasharray:5 5}.f-zero{stroke:var(--muted)}
+.f-hold{fill:var(--hl);opacity:.28}
+.f-in{fill:var(--hl);stroke:var(--hl-ink);stroke-width:1.5}.f-out{fill:var(--bg);stroke:var(--ink);stroke-width:2}
+.tl{list-style:none;margin:0;padding:0 0 0 18px;border-left:2px solid var(--line)}
+.tl li{position:relative;padding:6px 0 10px 14px;display:grid;grid-template-columns:9.5em minmax(0,1fr);gap:4px 14px;max-width:none}
+.tl li::before{content:"";position:absolute;left:-25px;top:13px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--ink)}
+.tl li.bad::before{background:#d6453d;border-color:#d6453d}.tl li.good::before{background:var(--hl);border-color:var(--hl-ink)}
+.tl b{white-space:nowrap}
+.fig-src{font-size:13px;color:var(--muted);margin:10px 0 0}
+@media(max-width:600px){.tl li{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:860px){
   .wrap{grid-template-columns:minmax(0,1fr)}
   nav{display:none}
@@ -69,7 +89,7 @@ th{font-weight:700;border-bottom:2px solid var(--ink);white-space:nowrap}
 </head>
 <body>
 <header class="top">
-  <h1><a href="#who-pays">開心的 Quant Wiki</a></h1>
+  <h1><a href="#" id="homeLink">開心的 Quant Wiki</a> <span class="sub" id="sub"></span></h1>
   <span class="q">交易策略到底在賺誰的錢？</span>
   <span class="counts" id="counts"></span>
 </header>
@@ -87,12 +107,14 @@ document.getElementById('nav').innerHTML = navHtml;
 document.getElementById('nav2').innerHTML = navHtml;
 document.getElementById('counts').textContent =
   Object.entries(DATA.counts).map(([k, v]) => `${k} ${v}`).join('・');
-const TYPE = {overview:'總覽', source:'來源', strategy:'策略', player:'玩家', concept:'概念'};
+const TYPE = {overview:'總覽', source:'來源', strategy:'策略', player:'玩家', concept:'概念', case:'案例'};
+document.getElementById('sub').textContent = DATA.subtitle;
+document.getElementById('homeLink').href = '#' + DATA.home;
 const NAMES = Object.fromEntries(DATA.nav.flatMap(g => g.items).map(i => [i.slug, i.title]));
 const title = s => NAMES[s] || (DATA.pages[s] ? DATA.pages[s].title : s);
 function show() {
   let s = location.hash.slice(1);
-  if (!DATA.pages[s]) s = 'who-pays';
+  if (!DATA.pages[s]) s = DATA.home;
   const p = DATA.pages[s];
   const back = p.back.length
     ? `<div class="back"><b>連到這一頁的頁面</b>${p.back.map(b => `<a href="#${b}">${title(b)}</a>`).join('')}</div>` : '';

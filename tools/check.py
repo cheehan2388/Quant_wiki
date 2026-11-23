@@ -19,9 +19,10 @@ SECTIONS = {
                  "扣成本後剩多少", "證據", "相關頁面"],
     "player": ["一句話", "他在哪裡賺錢", "他在哪裡付錢", "相關頁面"],
     "concept": ["一句話", "白話解釋", "例子", "出現在哪些來源", "相關頁面"],
+    "case": ["一句話", "發生了什麼", "跟策略的關係", "學到什麼", "相關頁面"],
 }
 FOLDER_TYPE = {"sources": "source", "strategies": "strategy",
-               "players": "player", "concepts": "concept"}
+               "players": "player", "concepts": "concept", "cases": "case"}
 BANNED = ["穩賺", "必勝", "保證獲利", "穩定獲利"]
 ONE_LINER_MAX = 50
 MIN_LINKS = 2
@@ -72,7 +73,7 @@ for slug, d in pages.items():
     for s in meta.get("sources", []):
         if s not in source_slugs:
             errors.append(f"{where}：sources 列了不存在的來源頁 {s}")
-    if ptype in ("strategy", "player", "concept") and not meta.get("sources"):
+    if ptype in ("strategy", "player", "concept", "case") and not meta.get("sources"):
         errors.append(f"{where}：沒有任何來源支持（sources 是空的）")
 
     # 段落順序
@@ -111,6 +112,9 @@ for slug, d in pages.items():
     if ptype in SECTIONS and len(links - {slug}) < MIN_LINKS:
         errors.append(f"{where}：只連到 {len(links - {slug})} 個頁面，至少要 {MIN_LINKS} 個")
 
+    for fig in re.findall(r"\{\{figure:([a-z0-9\-]+)\}\}", body):
+        if not any((ROOT / "tools" / "figures" / f"{fig}{ext}").exists() for ext in (".svg", ".html")):
+            errors.append(f"{where}：找不到圖 {fig}")
     for w in BANNED:
         if w in body:
             errors.append(f"{where}：出現禁用字「{w}」")
@@ -127,6 +131,11 @@ for s in source_slugs:
 for slug, inc in incoming.items():
     if pages[slug]["folder"] in FOLDER_TYPE and not (inc - {"index"}):
         warnings.append(f"{pages[slug]['path']}：除了目錄以外，沒有其他頁面連到它")
+
+for ed in sorted((ROOT / "editions").glob("*.txt")) if (ROOT / "editions").exists() else []:
+    for s in [l.strip() for l in ed.read_text(encoding="utf-8").splitlines() if l.strip()]:
+        if s not in pages:
+            errors.append(f"{ed.relative_to(ROOT)}：列了不存在的頁面 {s}")
 
 counts = {k: sum(1 for d in pages.values() if d["folder"] == k) for k in FOLDER_TYPE}
 print("頁數：" + "、".join(f"{k} {v}" for k, v in counts.items()))

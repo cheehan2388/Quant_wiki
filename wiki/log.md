@@ -49,3 +49,35 @@ updated: 2026-11-23
 - 更新：[[arbitrageurs]]（跨國版、資本不足）、[[retail]]（溢價市場的買家）、[[pairs-trading-2006]]、[[hft-race-2015]]、[[momentum-1993]]、[[hft-latency-arb]]、[[pairs-trading]]、index、who-pays（加上「五篇看下來的共同點」）、todo（加上你的 OKX–Binance 實驗）。
 - 檢查抓到 3 個版本差異，都寫進來源頁：總利潤 10 億 vs 20 億美元、共同成分 80% vs 85%、韓國溢價「低於 15%」vs「超過 15%」。前兩個是作者不同版本，用期刊版；第三個是二手摘要和作者原文矛盾，用作者原文。
 - 人工檢查：來源頁原本把 [[brokers-exchanges]] 列為相關玩家，但內文沒有實質內容支持，拿掉。
+
+## 2026-11-23 配對交易篇：使用者決定先只上線配對交易，並加入 LTCM 的故事
+
+### 規則變更（使用者要求）
+- AGENTS.md 新增「案例」頁類型、圖表（`{{figure:名稱}}`，示意圖必須標明非真實資料）、版本（`editions/`）。check.py 同步更新。
+
+### #6 收錄 pairs-decline-2010
+- 讀：**只有摘要**（全文在會員區），來源頁已標明。
+- 新增：[[pairs-decline-2010]]。
+
+### #7 收錄 limits-arbitrage-1997
+- 讀：期刊全文。
+- 新增：[[limits-arbitrage-1997]]。
+- 檢查發現：原本以為這篇有談 Royal Dutch／Shell，讀完確認**沒有**，只是理論；已在來源頁寫明，和 LTCM 的連結標為 Wiki 推論。
+
+### #8 收錄 twin-shares-2009
+- 讀：全文 PDF。本來想收錄 Froot & Dabora（1999），但 NBER 的 PDF 讀不到文字，只拿到摘要，改收錄這篇（它直接研究雙胞胎股票的套利風險，數字更完整）。Froot & Dabora 只當輔助引用，標明只讀摘要。
+- 新增：[[twin-shares-2009]]。
+
+### #9 收錄 ltcm-2006
+- 讀：MacKenzie 書第 8 章全文，Jorion（2000）只讀摘要。
+- 新增：[[ltcm-2006]]、案例 [[ltcm]]、概念 [[limits-of-arbitrage]]（4 篇來源）、[[leverage]]（3 篇來源）。
+- 檢查抓到的矛盾：Royal Dutch 溢價在網路文章裡有 8%、18%、20% 三種說法，LTCM 部位「23 億美元」只出現在二手文章。採用 MacKenzie 的數字（1997 年約 8%，危機中一度超過 17%），23 億美元不採用。
+- 案例頁的「約 19 倍槓桿」是 1,260 ÷ 67 的算術，已標明。
+
+### 更新
+- [[pairs-trading]] 大幅改寫：加上示意圖、數字例子、更好的配對方法、利潤下降表、四種失效情況。
+- 新增導覽頁 [[pairs-guide]]，作為配對篇首頁。
+- 更新 [[arbitrageurs]]、[[law-of-one-price]]、[[pairs-trading-2006]]、index、who-pays、todo。
+
+### 檢查
+- 第一次執行 check.py 失敗 11 項：index 漏列 7 頁、log 漏記 4 篇。補上後通過。

@@ -19,6 +19,9 @@ updated: 2026-11-23
 | bps（基點） | [[momentum-1993]]、[[pairs-trading-2006]] | 2 | 已拆成 [[bps]]（#5） |
 | 一價定律 | [[pairs-trading-2006]]、[[hft-race-2015]]、[[crypto-arb-2020]] | 3 | 已拆成 [[law-of-one-price]]（#5） |
 | 資本管制 | [[crypto-arb-2020]] | 1 | 先寫在來源頁裡 |
+| 套利的極限 | [[limits-arbitrage-1997]]、[[twin-shares-2009]]、[[pairs-decline-2010]]、[[ltcm-2006]] | 4 | 已拆成 [[limits-of-arbitrage]]（配對篇） |
+| 槓桿 | [[ltcm-2006]]、[[twin-shares-2009]]、[[limits-arbitrage-1997]] | 3 | 已拆成 [[leverage]]（配對篇） |
+| 共整合（cointegration） | 尚無來源 | 0 | 配對篇想補，需要先收錄一篇 |
 | 頻繁批次拍賣 | [[hft-race-2015]] | 1 | 先寫在來源頁裡 |
 | 放空成本 | [[pairs-trading-2006]] | 1 | 先寫在 [[transaction-costs]] 裡 |
 
@@ -40,5 +43,7 @@ updated: 2026-11-23
 - 「反應慢的人」「把價格推開的人」具體是誰？
 - 零佣金時代，散戶頻繁交易的代價變多少？
 - 配對交易改用共整合（cointegration）找配對，會不會比距離法好？
+- Do & Faff（2012）專門研究配對交易扣成本後還剩多少，可收錄。
+- 加密貨幣的配對交易：你 11 月做的大型幣配對篩選（6 組都沒通過協整檢定、APT/SUI 單邊發散）可以整理成實驗紀錄頁。
 - 2018 年以後，加密貨幣跨國價差還有多大？
 - 資金費率套利（永續合約）在賺誰的錢？

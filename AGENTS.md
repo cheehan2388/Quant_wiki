@@ -30,8 +30,12 @@ wiki/
   strategies/        策略頁：一種賺錢方法一頁
   players/           玩家頁：市場上的一種參與者一頁
   concepts/          概念頁：一個工具或名詞一頁
+  cases/             案例頁：一個真實事件一頁（例如 LTCM）
+editions/            發布版本：每個 .txt 列出這個版本要放哪些頁（例如 pairs.txt）
 slides/              用 Wiki 產生的簡報（每份簡報一個資料夾）
 tools/check.py       自動健檢腳本
+tools/build_viewer.py  產生瀏覽頁（可指定版本）
+tools/figures/       圖表（SVG 或 HTML 片段）
 ```
 
 ## 3. 檔名與連結
@@ -46,7 +50,7 @@ tools/check.py       自動健檢腳本
 ```yaml
 ---
 title: 中文標題
-type: source | strategy | player | concept | overview
+type: source | strategy | player | concept | case | overview
 sources: [momentum-1993, overtrading-2000]   # 這頁的說法來自哪些來源頁
 updated: 2026-11-23
 ---
@@ -74,6 +78,12 @@ updated: 2026-11-23
 **玩家頁（player）**：`## 一句話` → `## 他在哪裡賺錢` → `## 他在哪裡付錢` → `## 相關頁面`
 
 **概念頁（concept）**：`## 一句話` → `## 白話解釋` → `## 例子` → `## 出現在哪些來源` → `## 相關頁面`
+
+**案例頁（case）**：`## 一句話` → `## 發生了什麼` → `## 跟策略的關係` → `## 學到什麼` → `## 相關頁面`。案例頁的每個數字都要標出來自哪篇來源頁。
+
+**圖表**：在內文寫 `{{figure:名稱}}`，瀏覽頁會換成 `tools/figures/名稱.svg` 或 `.html`。示意圖必須在圖上標明「示意，非真實資料」，不可以畫成像真實資料的樣子。
+
+**版本（editions）**：`editions/xxx.txt` 一行一個檔名，第一行是首頁。產生該版本時，連到版本外頁面的連結會變成純文字。
 
 ## 6. 三種工作模式
 

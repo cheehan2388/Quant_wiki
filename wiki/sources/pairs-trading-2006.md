@@ -70,6 +70,8 @@ Wiki 的推論：付錢的是把其中一檔價格暫時推離夥伴的人，例
 ## 相關頁面
 
 - 策略：[[pairs-trading]]
+- 後續：[[pairs-decline-2010]]（延長測到 2009 年）
+- 風險：[[limits-of-arbitrage]]、[[ltcm]]
 - 概念：[[transaction-costs]]、[[bid-ask-spread]]、[[excess-return]]、[[bps]]、[[law-of-one-price]]
 - 玩家：[[arbitrageurs]]
 - 對照：方向相反的 [[momentum]]（動量賭偏離會延續，配對賭偏離會回來）

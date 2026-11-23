@@ -1,7 +1,7 @@
 ---
 title: 一價定律
 type: concept
-sources: [pairs-trading-2006, hft-race-2015, crypto-arb-2020]
+sources: [pairs-trading-2006, hft-race-2015, crypto-arb-2020, twin-shares-2009]
 updated: 2026-11-23
 ---
 
@@ -24,14 +24,16 @@ updated: 2026-11-23
 ## 例子
 
 - **幾乎相同的兩檔股票**：配對交易賺的是「近似替代品」暫時定錯的價格。見 [[pairs-trading-2006]]。
+- **同一家公司的兩種股票**：Royal Dutch 和 Shell 分同一份現金流，價格比例卻可以偏離 −36% 到 +20%，擋住別人的是「不知道要等多久」。見 [[twin-shares-2009]]。
 - **同一個指數的兩種商品**：S&P 500 期貨和 ETF 在毫秒尺度上不同步，擋住別人的是速度。見 [[hft-race-2015]]。
 - **同一個比特幣在不同國家**：價差可以到 40%，擋住別人的是資本管制。見 [[crypto-arb-2020]]。
 
 ## 出現在哪些來源
 
-[[pairs-trading-2006]]、[[hft-race-2015]]、[[crypto-arb-2020]]
+[[pairs-trading-2006]]、[[hft-race-2015]]、[[crypto-arb-2020]]、[[twin-shares-2009]]
 
 ## 相關頁面
 
 - 策略：[[pairs-trading]]、[[hft-latency-arb]]、[[cross-exchange-arb]]
+- 為什麼常常做不到：[[limits-of-arbitrage]]
 - 總覽：[[who-pays]]
