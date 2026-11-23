@@ -16,16 +16,18 @@ updated: 2026-11-23
 | 交易成本 | [[momentum-1993]]、[[overtrading-2000]]、[[pairs-trading-2006]] | 3 | 已拆成 [[transaction-costs]] |
 | 超額報酬 | [[momentum-1993]]、[[overtrading-2000]]、[[pairs-trading-2006]] | 3 | 已拆成 [[excess-return]] |
 | 買賣價差 | [[overtrading-2000]]、[[pairs-trading-2006]] | 2 | 已拆成 [[bid-ask-spread]] |
-| bps（基點） | [[momentum-1993]]、[[pairs-trading-2006]] | 2 | 可拆；#3 已新增 3 頁，延到下一輪 |
-| 一價定律 | [[pairs-trading-2006]] | 1 | 等第二篇 |
+| bps（基點） | [[momentum-1993]]、[[pairs-trading-2006]] | 2 | 可拆；已連續兩輪因 3 頁上限延後 |
+| 一價定律 | [[pairs-trading-2006]]、[[hft-race-2015]] | 2 | 可拆；#4 已達 3 頁上限，延到下一輪 |
+| 頻繁批次拍賣 | [[hft-race-2015]] | 1 | 先寫在來源頁裡 |
 | 放空成本 | [[pairs-trading-2006]] | 1 | 先寫在 [[transaction-costs]] 裡 |
 
 ## 玩家
 
 | 玩家 | 狀態 |
 |---|---|
-| 套利者 | [[pairs-trading-2006]] 直接談到，可建頁；#3 已達 3 頁上限，延到下一輪 |
-| 做市商 | 還沒有來源直接談到誰收走價差 |
+| 套利者 | 已建 [[arbitrageurs]]（#4） |
+| 做市商 | 已建 [[market-makers]]（#4） |
+| 高頻交易者 | 先併在 [[arbitrageurs]] 裡（快速版套利者），避免和 [[hft-latency-arb]] 重複 |
 
 ## 還沒有來源支持的問題
 

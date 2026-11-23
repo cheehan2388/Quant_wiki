@@ -35,7 +35,7 @@ updated: 2026-11-23
 這篇反過來，講的是**誰在付錢**：頻繁交易的散戶。
 
 - 佣金付給券商（論文直接說明是佣金成本）。
-- 買賣價差由投資人付出，但論文**沒有**說明是誰收走。Wiki 推論是提供報價的做市商，這要等其他來源確認（已記在 [[todo]]）。
+- 買賣價差由投資人付出，但論文**沒有**說明是誰收走。Wiki 推論是提供報價的 [[market-makers]]。[[hft-race-2015]] 直接談到做市商靠價差賺錢，但仍沒有證明散戶付的價差就是流到他們手上。
 
 ## 靠什麼假設
 
@@ -67,6 +67,6 @@ updated: 2026-11-23
 
 ## 相關頁面
 
-- 玩家：[[retail]]、[[brokers-exchanges]]
+- 玩家：[[retail]]、[[brokers-exchanges]]、[[market-makers]]
 - 概念：[[transaction-costs]]、[[bid-ask-spread]]、[[excess-return]]
 - 總覽：[[who-pays]]

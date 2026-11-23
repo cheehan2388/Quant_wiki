@@ -1,7 +1,7 @@
 ---
 title: 買賣價差
 type: concept
-sources: [overtrading-2000, pairs-trading-2006]
+sources: [overtrading-2000, pairs-trading-2006, hft-race-2015]
 updated: 2026-11-23
 ---
 
@@ -23,12 +23,14 @@ updated: 2026-11-23
 
 - 散戶一來一回大約付 1% 的價差（1991–1996 年）。見 [[overtrading-2000]]。
 - 配對交易的研究把「訊號出現後等一天才進場」，報酬每月少 30–55 bps，作者用這個差距估計價差成本。見 [[pairs-trading-2006]]。
+- 價差為什麼存在：做市商怕報價被高頻交易者狙擊，會把預期損失加進價差，所以速度競爭會讓價差變寬。見 [[hft-race-2015]]。
 
 ## 出現在哪些來源
 
-[[overtrading-2000]]、[[pairs-trading-2006]]
+[[overtrading-2000]]、[[pairs-trading-2006]]、[[hft-race-2015]]
 
 ## 相關頁面
 
 - 上層概念：[[transaction-costs]]
-- 策略：[[pairs-trading]]
+- 策略：[[pairs-trading]]、[[hft-latency-arb]]
+- 收價差的人：[[market-makers]]

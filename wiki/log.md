@@ -35,3 +35,10 @@ updated: 2026-11-23
 - 更新：[[momentum]]（加上方向相反的對照）、[[momentum-1993]]、[[overtrading-2000]]（價差連結補回來）、[[transaction-costs]]（加放空成本與新例子）、[[retail]]（散戶難借券）、index、who-pays、todo。
 - 分支判斷：bps 到 2 篇、套利者有直接來源，但這輪已新增 3 個非來源頁，延到下一輪。
 - 檢查：腳本一次通過。人工比對數字（162 bps、113–225 bps、118→38 bps）與工作論文一致。
+
+## 2026-11-23 #4 收錄 hft-race-2015
+- 讀：NBER 會議版全文前半部；期刊版沒有另外核對。
+- 新增：[[hft-race-2015]]、[[hft-latency-arb]]、[[market-makers]]、[[arbitrageurs]]。
+- 更新：[[overtrading-2000]]（做市商連結補上，但保留「推論」標示）、[[bid-ask-spread]]（價差為什麼存在）、[[transaction-costs]]（速度成本）、[[pairs-trading]]、index、who-pays、todo。
+- 分支判斷：本來想建「高頻交易者」玩家頁，但它和策略頁 [[hft-latency-arb]] 內容幾乎重複，改成併進 [[arbitrageurs]] 的「快速版」。一價定律到 2 篇、bps 第二次延後，都因 3 頁上限。
+- 檢查：腳本一次通過。人工檢查發現 [[who-pays]] 的高頻列寫了「論文原話」，對照來源頁確認論文確實直接說成本轉嫁給一般投資人，保留。

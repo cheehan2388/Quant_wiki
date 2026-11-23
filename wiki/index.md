@@ -13,14 +13,18 @@ updated: 2026-11-23
 - [[momentum-1993]]：買贏家、賣輸家（Jegadeesh & Titman 1993）
 - [[overtrading-2000]]：交易有害你的財富（Barber & Odean 2000）
 - [[pairs-trading-2006]]：配對交易（Gatev, Goetzmann & Rouwenhorst 2006）
+- [[hft-race-2015]]：高頻交易軍備競賽（Budish, Cramton & Shim 2015）
 
 ## 策略（strategies）
 - [[momentum]]：動量策略
 - [[pairs-trading]]：配對交易
+- [[hft-latency-arb]]：高頻延遲套利
 
 ## 玩家（players）
 - [[retail]]：散戶
 - [[brokers-exchanges]]：券商與交易所
+- [[market-makers]]：做市商
+- [[arbitrageurs]]：套利者
 
 ## 概念（concepts）
 - [[transaction-costs]]：交易成本
