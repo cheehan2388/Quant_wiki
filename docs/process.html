@@ -36,7 +36,7 @@ strong{background:linear-gradient(transparent 62%,rgba(255,216,74,.7) 62%)}
 <div class="top"><a href="index.html">開心的 Quant Wiki</a><span>流程說明</span><a class="back" href="index.html">← 回網站首頁</a></div>
 <article><h1>流程說明：loop 設計、實際執行紀錄、反思</h1>
 <p>這份文件說明「開心的 Quant Wiki・配對交易篇」的簡報是怎麼從 Wiki 產生的。
-簡報附錄（一次實際執行、反思）是同樣內容的精簡版。</p>
+簡報附錄的「反思」頁是第 3 部分的精簡版。</p>
 <h2>1. Loop／Graph 設計</h2>
 <pre><code>A 收錄迴圈（每篇資料跑一次，共 9 篇）
   ① 取得資料 ──▶ ② 寫來源頁 ──▶ ③ 更新相關頁 ──▶ ④ check.py
@@ -44,7 +44,7 @@ strong{background:linear-gradient(transparent 62%,rgba(255,216,74,.7) 62%)}
        │                              └── 沒過：修 ────┤
        └────────── 通過：收錄下一篇 ───────────────────┘
                                                        │ 9 篇都收錄完
-B 簡報迴圈（每頁跑一次，共 17 頁）                     ▼
+B 簡報迴圈（每頁跑一次，共 16 頁）                     ▼
   ⑤ 查詢 Wiki ──▶ ⑥ 寫一頁 ──▶ ⑦ check_slides.py ──▶ ⑧ 產生 HTML ──▶ ⑨ 截圖檢查
        ▲              ▲              │                    ▲               │
        │              └─ 沒過：重寫 ─┤                    └─ 版面壞了 ────┘
