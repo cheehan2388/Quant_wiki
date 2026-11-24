@@ -42,5 +42,6 @@ updated: 2026-11-23
 ## 相關頁面
 
 - 總覽：[[who-pays]]
+- 用濾波器抓趨勢的版本：[[kalman-trend]]
 - 方向相反：[[pairs-trading]]（動量賭偏離會延續，配對交易賭偏離會回來）
 - 概念：[[excess-return]]、[[transaction-costs]]

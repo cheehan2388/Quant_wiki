@@ -15,5 +15,6 @@
 | ltcm-2006 | MacKenzie (2006), *An Engine, Not a Camera*, MIT Press, Ch. 8 "Arbitrage" | 第 8 章全文（LSE 課程網站） | [PDF](https://personal.lse.ac.uk/robert49/teaching/ph232/pdf/MacKenzie-Ch8.pdf) |
 | （輔助）| Jorion (2000), Risk Management Lessons from LTCM, *European Financial Management* 6(3) | 只讀摘要 | [EconPapers](https://econpapers.repec.org/RePEc:bla:eufman:v:6:y:2000:i:3:p:277-300) |
 | （輔助）| Froot & Dabora (1999), How Are Stock Prices Affected by the Location of Trade?, *JFE* 53(2) | 只讀摘要（NBER PDF 無法讀取文字） | [NBER](https://www.nber.org/papers/w6572) |
+| kalman-trend-2016 | Benhamou (2016), Trend Without Hiccups: A Kalman Filter Approach, arXiv:1808.03297 | 使用者上傳的全文 PDF（29 頁）；PDF 不放進 repo | [arXiv](https://arxiv.org/abs/1808.03297) |
 
-取得日期：2026-11-23
+取得日期：2026-11-23（kalman-trend-2016 為 2026-11-24）

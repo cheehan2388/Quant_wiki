@@ -1,0 +1,18 @@
+<svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg" role="img" class="fig-svg kl" aria-label="卡爾曼濾波器的兩步循環：預測，然後用新的價格修正，再回到預測">
+<defs><marker id="kah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="kl-head"/></marker></defs>
+<g class="kl-n"><rect x="40" y="70" width="250" height="120" rx="14"/>
+<text x="165" y="112" class="kl-t">① 預測</text>
+<text x="165" y="142">「照剛剛的價格和速度，</text>
+<text x="165" y="166">今天應該在這裡。」</text></g>
+<g class="kl-c"><rect x="470" y="70" width="250" height="120" rx="14"/>
+<text x="595" y="112" class="kl-t">② 修正</text>
+<text x="595" y="142">看到今天真正的價格，</text>
+<text x="595" y="166">往它靠近「一點」</text></g>
+<path d="M290,105 C360,70 400,70 467,105" class="kl-e" marker-end="url(#kah)"/>
+<text x="380" y="62" class="kl-s">新的價格進來</text>
+<path d="M470,160 C400,205 360,205 293,160" class="kl-e" marker-end="url(#kah)"/>
+<text x="380" y="222" class="kl-s">更新價格和速度，換下一天</text>
+<g class="kl-g"><rect x="190" y="250" width="380" height="62" rx="10"/>
+<text x="380" y="276" class="kl-gt">「一點」是多少？＝ 卡爾曼增益</text>
+<text x="380" y="299">價格很吵 → 少靠近；模型沒把握 → 多靠近</text></g>
+</svg>

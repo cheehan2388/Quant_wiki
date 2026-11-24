@@ -79,4 +79,5 @@ updated: 2026-11-23
 - 案例：[[ltcm]]
 - 誰在做：[[arbitrageurs]]
 - 概念：[[law-of-one-price]]、[[limits-of-arbitrage]]、[[leverage]]、[[transaction-costs]]、[[bid-ask-spread]]
+- 卡爾曼濾波器也可以用來追蹤兩檔之間會慢慢變的比例：[[kalman-trend-2016]] 提到這種用法
 - 方向相反：[[momentum]]（動量賭偏離會延續，配對賭偏離會回來）

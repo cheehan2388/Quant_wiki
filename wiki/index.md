@@ -19,12 +19,14 @@ updated: 2026-11-23
 - [[limits-arbitrage-1997]]：套利的極限（Shleifer & Vishny 1997）
 - [[twin-shares-2009]]：雙胞胎股票的套利風險（de Jong 等 2009）
 - [[ltcm-2006]]：LTCM 與套利（MacKenzie 2006）
+- [[kalman-trend-2016]]：用卡爾曼濾波器抓趨勢（Benhamou 2016）
 
 ## 策略（strategies）
 - [[momentum]]：動量策略
 - [[pairs-trading]]：配對交易
 - [[hft-latency-arb]]：高頻延遲套利
 - [[cross-exchange-arb]]：跨交易所套利
+- [[kalman-trend]]：卡爾曼濾波趨勢策略
 
 ## 案例（cases）
 - [[ltcm]]：LTCM：最會算的人，賭雙胞胎會回來

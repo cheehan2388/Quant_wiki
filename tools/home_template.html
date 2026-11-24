@@ -48,6 +48,13 @@ header{padding:26px 0 0}
 .entry .go{font-weight:800;font-size:15px}
 .entry:hover h3,.entry:focus-visible h3{text-decoration:underline;text-decoration-color:var(--hl);text-decoration-thickness:4px;text-underline-offset:4px}
 .more{font-size:14px;color:var(--muted);margin:6px 0 0}
+.decks h3{font-size:16px;margin:8px 0 6px;font-weight:800}
+.decks ul{list-style:none;margin:0;padding:0}
+.decks li{display:flex;align-items:baseline;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.decks li:last-child{border-bottom:1px solid var(--line)}
+.decks a{font-weight:700;text-decoration:none;font-size:16px}
+.decks a:hover{text-decoration:underline;text-decoration-color:var(--hl);text-decoration-thickness:3px}
+.decks span{margin-left:auto;color:var(--muted);font-size:14px;white-space:nowrap}
 .more a{font-weight:700;color:var(--ink)}
 aside{position:sticky;top:20px}
 aside h2{font-size:18px;margin:0 0 4px;font-weight:800;display:flex;align-items:center;gap:8px}
@@ -104,6 +111,10 @@ footer a{font-weight:700;color:var(--ink)}
           <span class="go">看流程說明 →</span>
         </a>
       </div>
+      <section class="decks" aria-labelledby="dk">
+        <h3 id="dk">所有簡報</h3>
+        <ul>__DECKS__</ul>
+      </section>
       <p class="more">更多：<a href="wiki.html">完整版 Wiki</a>（__WIKI_N__ 頁，其他主題持續整理中）</p>
     </main>
     <aside aria-labelledby="upd">

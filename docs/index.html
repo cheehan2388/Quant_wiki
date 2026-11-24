@@ -48,6 +48,13 @@ header{padding:26px 0 0}
 .entry .go{font-weight:800;font-size:15px}
 .entry:hover h3,.entry:focus-visible h3{text-decoration:underline;text-decoration-color:var(--hl);text-decoration-thickness:4px;text-underline-offset:4px}
 .more{font-size:14px;color:var(--muted);margin:6px 0 0}
+.decks h3{font-size:16px;margin:8px 0 6px;font-weight:800}
+.decks ul{list-style:none;margin:0;padding:0}
+.decks li{display:flex;align-items:baseline;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.decks li:last-child{border-bottom:1px solid var(--line)}
+.decks a{font-weight:700;text-decoration:none;font-size:16px}
+.decks a:hover{text-decoration:underline;text-decoration-color:var(--hl);text-decoration-thickness:3px}
+.decks span{margin-left:auto;color:var(--muted);font-size:14px;white-space:nowrap}
 .more a{font-weight:700;color:var(--ink)}
 aside{position:sticky;top:20px}
 aside h2{font-size:18px;margin:0 0 4px;font-weight:800;display:flex;align-items:center;gap:8px}
@@ -104,16 +111,20 @@ footer a{font-weight:700;color:var(--ink)}
           <span class="go">看流程說明 →</span>
         </a>
       </div>
-      <p class="more">更多：<a href="wiki.html">完整版 Wiki</a>（31 頁，其他主題持續整理中）</p>
+      <section class="decks" aria-labelledby="dk">
+        <h3 id="dk">所有簡報</h3>
+        <ul><li><a href="slides.html">配對交易：賭雙胞胎會回來</a><span>16 頁</span></li><li><a href="kalman.html">卡爾曼濾波器：讓價格線少一點雜訊</a><span>15 頁</span></li></ul>
+      </section>
+      <p class="more">更多：<a href="wiki.html">完整版 Wiki</a>（33 頁，其他主題持續整理中）</p>
     </main>
     <aside aria-labelledby="upd">
       <h2 id="upd">最新更新</h2>
       <p class="sub">新內容都會先出現在這裡</p>
-      <ul class="feed" id="feed"><li><time datetime="2026-11-23">2026-11-23</time><a href="index.html">網站首頁上線<span class=new>最新</span></a><p>從這裡進入：先看簡報，想深入再逛 Wiki，想知道怎麼做的看流程說明。</p></li><li><time datetime="2026-11-23">2026-11-23</time><a href="slides.html">教學簡報：配對交易：賭雙胞胎會回來</a><p>16 頁，給完全沒碰過交易的人。每頁底下都能點到資料出處的 Wiki 頁。</p></li><li><time datetime="2026-11-23">2026-11-23</time><a href="pairs.html#ltcm">新案例：LTCM 的故事</a><p>最會算的人用 27 倍槓桿賭雙胞胎股票會回來，賭對了方向，卻撐不到那一天。</p></li><li><time datetime="2026-11-23">2026-11-23</time><a href="pairs.html">Wiki 配對交易篇上線</a><p>17 頁，從配對交易的原理、證據、利潤變薄，一路講到套利的極限。</p></li><li><time datetime="2026-11-23">2026-11-23</time><a href="wiki.html">Wiki 建立：收錄第一批 9 篇研究</a><p>動量、散戶交易、配對交易、高頻套利、加密貨幣跨交易所套利、LTCM 等。</p></li></ul>
-      
+      <ul class="feed" id="feed"><li><time datetime="2026-11-24">2026-11-24</time><a href="kalman.html">新簡報：卡爾曼濾波器：讓價格線少一點雜訊<span class=new>最新</span></a><p>15 頁論文導讀：像車用導航一樣「先猜再修正」的平均線，以及一個很重要的警告：先看過答案再考試。</p></li><li><time datetime="2026-11-24">2026-11-24</time><a href="wiki.html#kalman-trend-2016">Wiki 收錄：用卡爾曼濾波器抓趨勢（Benhamou 2016）</a><p>新增來源頁和策略頁。四個模型一年都賺錢，但參數和績效用的是同一年的資料。</p></li><li><time datetime="2026-11-23">2026-11-23</time><a href="index.html">網站首頁上線</a><p>從這裡進入：先看簡報，想深入再逛 Wiki，想知道怎麼做的看流程說明。</p></li><li><time datetime="2026-11-23">2026-11-23</time><a href="slides.html">教學簡報：配對交易：賭雙胞胎會回來</a><p>16 頁，給完全沒碰過交易的人。每頁底下都能點到資料出處的 Wiki 頁。</p></li><li><time datetime="2026-11-23">2026-11-23</time><a href="pairs.html#ltcm">新案例：LTCM 的故事</a><p>最會算的人用 27 倍槓桿賭雙胞胎股票會回來，賭對了方向，卻撐不到那一天。</p></li><li><time datetime="2026-11-23">2026-11-23</time><a href="pairs.html">Wiki 配對交易篇上線</a><p>17 頁，從配對交易的原理、證據、利潤變薄，一路講到套利的極限。</p></li><li><time datetime="2026-11-23">2026-11-23</time><a href="wiki.html">Wiki 建立：收錄第一批 9 篇研究</a><p>動量、散戶交易、配對交易、高頻套利、加密貨幣跨交易所套利、LTCM 等。</p></li></ul>
+      <button class="toggle" id="more" aria-expanded="false" aria-controls="feed">看全部更新</button>
     </aside>
   </div>
-  <footer>最後更新：2026-11-23 ・ 原始碼與資料：<a href="https://github.com/cheehan2388/Quant_wiki">GitHub</a> ・ 內容僅供學習，不是投資建議。</footer>
+  <footer>最後更新：2026-11-24 ・ 原始碼與資料：<a href="https://github.com/cheehan2388/Quant_wiki">GitHub</a> ・ 內容僅供學習，不是投資建議。</footer>
 </div>
 <script>
 {

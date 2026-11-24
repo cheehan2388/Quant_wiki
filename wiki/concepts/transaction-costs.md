@@ -1,7 +1,7 @@
 ---
 title: 交易成本
 type: concept
-sources: [momentum-1993, overtrading-2000, pairs-trading-2006, hft-race-2015]
+sources: [momentum-1993, overtrading-2000, pairs-trading-2006, hft-race-2015, kalman-trend-2016]
 updated: 2026-11-23
 ---
 
@@ -26,11 +26,12 @@ updated: 2026-11-23
 - 動量策略半年換手約 85%，假設單邊成本 0.5%，扣完每年還剩約 9%。見 [[momentum-1993]]。
 - 散戶一來一回付約 3% 佣金加 1% 價差，交易最多的人每年因此輸大盤約 6.5 個百分點。見 [[overtrading-2000]]。
 - 配對交易估計一來一回成本約 162 bps，扣完每半年仍有 113–225 bps。見 [[pairs-trading-2006]]。
+- 卡爾曼濾波趨勢策略：一口期貨一來一回只要 4 美元手續費，全年 48 筆交易共 192 美元，成本幾乎可以忽略；但論文沒提滑價。見 [[kalman-trend-2016]]。
 - 高頻套利每次扣完價差約 0.09 指數點，但要持續投入速度。見 [[hft-race-2015]]。
 
 ## 出現在哪些來源
 
-[[momentum-1993]]、[[overtrading-2000]]、[[pairs-trading-2006]]、[[hft-race-2015]]
+[[momentum-1993]]、[[overtrading-2000]]、[[pairs-trading-2006]]、[[hft-race-2015]]、[[kalman-trend-2016]]
 
 ## 相關頁面
 
