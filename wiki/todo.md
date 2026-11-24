@@ -23,7 +23,8 @@ updated: 2026-11-23
 | 槓桿 | [[ltcm-2006]]、[[twin-shares-2009]]、[[limits-arbitrage-1997]] | 3 | 已拆成 [[leverage]]（配對篇） |
 | 共整合（cointegration） | 尚無來源 | 0 | 配對篇想補，需要先收錄一篇 |
 | 移動平均 | [[kalman-trend-2016]] | 1 | 先寫在來源頁裡 |
-| 卡爾曼濾波器 | [[kalman-trend-2016]] | 1 | 先寫在來源頁裡；再收錄一篇（例如用在配對交易的）就拆頁 |
+| 卡爾曼濾波器 | [[kalman-trend-2016]]、[[kalman-course-2001]]、[[kalman-gaussian-2012]] | 3 | 已拆成 [[kalman-filter]] |
+| 變異數、常態分布 | [[kalman-course-2001]]、[[kalman-gaussian-2012]] | 2 | 已拆成 [[variance-normal]]（使用者說沒有直覺，作為前置知識） |
 | 過度配適（同一段資料調參又測試） | [[kalman-trend-2016]] | 1 | 先寫在來源頁裡；很多回測都有這個問題，值得找一篇專門講的 |
 | 夏普比率、最大回撤 | [[kalman-trend-2016]] | 1 | 先寫在來源頁裡 |
 | 頻繁批次拍賣 | [[hft-race-2015]] | 1 | 先寫在來源頁裡 |

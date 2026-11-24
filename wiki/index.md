@@ -20,6 +20,8 @@ updated: 2026-11-23
 - [[twin-shares-2009]]：雙胞胎股票的套利風險（de Jong 等 2009）
 - [[ltcm-2006]]：LTCM 與套利（MacKenzie 2006）
 - [[kalman-trend-2016]]：用卡爾曼濾波器抓趨勢（Benhamou 2016）
+- [[kalman-course-2001]]：卡爾曼濾波器入門講義（Welch & Bishop 2001）
+- [[kalman-gaussian-2012]]：用兩條鐘形曲線理解卡爾曼濾波器（Faragher 2012）
 
 ## 策略（strategies）
 - [[momentum]]：動量策略
@@ -45,6 +47,8 @@ updated: 2026-11-23
 - [[law-of-one-price]]：一價定律
 - [[limits-of-arbitrage]]：套利的極限
 - [[leverage]]：槓桿
+- [[variance-normal]]：期望值、變異數與常態分布
+- [[kalman-filter]]：卡爾曼濾波器
 
 ## 其他
 - [[me]]：我的程度（AI 解釋新知識前要先讀）

@@ -53,6 +53,11 @@ for name, html_name in DECKS:
     title = re.sub(r"^# ", "", next(l for l in slides[0]["body"].splitlines() if l.startswith("# ")))
     deck_rows.append(f'<li><a href="{html_name}">{html.escape(title)}</a><span>{len(slides)} 頁</span></li>')
 
+# 3b. 手寫的獨立頁面（例如實驗頁）：site/pages/*.html 直接複製到 docs/
+for page in sorted((ROOT / "site" / "pages").glob("*.html")):
+    (DOCS / page.name).write_text(page.read_text(encoding="utf-8"), encoding="utf-8")
+    print(f"已複製 {page.name}")
+
 # 4. 流程說明
 proc_md = (ROOT / "slides" / "pairs-trading" / "PROCESS.md").read_text(encoding="utf-8")
 proc_html = markdown.markdown(proc_md, extensions=["tables", "fenced_code"])

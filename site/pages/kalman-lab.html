@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>卡爾曼濾波器實驗室｜開心的 Quant Wiki</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* VOICE: 一張實驗桌：拖一下就看到結果，旁邊寫著這一步怎麼算
+   IDEA: 示波器：雜訊很多的點、看不見的真實值、濾波器畫出的線
+   PICTURE: 大圖表本身；下方是「第 t 天怎麼算」的算式卡
+   COLOUR and TYPE: 白底、墨色、紅色濾波線、藍色移動平均、黃色只標重點；Manrope + Noto Sans TC
+   LAYOUT: 標題 → 圖表 → 兩個滑桿與成績 → 逐步算式；窄螢幕全部直排 */
+:root{color-scheme:light dark;
+  --bg:light-dark(#ffffff,#101418);--ink:light-dark(#101418,#e8ecf0);--muted:light-dark(#5b6670,#9aa6b1);
+  --line:light-dark(#e3e7eb,#26303a);--side:light-dark(#f5f7f9,#151b21);--hl:#ffd84a;--hl-ink:#101418;
+  --kf:#d6453d;--truth:light-dark(#8a96a3,#6d7884);--link:light-dark(#1f4fd1,#8fb2ff)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Manrope","Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;overflow-x:clip}
+.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:16px max(4vw,16px);border-bottom:1px solid var(--line)}
+.top a{font-weight:800;color:var(--ink);text-decoration:none}
+.top .back{font-size:14px;font-weight:700;border:1px solid var(--line);border-radius:999px;padding:6px 14px;margin-left:auto}
+main{max-width:1100px;margin:0 auto;padding:24px max(4vw,16px) 70px}
+h1{font-size:clamp(28px,4vw,40px);line-height:1.12;margin:0 0 8px;text-wrap:balance}
+.lead{color:var(--muted);margin:0 0 18px;max-width:46em}
+.fig{position:relative;height:clamp(260px,42vw,400px);border:1px solid var(--line);border-radius:12px;background:var(--bg)}
+.fig svg{position:absolute;inset:0;width:100%;height:100%}
+.key{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;color:var(--muted);margin:10px 0 0}
+.key i{display:inline-block;width:18px;height:3px;vertical-align:4px;margin-right:6px;border-radius:2px}
+.panel{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 260px;gap:22px;margin-top:22px;align-items:start}
+.ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:800;margin-bottom:4px}
+.ctl label output{font-variant-numeric:tabular-nums;font-weight:700}
+.ctl p{margin:4px 0 0;font-size:14px;color:var(--muted)}
+input[type=range]{width:100%;height:44px;accent-color:var(--kf)}
+.score{background:var(--side);border-radius:12px;padding:14px 16px}
+.score .big{font-size:34px;font-weight:900;line-height:1.1;font-variant-numeric:tabular-nums}
+.score .lab{font-size:13px;color:var(--muted)}
+.score .row{display:flex;justify-content:space-between;font-size:14px;margin-top:6px}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+button{font:inherit;font-size:15px;font-weight:700;min-height:44px;padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+button.pri{background:var(--hl);color:var(--hl-ink);border-color:var(--hl)}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--link);outline-offset:2px}
+h2{font-size:22px;margin:38px 0 6px;padding-top:14px;border-top:3px solid var(--ink)}
+.step{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:12px}
+.card{border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.card h3{margin:0 0 8px;font-size:17px}
+.eq{font-variant-numeric:tabular-nums;margin:6px 0;line-height:1.5}
+.eq b{background:linear-gradient(transparent 60%,rgba(255,216,74,.8) 60%)}
+.eq small{display:block;color:var(--muted);font-size:13px}
+.note{font-size:14px;color:var(--muted);margin-top:14px}
+.tasks{margin:10px 0 0;padding-left:1.2em}.tasks li{margin:6px 0}
+@media(max-width:860px){.panel{grid-template-columns:minmax(0,1fr)}.step{grid-template-columns:minmax(0,1fr)}}
+</style>
+</head>
+<body>
+<div class="top"><a href="index.html">開心的 Quant Wiki</a><span>實驗室</span><a class="back" href="wiki.html#kalman-filter">← 回概念頁</a></div>
+<main>
+  <h1>卡爾曼濾波器實驗室</h1>
+  <p class="lead">灰線是「真正的價格」，平常看不到；灰點是你實際看到、帶雜訊的價格。拖動 Q 和 R，看紅色的濾波線怎麼變，試著讓它離灰線越近越好。資料是模擬的。</p>
+  <div class="fig" id="fig"><svg id="chart" role="img" aria-label="模擬價格、真實價格與卡爾曼濾波器估計線"></svg></div>
+  <div class="key"><span><i style="background:var(--truth)"></i>真正的價格（看不到）</span><span><i style="background:var(--muted);height:6px;width:6px;border-radius:50%"></i>看到的價格</span><span><i style="background:var(--kf)"></i>卡爾曼濾波器</span><span><i style="background:var(--hl)"></i>正在看的那一天</span></div>
+
+  <div class="panel">
+    <div class="ctl">
+      <label for="r">R：價格有多吵 <output id="rv"></output></label>
+      <input id="r" type="range" min="-2" max="2" step="0.05" value="-1">
+      <p>調大：比較不相信看到的價格，線較平滑但慢半拍。</p>
+    </div>
+    <div class="ctl">
+      <label for="q">Q：真正的價格每天晃多少 <output id="qv"></output></label>
+      <input id="q" type="range" min="-3" max="1" step="0.05" value="-0.6">
+      <p>調大：比較相信價格真的在變，線貼得較緊。</p>
+    </div>
+    <div class="score" aria-live="polite">
+      <div class="lab">濾波線和真正價格的平均差距（越小越好）</div>
+      <div class="big" id="err"></div>
+      <div class="row"><span>直接用看到的價格</span><b id="raw"></b></div>
+      <div class="row"><span>穩定後的 K</span><b id="kss"></b></div>
+    </div>
+  </div>
+  <div class="btns">
+    <button class="pri" id="best">設成真實的 Q 和 R</button>
+    <button id="newdata">換一組模擬資料</button>
+  </div>
+  <p class="note">挑戰：不按「設成真實的 Q 和 R」，自己找到差距最小的組合。你會發現答案就在真實值附近，這就是講義說的「R 設成真實的雜訊大小，表現最平衡」。</p>
+
+  <h2>第 <span id="tday"></span> 天，濾波器算了什麼</h2>
+  <input id="t" type="range" min="1" max="119" step="1" value="5" aria-label="選擇第幾天">
+  <div class="step">
+    <div class="card"><h3>① 預測（還沒看到今天的價格）</h3>
+      <div class="eq" id="e1"></div><div class="eq" id="e2"></div></div>
+    <div class="card"><h3>② 修正（看到今天的價格 y）</h3>
+      <div class="eq" id="e3"></div><div class="eq" id="e4"></div><div class="eq" id="e5"></div></div>
+  </div>
+  <ul class="tasks">
+    <li>把 R 拉到最大：K 變多小？紅線變成什麼樣子？</li>
+    <li>把 R 拉到最小：紅線是不是幾乎貼著灰點跑？差距反而變大還是變小？</li>
+    <li>找一天價格突然跳很多的日子，看「創新值」有多大、K 讓濾波器只走了多少。</li>
+  </ul>
+</main>
+<script>
+{
+const N = 120, TQ = 0.25, TR = 2.25;
+let seed = 7, data;
+const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+const gauss = () => { let u = 0, v = 0; while (!u) u = rnd(); v = rnd(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); };
+function simulate() {
+  const truth = [100], obs = [];
+  for (let t = 1; t < N; t++) truth.push(truth[t - 1] + Math.sqrt(TQ) * gauss());
+  for (let t = 0; t < N; t++) obs.push(truth[t] + Math.sqrt(TR) * gauss());
+  data = {truth, obs};
+}
+function filter(Q, R) {
+  let x = data.obs[0], P = 1; const rows = [{x, P}];
+  for (let t = 1; t < N; t++) {
+    const xm = x, Pm = P + Q, K = Pm / (Pm + R), y = data.obs[t], inn = y - xm;
+    x = xm + K * inn; P = (1 - K) * Pm;
+    rows.push({xm, Pm, K, y, inn, x, P, prevP: Pm - Q});
+  }
+  return rows;
+}
+const $ = id => document.getElementById(id);
+const f = (v, d = 2) => v.toFixed(d);
+const svg = $('chart'), fig = $('fig');
+let rows, Q, R;
+function draw() {
+  const W = fig.clientWidth, H = fig.clientHeight, L = 44, Rm = 14, T = 14, B = 26;
+  const all = data.obs.concat(data.truth), lo = Math.min(...all) - 1, hi = Math.max(...all) + 1;
+  const X = t => L + (W - L - Rm) * t / (N - 1), Y = v => T + (H - T - B) * (1 - (v - lo) / (hi - lo));
+  const path = a => 'M' + a.map((v, t) => X(t).toFixed(1) + ',' + Y(v).toFixed(1)).join(' L');
+  const td = +$('t').value;
+  const ticks = [lo + 1, (lo + hi) / 2, hi - 1].map(v => `<text x="${L - 6}" y="${Y(v) + 4}" text-anchor="end" font-size="12" fill="var(--muted)">${v.toFixed(0)}</text><line x1="${L}" x2="${W - Rm}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/>`).join('');
+  svg.innerHTML = ticks +
+    `<rect x="${X(td) - 5}" y="${T}" width="10" height="${H - T - B}" fill="var(--hl)" opacity=".45"/>` +
+    `<path d="${path(data.truth)}" fill="none" stroke="var(--truth)" stroke-width="2.5"/>` +
+    data.obs.map((v, t) => `<circle cx="${X(t).toFixed(1)}" cy="${Y(v).toFixed(1)}" r="${W < 520 ? 1.8 : 2.6}" fill="var(--muted)" opacity=".6"/>`).join('') +
+    `<path d="${path(rows.map(r => r.x))}" fill="none" stroke="var(--kf)" stroke-width="3"/>` +
+    `<text x="${X(N - 1)}" y="${H - 6}" text-anchor="end" font-size="12" fill="var(--muted)">第 ${N} 天</text><text x="${L}" y="${H - 6}" font-size="12" fill="var(--muted)">第 1 天</text>`;
+}
+function update() {
+  R = 10 ** +$('r').value; Q = 10 ** +$('q').value;
+  $('rv').textContent = R < 1 ? f(R, 3) : f(R, 2); $('qv').textContent = Q < 1 ? f(Q, 3) : f(Q, 2);
+  rows = filter(Q, R);
+  const err = rows.reduce((s, r, t) => s + Math.abs(r.x - data.truth[t]), 0) / N;
+  const raw = data.obs.reduce((s, y, t) => s + Math.abs(y - data.truth[t]), 0) / N;
+  $('err').textContent = f(err); $('raw').textContent = f(raw); $('kss').textContent = f(rows[N - 1].K, 3);
+  step(); draw();
+}
+function step() {
+  const t = +$('t').value, r = rows[t];
+  $('tday').textContent = t + 1;
+  $('e1').innerHTML = `x⁻ = 昨天的 x = <b>${f(r.xm)}</b><small>沒有新資訊，先猜跟昨天一樣</small>`;
+  $('e2').innerHTML = `P⁻ = 昨天的 P + Q = ${f(r.prevP, 3)} + ${f(Q, 3)} = <b>${f(r.Pm, 3)}</b><small>過了一天，比較沒把握</small>`;
+  $('e3').innerHTML = `K = P⁻ ÷ (P⁻ + R) = ${f(r.Pm, 3)} ÷ (${f(r.Pm, 3)} + ${f(R, 3)}) = <b>${f(r.K, 3)}</b><small>我的猜測佔「全部不可靠」的比例</small>`;
+  $('e4').innerHTML = `x = x⁻ + K × (y − x⁻) = ${f(r.xm)} + ${f(r.K, 3)} × (${f(r.y)} − ${f(r.xm)}) = <b>${f(r.x)}</b><small>創新值 ${r.inn >= 0 ? '+' : ''}${f(r.inn)}：這次有多意外；只走了其中 ${f(r.K * 100, 0)}%</small>`;
+  $('e5').innerHTML = `P = (1 − K) × P⁻ = ${f(1 - r.K, 3)} × ${f(r.Pm, 3)} = <b>${f(r.P, 3)}</b><small>多看一筆資料，比較有把握</small>`;
+}
+$('r').addEventListener('input', update); $('q').addEventListener('input', update);
+$('t').addEventListener('input', () => { step(); draw(); });
+$('best').addEventListener('click', () => { $('r').value = Math.log10(TR); $('q').value = Math.log10(TQ); update(); });
+$('newdata').addEventListener('click', () => { seed = Math.floor(Math.random() * 1e6) + 1; simulate(); update(); });
+const ro = new ResizeObserver(draw); ro.observe(fig);
+simulate(); update();
+}
+</script>
+</body>
+</html>

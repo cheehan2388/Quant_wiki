@@ -16,5 +16,7 @@
 | （輔助）| Jorion (2000), Risk Management Lessons from LTCM, *European Financial Management* 6(3) | 只讀摘要 | [EconPapers](https://econpapers.repec.org/RePEc:bla:eufman:v:6:y:2000:i:3:p:277-300) |
 | （輔助）| Froot & Dabora (1999), How Are Stock Prices Affected by the Location of Trade?, *JFE* 53(2) | 只讀摘要（NBER PDF 無法讀取文字） | [NBER](https://www.nber.org/papers/w6572) |
 | kalman-trend-2016 | Benhamou (2016), Trend Without Hiccups: A Kalman Filter Approach, arXiv:1808.03297 | 使用者上傳的全文 PDF（29 頁）；PDF 不放進 repo | [arXiv](https://arxiv.org/abs/1808.03297) |
+| kalman-course-2001 | Welch & Bishop (2001), An Introduction to the Kalman Filter, SIGGRAPH 2001 Course 8 | 使用者上傳的完整講義 PDF（80 頁）；不放進 repo | [作者網站](https://www.cs.unc.edu/~welch/kalman/) |
+| kalman-gaussian-2012 | Faragher (2012), Understanding the Basis of the Kalman Filter via a Simple and Intuitive Derivation, IEEE Signal Processing Magazine 29(5) | 使用者上傳的全文 PDF（5 頁）；不放進 repo | [DOI](https://doi.org/10.1109/MSP.2012.2203621) |
 
 取得日期：2026-11-23（kalman-trend-2016 為 2026-11-24）
