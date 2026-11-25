@@ -119,14 +119,16 @@ for slug, d in pages.items():
     try:
         sys.path.insert(0, str(ROOT / "tools"))
         from latex2mathml.converter import convert as _tex
-        for tex in re.findall(r"\$\$(.+?)\$\$", body, re.S) + re.findall(r"(?<!\$)\$(?!\$)(.+?)(?<!\$)\$(?!\$)", re.sub(r"\$\$.+?\$\$", "", body, flags=re.S)):
+        _nc = re.sub(r"`[^`\n]*`", "", body)
+        for tex in re.findall(r"\$\$(.+?)\$\$", _nc, re.S) + re.findall(r"(?<!\$)\$(?!\$)(.+?)(?<!\$)\$(?!\$)", re.sub(r"\$\$.+?\$\$", "", _nc, flags=re.S)):
             try:
                 _tex(tex.strip())
             except Exception as e:
                 errors.append(f"{where}：公式轉換失敗：{tex.strip()[:40]}（{e}）")
     except ImportError:
         warnings.append("沒有安裝 latex2mathml，略過公式檢查（pip install latex2mathml）")
-    if (body.count("$") - 2 * body.count("$$")) % 2:
+    nocode = re.sub(r"`[^`\n]*`", "", body)
+    if (nocode.count("$") - 2 * nocode.count("$$")) % 2:
         errors.append(f"{where}：$ 沒有成對（公式要寫成 $...$ 或 $$...$$）")
     for w in BANNED:
         if w in body:

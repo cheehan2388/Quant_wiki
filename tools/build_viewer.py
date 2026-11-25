@@ -28,6 +28,14 @@ MATH_INLINE_RE = re.compile(r"(?<!\$)\$(?!\$)(.+?)(?<!\$)\$(?!\$)")
 def protect_math(text):
     """把公式先換成記號，免得 markdown 把底線、星號、反斜線當成格式。回傳 (新文字, 記號→MathML)。"""
     store = {}
+    codes = {}
+
+    def hide_code(m):
+        key = f"CODETOKEN{len(codes)}CODETOKEN"
+        codes[key] = m.group(0)
+        return key
+
+    text = re.sub(r"`[^`\n]*`", hide_code, text)
 
     def keep(tex, display):
         key = f"MATHTOKEN{len(store)}MATHTOKEN"
@@ -37,6 +45,8 @@ def protect_math(text):
 
     text = MATH_BLOCK_RE.sub(lambda m: "\n\n" + keep(m.group(1), True) + "\n\n", text)
     text = MATH_INLINE_RE.sub(lambda m: keep(m.group(1), False), text)
+    for key, code in codes.items():
+        text = text.replace(key, code)
     return text, store
 GROUPS = [("overview", "總覽"), ("strategy", "策略"), ("case", "案例"), ("source", "來源"),
           ("player", "玩家"), ("concept", "概念")]
