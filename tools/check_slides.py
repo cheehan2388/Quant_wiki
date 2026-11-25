@@ -83,6 +83,8 @@ def main(deck):
             if t in body and t not in first_use:
                 first_use[t] = i
 
+        if re.search(r"推論(?![，,]\s*(待確認|已確認))", body):
+            errors.append(f"{tag}：推論要標成「推論，待確認」或「推論，已確認」（AGENTS.md 第 8 節）")
         prose = [l for l in text_no_title.splitlines()
                  if not re.match(r"^\s*(\||\?\?|!!|- \[)", l)]
         n = len(re.sub(r"[\s*>#\-]", "", "".join(prose)))
