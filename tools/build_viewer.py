@@ -14,11 +14,30 @@ import re
 from pathlib import Path
 
 import markdown
+from latex2mathml.converter import convert as latex_to_mathml
 
 ROOT = Path(__file__).resolve().parent.parent
 WIKI = ROOT / "wiki"
 LINK_RE = re.compile(r"\[\[([a-z0-9\-]+)\]\]")
 FIG_RE = re.compile(r"\{\{figure:([a-z0-9\-]+)\}\}")
+# 數學公式：$$...$$ 是獨立一行的公式，$...$ 是句子裡的公式；產生網站時轉成 MathML，瀏覽器直接排版
+MATH_BLOCK_RE = re.compile(r"\$\$(.+?)\$\$", re.S)
+MATH_INLINE_RE = re.compile(r"(?<!\$)\$(?!\$)(.+?)(?<!\$)\$(?!\$)")
+
+
+def protect_math(text):
+    """把公式先換成記號，免得 markdown 把底線、星號、反斜線當成格式。回傳 (新文字, 記號→MathML)。"""
+    store = {}
+
+    def keep(tex, display):
+        key = f"MATHTOKEN{len(store)}MATHTOKEN"
+        mathml = latex_to_mathml(tex.strip(), display="block" if display else "inline")
+        store[key] = f'<div class="mathblock">{mathml}</div>' if display else mathml
+        return key
+
+    text = MATH_BLOCK_RE.sub(lambda m: "\n\n" + keep(m.group(1), True) + "\n\n", text)
+    text = MATH_INLINE_RE.sub(lambda m: keep(m.group(1), False), text)
+    return text, store
 GROUPS = [("overview", "總覽"), ("strategy", "策略"), ("case", "案例"), ("source", "來源"),
           ("player", "玩家"), ("concept", "概念")]
 
@@ -96,7 +115,12 @@ for s, d in raw.items():
     body = LINK_RE.sub(link, body)
     figs = FIG_RE.findall(body)
     body = FIG_RE.sub(lambda m: f"FIGTOKEN{m.group(1)}FIGTOKEN", body)
+    body, maths = protect_math(body)
+    # python-markdown 要求清單前面空一行；寫 Wiki 時常省略，這裡自動補上
+    body = re.sub(r"(?m)^(?!\s*(?:[-*] |\d+\. |\|)).+\n(?=(?:[-*] |\d+\. ))", lambda m: m.group(0) + "\n", body)
     out = markdown.markdown(body, extensions=["tables"])
+    for key, mathml in maths.items():
+        out = out.replace(f"<p>{key}</p>", mathml).replace(key, mathml)
     for f in figs:
         out = out.replace(f"<p>FIGTOKEN{f}FIGTOKEN</p>", figure(f)).replace(f"FIGTOKEN{f}FIGTOKEN", figure(f))
     pages[s] = {"title": d["title"], "type": d["type"], "updated": d["updated"],

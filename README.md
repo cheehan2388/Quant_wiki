@@ -23,4 +23,4 @@ python3 tools/check_slides.py slides/pairs-trading/deck.md  # 簡報檢查
 python3 tools/build_viewer.py --edition pairs            # 產生配對交易篇 → docs/pairs.html
 python3 tools/build_slides.py slides/pairs-trading/deck.md  # 產生簡報（檢查沒過就不產生）
 ```
-需要 Python 3 與 `markdown` 套件（`pip install markdown`）。
+需要 Python 3 與兩個套件：`pip install markdown latex2mathml`。

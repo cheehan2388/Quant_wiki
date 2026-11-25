@@ -115,6 +115,19 @@ for slug, d in pages.items():
     for fig in re.findall(r"\{\{figure:([a-z0-9\-]+)\}\}", body):
         if not any((ROOT / "tools" / "figures" / f"{fig}{ext}").exists() for ext in (".svg", ".html")):
             errors.append(f"{where}：找不到圖 {fig}")
+    # 數學公式：$ 要成對，而且每個公式都要能轉成 MathML
+    try:
+        sys.path.insert(0, str(ROOT / "tools"))
+        from latex2mathml.converter import convert as _tex
+        for tex in re.findall(r"\$\$(.+?)\$\$", body, re.S) + re.findall(r"(?<!\$)\$(?!\$)(.+?)(?<!\$)\$(?!\$)", re.sub(r"\$\$.+?\$\$", "", body, flags=re.S)):
+            try:
+                _tex(tex.strip())
+            except Exception as e:
+                errors.append(f"{where}：公式轉換失敗：{tex.strip()[:40]}（{e}）")
+    except ImportError:
+        warnings.append("沒有安裝 latex2mathml，略過公式檢查（pip install latex2mathml）")
+    if (body.count("$") - 2 * body.count("$$")) % 2:
+        errors.append(f"{where}：$ 沒有成對（公式要寫成 $...$ 或 $$...$$）")
     for w in BANNED:
         if w in body:
             errors.append(f"{where}：出現禁用字「{w}」")
