@@ -46,7 +46,7 @@ updated: 2026-11-24
 
 ## 相關頁面
 
-- 卡爾曼濾波器的公式與直覺：[[kalman-filter]]
+- 卡爾曼濾波器的公式與直覺：[[kalman-filter]]；加入速度、怎麼拿來交易：[[kalman-velocity]]
 
 - 方向相同的想法：[[momentum]]
 - 卡爾曼濾波器的另一種用法（追蹤配對比例）：[[pairs-trading]]

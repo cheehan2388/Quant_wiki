@@ -104,7 +104,7 @@ updated: 2026-11-24
 
 ## 相關頁面
 
-- 卡爾曼濾波器的公式與直覺：[[kalman-filter]]
+- 卡爾曼濾波器的公式與直覺：[[kalman-filter]]、[[kalman-velocity]]
 
 - 策略：[[kalman-trend]]
 - 同類想法：[[momentum]]（追趨勢）、[[pairs-trading]]（卡爾曼濾波器也被用在配對交易）

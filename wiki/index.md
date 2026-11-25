@@ -48,7 +48,8 @@ updated: 2026-11-23
 - [[limits-of-arbitrage]]：套利的極限
 - [[leverage]]：槓桿
 - [[variance-normal]]：期望值、變異數與常態分布
-- [[kalman-filter]]：卡爾曼濾波器
+- [[kalman-filter]]：卡爾曼濾波器（一）：直覺與一個數字的版本
+- [[kalman-velocity]]：卡爾曼濾波器（二）：加入速度與拿來交易
 
 ## 其他
 - [[me]]：我的程度（AI 解釋新知識前要先讀）

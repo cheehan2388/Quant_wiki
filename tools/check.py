@@ -25,8 +25,19 @@ FOLDER_TYPE = {"sources": "source", "strategies": "strategy",
                "players": "player", "concepts": "concept", "cases": "case"}
 BANNED = ["穩賺", "必勝", "保證獲利", "穩定獲利"]
 ONE_LINER_MAX = 50
+MAX_READ_CHARS = 3000          # 讀者看到的字數上限，超過就提醒拆頁（AGENTS.md 第 7 節）
+NO_LENGTH_LIMIT = {"log", "todo", "index"}
 MIN_LINKS = 2
 LINK_RE = re.compile(r"\[\[([a-z0-9\-]+)\]\]")
+
+
+def readable_len(body):
+    """讀者實際看到的字數：去掉連結語法、markdown 符號和 LaTeX 指令，不算空白。"""
+    t = LINK_RE.sub(r"\1", body)
+    t = re.sub(r"\\(text|operatorname|mathbf|hat|dfrac|tfrac|frac|left|right|underbrace|begin|end|"
+               r"bmatrix|quad|qquad|sqrt|times|cdots|top|approx|to|sigma|mu|cdot)\b", "", t)
+    t = re.sub(r"[\\{}^_$|#*>\-]", "", t)
+    return len(re.sub(r"\s", "", t))
 
 errors, warnings = [], []
 
@@ -130,6 +141,8 @@ for slug, d in pages.items():
     nocode = re.sub(r"`[^`\n]*`", "", body)
     if (nocode.count("$") - 2 * nocode.count("$$")) % 2:
         errors.append(f"{where}：$ 沒有成對（公式要寫成 $...$ 或 $$...$$）")
+    if slug not in NO_LENGTH_LIMIT and (n := readable_len(body)) > MAX_READ_CHARS:
+        warnings.append(f"{where}：{n} 字，超過 {MAX_READ_CHARS} 字，考慮拆成兩頁")
     for w in BANNED:
         if w in body:
             errors.append(f"{where}：出現禁用字「{w}」")
