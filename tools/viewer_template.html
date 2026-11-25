@@ -57,6 +57,8 @@ th{font-weight:700;border-bottom:2px solid var(--ink);white-space:nowrap}
 .back{margin-top:44px;padding:16px 18px;background:var(--side);border-radius:8px;font-size:15px}
 .back b{display:block;margin-bottom:6px}
 .back a{margin-right:14px;white-space:nowrap}
+.maybe{margin-top:12px;background:none;border:1px dashed var(--line)}
+.hint2{display:block;font-size:13px;color:var(--muted);margin:-2px 0 6px}
 .mnav{display:none}
 math{font-family:"STIX Two Math","Cambria Math","Latin Modern Math","Noto Sans Math",math;font-size:1.12em}
 .mathblock{margin:14px 0;padding:12px 16px;background:var(--side);border-radius:8px;overflow-x:auto;text-align:center}
@@ -141,8 +143,10 @@ function show() {
   const back = p.back.length
     ? `<div class="back"><b>連到這一頁的頁面</b>${p.back.map(b => `<a href="#${b}">${title(b)}</a>`).join('')}</div>` : '';
   const el = document.getElementById('page');
+  const maybe = (p.maybe || []).length
+    ? `<div class="back maybe"><b>可能相關（自動）</b><span class="hint2">和這頁引用了 2 篇以上相同的來源，但還沒互相連結</span>${p.maybe.map(b => `<a href="#${b}">${title(b)}</a>`).join('')}</div>` : '';
   el.innerHTML = `<div class="meta"><span class="chip">${TYPE[p.type] || p.type}</span><span>更新於 ${p.updated}</span></div>` +
-    `<h1>${p.title}</h1>` + p.html + back;
+    `<h1>${p.title}</h1>` + p.html + back + maybe;
   for (const t of el.querySelectorAll('table')) {
     const w = document.createElement('div'); w.className = 'scroll';
     t.parentNode.insertBefore(w, t); w.appendChild(t);

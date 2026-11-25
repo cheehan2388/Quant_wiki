@@ -2,6 +2,7 @@
 title: 做市商
 type: player
 sources: [hft-race-2015]
+aliases: [做市商, 造市商, market maker, 流動性提供者]
 updated: 2026-11-23
 ---
 
@@ -21,5 +22,8 @@ updated: 2026-11-23
 
 ## 相關頁面
 
-- 狙擊他的人：[[arbitrageurs]]、[[hft-latency-arb]]
-- 總覽：[[who-pays]]
+- [[bid-ask-spread]]：做市商靠價差賺錢
+- [[hft-latency-arb]]：做市商的報價被高頻狙擊
+- [[arbitrageurs]]：狙擊做市商的人
+- [[retail]]：散戶付的價差可能流到這裡（推論）
+

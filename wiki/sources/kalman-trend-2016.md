@@ -2,6 +2,7 @@
 title: 用卡爾曼濾波器抓趨勢（Benhamou 2016）
 type: source
 sources: [kalman-trend-2016]
+aliases: [Benhamou, 卡爾曼, Kalman, 移動平均, 趨勢, S&P 500 期貨]
 updated: 2026-11-24
 ---
 
@@ -104,9 +105,8 @@ updated: 2026-11-24
 
 ## 相關頁面
 
-- 卡爾曼濾波器的公式與直覺：[[kalman-filter]]、[[kalman-velocity]]
+- [[kalman-trend]]：這篇整理成的策略頁
+- [[kalman-filter]]：卡爾曼濾波器的公式與直覺
+- [[kalman-velocity]]：論文模型 1 的「價格＋速度」怎麼算
+- [[momentum]]：同樣是追趨勢的想法
 
-- 策略：[[kalman-trend]]
-- 同類想法：[[momentum]]（追趨勢）、[[pairs-trading]]（卡爾曼濾波器也被用在配對交易）
-- 概念：[[transaction-costs]]
-- 總覽：[[who-pays]]

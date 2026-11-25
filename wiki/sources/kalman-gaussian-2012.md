@@ -2,6 +2,7 @@
 title: 用兩條鐘形曲線理解卡爾曼濾波器（Faragher 2012）
 type: source
 sources: [kalman-gaussian-2012]
+aliases: [Faragher, 卡爾曼, Kalman, 常態分布, 高斯, 鐘形曲線]
 updated: 2026-11-24
 ---
 
@@ -83,6 +84,8 @@ updated: 2026-11-24
 
 ## 相關頁面
 
-- 概念：[[kalman-filter]]、[[variance-normal]]
-- 公式完整版：[[kalman-course-2001]]
-- 拿來做交易：[[kalman-trend-2016]]
+- [[kalman-filter]]：用這篇的直覺寫成的概念頁
+- [[variance-normal]]：兩條鐘形曲線相乘的詳細說明
+- [[kalman-course-2001]]：公式的完整版
+- [[kalman-velocity]]：火車例子同時追蹤位置和速度
+

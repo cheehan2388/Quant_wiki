@@ -2,6 +2,7 @@
 title: 卡爾曼濾波器（二）：加入速度與拿來交易
 type: concept
 sources: [kalman-course-2001, kalman-gaussian-2012, kalman-trend-2016]
+aliases: [卡爾曼, Kalman, 矩陣, 速度, 狀態空間]
 updated: 2026-11-25
 ---
 
@@ -103,5 +104,7 @@ $$\hat{\mathbf{x}}_t = \begin{bmatrix} 101 \\ 1 \end{bmatrix} + \begin{bmatrix} 
 
 ## 相關頁面
 
-- 上一頁：[[kalman-filter]]
-- 拿來交易的策略：[[kalman-trend]]
+- [[kalman-filter]]：上一頁：一個數字的版本與五條公式
+- [[kalman-trend]]：照這一頁的方法做成的交易策略
+- [[kalman-trend-2016]]：模型 1 和交易程式碼的出處
+

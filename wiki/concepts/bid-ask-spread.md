@@ -2,6 +2,7 @@
 title: 買賣價差
 type: concept
 sources: [overtrading-2000, pairs-trading-2006, hft-race-2015]
+aliases: [買賣價差, bid-ask spread, 價差, bid, ask]
 updated: 2026-11-23
 ---
 
@@ -31,6 +32,8 @@ updated: 2026-11-23
 
 ## 相關頁面
 
-- 上層概念：[[transaction-costs]]
-- 策略：[[pairs-trading]]、[[hft-latency-arb]]
-- 收價差的人：[[market-makers]]
+- [[transaction-costs]]：價差是交易成本裡最難避開的一項
+- [[market-makers]]：價差主要是做市商的收入
+- [[hft-latency-arb]]：做市商怕被高頻狙擊，所以把價差拉寬
+- [[pairs-trading]]：配對交易的成本主要來自價差
+

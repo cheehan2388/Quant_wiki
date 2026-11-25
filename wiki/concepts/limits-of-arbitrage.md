@@ -2,6 +2,7 @@
 title: 套利的極限
 type: concept
 sources: [limits-arbitrage-1997, twin-shares-2009, pairs-decline-2010, ltcm-2006]
+aliases: [套利的極限, limits of arbitrage, 套利風險, 被迫平倉]
 updated: 2026-11-23
 ---
 
@@ -36,7 +37,9 @@ updated: 2026-11-23
 
 ## 相關頁面
 
-- 相反的理想：[[law-of-one-price]]
-- 放大器：[[leverage]]
-- 策略：[[pairs-trading]]
-- 玩家：[[arbitrageurs]]
+- [[law-of-one-price]]：理想上價格會一致，這一頁說明為什麼常常做不到
+- [[leverage]]：槓桿讓套利者更容易被迫平倉
+- [[ltcm]]：套利極限最有名的真實案例
+- [[pairs-trading]]：配對交易利潤變薄、可能撐不住，都和這裡有關
+- [[arbitrageurs]]：被這些極限擋住的人
+

@@ -2,6 +2,7 @@
 title: 交易成本
 type: concept
 sources: [momentum-1993, overtrading-2000, pairs-trading-2006, hft-race-2015, kalman-trend-2016]
+aliases: [交易成本, 手續費, 佣金, 滑價, 成本]
 updated: 2026-11-23
 ---
 
@@ -35,5 +36,9 @@ updated: 2026-11-23
 
 ## 相關頁面
 
-- 玩家：[[retail]]、[[brokers-exchanges]]
-- 總覽：[[who-pays]]
+- [[bid-ask-spread]]：最難避開的一種成本
+- [[retail]]：交易越頻繁，付的成本越多
+- [[brokers-exchanges]]：佣金的收受方
+- [[pairs-trading]]：扣完約 162 bps 成本後，近年可能所剩無幾
+- [[bps]]：成本常用的單位
+

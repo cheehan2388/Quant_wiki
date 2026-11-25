@@ -2,6 +2,7 @@
 title: 我的程度
 type: overview
 sources: []
+aliases: [我的程度, 學習進度]
 updated: 2026-11-24
 ---
 

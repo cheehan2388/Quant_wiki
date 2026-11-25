@@ -2,6 +2,7 @@
 title: 加密貨幣的交易與套利（Makarov & Schoar 2020）
 type: source
 sources: [crypto-arb-2020]
+aliases: [Makarov, Schoar, 加密貨幣, 比特幣, 泡菜溢價, Kimchi premium, 跨交易所]
 updated: 2026-11-23
 ---
 
@@ -74,7 +75,8 @@ updated: 2026-11-23
 
 ## 相關頁面
 
-- 策略：[[cross-exchange-arb]]
-- 玩家：[[arbitrageurs]]、[[retail]]
-- 概念：[[law-of-one-price]]、[[transaction-costs]]
-- 總覽：[[who-pays]]
+- [[cross-exchange-arb]]：這篇整理成的策略頁
+- [[law-of-one-price]]：跨國價差是一價定律被資本管制擋住的例子
+- [[arbitrageurs]]：套利資本為什麼補不平價差
+- [[retail]]：散戶很難跨國匯款，自己套利
+

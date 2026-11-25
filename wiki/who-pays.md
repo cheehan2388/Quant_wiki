@@ -2,6 +2,7 @@
 title: 總覽：誰在付錢
 type: overview
 sources: [momentum-1993, overtrading-2000, pairs-trading-2006, hft-race-2015, crypto-arb-2020, kalman-trend-2016]
+aliases: [總覽, 誰付錢, 四問題]
 updated: 2026-11-23
 ---
 

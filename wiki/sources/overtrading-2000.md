@@ -2,6 +2,7 @@
 title: 交易有害你的財富（Barber & Odean 2000）
 type: source
 sources: [overtrading-2000]
+aliases: [Barber, Odean, 散戶, 過度交易, overconfidence, 過度自信]
 updated: 2026-11-23
 ---
 
@@ -67,6 +68,8 @@ updated: 2026-11-23
 
 ## 相關頁面
 
-- 玩家：[[retail]]、[[brokers-exchanges]]、[[market-makers]]
-- 概念：[[transaction-costs]]、[[bid-ask-spread]]、[[excess-return]]
-- 總覽：[[who-pays]]
+- [[retail]]：這篇整理成的玩家頁
+- [[transaction-costs]]：散戶輸在成本，不是選股
+- [[brokers-exchanges]]：佣金的收受方
+- [[bid-ask-spread]]：另一項成本：一來一回約 1% 價差
+

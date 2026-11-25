@@ -36,6 +36,9 @@ def run(*cmd):
         sys.exit(f"停止：{' '.join(map(str, cmd))} 沒有通過")
 
 
+# 0. 自動產生的頁面（目錄）
+run("tools/gen_index.py")
+
 # 1. 健檢
 run("tools/check.py")
 for name, _ in DECKS:

@@ -2,6 +2,7 @@
 title: bps（基點）
 type: concept
 sources: [momentum-1993, pairs-trading-2006]
+aliases: [bps, 基點, basis point]
 updated: 2026-11-23
 ---
 
@@ -33,4 +34,7 @@ updated: 2026-11-23
 
 ## 相關頁面
 
-- 概念：[[transaction-costs]]、[[excess-return]]
+- [[transaction-costs]]：成本常用 bps 表示，例如一來一回 162 bps
+- [[excess-return]]：超額報酬也常用 bps 表示
+- [[pairs-decline-2010]]：配對交易利潤從每月 86 bps 掉到 24 bps
+

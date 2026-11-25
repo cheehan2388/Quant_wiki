@@ -2,6 +2,7 @@
 title: 超額報酬
 type: concept
 sources: [momentum-1993, overtrading-2000, pairs-trading-2006]
+aliases: [超額報酬, alpha, 風險調整]
 updated: 2026-11-23
 ---
 
@@ -33,5 +34,7 @@ updated: 2026-11-23
 
 ## 相關頁面
 
-- 策略：[[momentum]]、[[pairs-trading]]
-- 總覽：[[who-pays]]
+- [[momentum]]：動量的每月約 0.95% 指的是超額報酬
+- [[pairs-trading]]：配對交易經風險調整後仍有超額報酬
+- [[overtrading-2000]]：用超額報酬的概念看出散戶輸在成本
+

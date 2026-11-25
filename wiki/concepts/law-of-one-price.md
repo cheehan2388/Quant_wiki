@@ -2,6 +2,7 @@
 title: 一價定律
 type: concept
 sources: [pairs-trading-2006, hft-race-2015, crypto-arb-2020, twin-shares-2009]
+aliases: [一價定律, law of one price, 套利]
 updated: 2026-11-23
 ---
 
@@ -34,6 +35,9 @@ updated: 2026-11-23
 
 ## 相關頁面
 
-- 策略：[[pairs-trading]]、[[hft-latency-arb]]、[[cross-exchange-arb]]
-- 為什麼常常做不到：[[limits-of-arbitrage]]
-- 總覽：[[who-pays]]
+- [[limits-of-arbitrage]]：說明為什麼一價定律常常做不到
+- [[ltcm]]：LTCM 賭 Royal Dutch 和 Shell 會回到一致，卻先倒了
+- [[pairs-trading]]：配對交易賭的是近似替代品回到一致
+- [[hft-latency-arb]]：同一個指數在兩個市場不同步，靠速度套利
+- [[cross-exchange-arb]]：同一個比特幣在不同國家不同價，被資本管制擋住
+

@@ -2,6 +2,7 @@
 title: 卡爾曼濾波器（一）：直覺與一個數字的版本
 type: concept
 sources: [kalman-course-2001, kalman-gaussian-2012, kalman-trend-2016]
+aliases: [卡爾曼, Kalman, KF, 卡爾曼增益, 濾波器]
 updated: 2026-11-24
 ---
 
@@ -147,10 +148,10 @@ $y_t - \hat{x}^-_t$ 叫**創新值**：量到的和猜的差多少，也就是�
 
 ## 相關頁面
 
-- 策略：[[kalman-trend]]
-- 前置知識：[[variance-normal]]
-- 下一頁：[[kalman-velocity]]（加入速度、矩陣版本、拿來交易）
-- 也用在配對交易：[[pairs-trading]]
+- [[variance-normal]]：前置知識：這一頁的公式都建立在變異數和鐘形曲線上
+- [[kalman-velocity]]：下一頁：加入速度、矩陣版本、拿來交易
+- [[kalman-trend]]：把卡爾曼濾波器做成交易策略
+- [[pairs-trading]]：卡爾曼濾波器也能追蹤配對交易裡會慢慢變的比例
 
 ---
 

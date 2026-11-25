@@ -2,6 +2,7 @@
 title: LTCM：最會算的人，賭雙胞胎會回來
 type: case
 sources: [ltcm-2006, limits-arbitrage-1997, twin-shares-2009]
+aliases: [LTCM, 長期資本管理, Royal Dutch, Shell, 1998]
 updated: 2026-11-23
 ---
 
@@ -48,7 +49,9 @@ LTCM 的 Royal Dutch／Shell 交易，就是 [[pairs-trading]] 最純粹的版�
 
 ## 相關頁面
 
-- 策略：[[pairs-trading]]
-- 概念：[[limits-of-arbitrage]]、[[leverage]]、[[law-of-one-price]]
-- 玩家：[[arbitrageurs]]
-- 導覽：[[pairs-guide]]
+- [[pairs-trading]]：LTCM 的 Royal Dutch／Shell 交易就是最純粹的配對交易
+- [[limits-of-arbitrage]]：說明 LTCM 為什麼在價差收斂前就撐不住
+- [[leverage]]：約 27 倍槓桿把小價差變成大災難
+- [[law-of-one-price]]：LTCM 賭的就是兩檔股票價格會回到一致
+- [[twin-shares-2009]]：12 組雙胞胎股票的研究，顯示這類套利本來就可能等上好幾年
+

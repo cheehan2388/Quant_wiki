@@ -2,6 +2,7 @@
 title: 卡爾曼濾波趨勢策略
 type: strategy
 sources: [kalman-trend-2016]
+aliases: [卡爾曼, Kalman, 趨勢, 濾波, 移動平均]
 updated: 2026-11-24
 ---
 
@@ -46,8 +47,8 @@ updated: 2026-11-24
 
 ## 相關頁面
 
-- 卡爾曼濾波器的公式與直覺：[[kalman-filter]]；加入速度、怎麼拿來交易：[[kalman-velocity]]
+- [[kalman-filter]]：策略用到的濾波器怎麼運作
+- [[kalman-velocity]]：加入速度後怎麼產生交易訊號
+- [[momentum]]：方向相同的想法：追趨勢
+- [[kalman-trend-2016]]：唯一的證據來源，以及它的問題
 
-- 方向相同的想法：[[momentum]]
-- 卡爾曼濾波器的另一種用法（追蹤配對比例）：[[pairs-trading]]
-- 總覽：[[who-pays]]

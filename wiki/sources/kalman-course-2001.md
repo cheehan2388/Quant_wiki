@@ -2,6 +2,7 @@
 title: 卡爾曼濾波器入門講義（Welch & Bishop 2001）
 type: source
 sources: [kalman-course-2001]
+aliases: [Welch, Bishop, 卡爾曼, Kalman, 講義, SIGGRAPH]
 updated: 2026-11-24
 ---
 
@@ -91,6 +92,8 @@ updated: 2026-11-24
 
 ## 相關頁面
 
-- 概念：[[kalman-filter]]、[[variance-normal]]
-- 另一種推導方式：[[kalman-gaussian-2012]]
-- 拿來做交易：[[kalman-trend-2016]]
+- [[kalman-filter]]：用這份講義整理成的概念頁
+- [[variance-normal]]：講義第 2 章的期望值、變異數、常態分布
+- [[kalman-gaussian-2012]]：用鐘形曲線推出同一組公式的另一種講法
+- [[kalman-trend-2016]]：把卡爾曼濾波器拿來交易
+

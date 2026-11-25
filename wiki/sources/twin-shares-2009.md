@@ -2,6 +2,7 @@
 title: 雙胞胎股票的套利風險（de Jong, Rosenthal & van Dijk 2009）
 type: source
 sources: [twin-shares-2009]
+aliases: [de Jong, Rosenthal, van Dijk, 雙胞胎股票, 雙重上市, dual-listed, Royal Dutch, Shell]
 updated: 2026-11-23
 ---
 
@@ -67,7 +68,8 @@ updated: 2026-11-23
 
 ## 相關頁面
 
-- 策略：[[pairs-trading]]
-- 案例：[[ltcm]]
-- 概念：[[limits-of-arbitrage]]、[[law-of-one-price]]
-- 總覽：[[who-pays]]
+- [[pairs-trading]]：最純粹的配對：同一家公司的兩種股票
+- [[ltcm]]：LTCM 正是做這種交易
+- [[limits-of-arbitrage]]：收斂時間不確定、中途被追繳保證金
+- [[law-of-one-price]]：分同一份現金流，價格比例卻能偏離 36%
+

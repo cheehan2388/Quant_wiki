@@ -2,6 +2,7 @@
 title: 配對交易
 type: strategy
 sources: [pairs-trading-2006, pairs-decline-2010, twin-shares-2009, ltcm-2006]
+aliases: [配對交易, pairs trading, 統計套利, 均值回歸, mean reversion, 價差]
 updated: 2026-11-23
 ---
 
@@ -75,9 +76,9 @@ updated: 2026-11-23
 
 ## 相關頁面
 
-- 導覽：[[pairs-guide]]
-- 案例：[[ltcm]]
-- 誰在做：[[arbitrageurs]]
-- 概念：[[law-of-one-price]]、[[limits-of-arbitrage]]、[[leverage]]、[[transaction-costs]]、[[bid-ask-spread]]
-- 卡爾曼濾波器也可以用來追蹤兩檔之間會慢慢變的比例：[[kalman-trend-2016]] 提到這種用法
-- 方向相反：[[momentum]]（動量賭偏離會延續，配對賭偏離會回來）
+- [[pairs-guide]]：從零開始的閱讀路線
+- [[ltcm]]：用 27 倍槓桿做配對交易的真實案例
+- [[limits-of-arbitrage]]：配對交易為什麼可能撐不住
+- [[law-of-one-price]]：配對交易背後的原理
+- [[momentum]]：方向相反的策略
+

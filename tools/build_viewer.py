@@ -119,6 +119,28 @@ def link(m):
     return f'<span class="nl">{html.escape(ALL_TITLES.get(s, s))}</span>'
 
 
+# 可能相關：引用 2 篇以上相同來源、但兩頁都還沒互相連結的頁面（自動產生，不用手寫）
+SRC = {}
+for s, d in raw.items():
+    m = re.search(r"^sources:\s*\[(.*)\]", (WIKI.rglob(f"{s}.md").__next__()).read_text(encoding="utf-8"), re.M)
+    SRC[s] = {x.strip() for x in m.group(1).split(",") if x.strip()} if m else set()
+SKIP = {"overview"}
+
+
+def maybe_related(s):
+    if raw[s]["type"] in SKIP:
+        return []
+    mine = set(LINK_RE.findall(raw[s]["body"]))
+    out = []
+    for b in raw:
+        if b == s or raw[b]["type"] in SKIP:
+            continue
+        shared = SRC[s] & SRC[b]
+        if len(shared) >= 2 and b not in mine and s not in LINK_RE.findall(raw[b]["body"]):
+            out.append((len(shared), b))
+    return [b for _, b in sorted(out, reverse=True)[:5]]
+
+
 pages = {}
 for s, d in raw.items():
     body = re.sub(r"^# .*\n", "", d["body"].lstrip(), count=1)
@@ -134,7 +156,7 @@ for s, d in raw.items():
     for f in figs:
         out = out.replace(f"<p>FIGTOKEN{f}FIGTOKEN</p>", figure(f)).replace(f"FIGTOKEN{f}FIGTOKEN", figure(f))
     pages[s] = {"title": d["title"], "type": d["type"], "updated": d["updated"],
-                "html": out, "back": sorted(backlinks[s])}
+                "html": out, "back": sorted(backlinks[s]), "maybe": maybe_related(s)}
 
 nav = []
 for key, label in GROUPS:

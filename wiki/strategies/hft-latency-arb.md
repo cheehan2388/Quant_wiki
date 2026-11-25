@@ -2,6 +2,7 @@
 title: 高頻延遲套利
 type: strategy
 sources: [hft-race-2015]
+aliases: [高頻, HFT, 延遲套利, latency arbitrage, 狙擊, sniping]
 updated: 2026-11-23
 ---
 
@@ -41,8 +42,8 @@ updated: 2026-11-23
 
 ## 相關頁面
 
-- 玩家：[[arbitrageurs]]
-- 同類（套利）：[[pairs-trading]]、[[cross-exchange-arb]]
-- 概念：[[law-of-one-price]]
-- 概念：[[bid-ask-spread]]
-- 總覽：[[who-pays]]
+- [[hft-race-2015]]：這個策略的證據來源
+- [[market-makers]]：被狙擊的對象
+- [[bid-ask-spread]]：速度競爭的成本最後變成更寬的價差
+- [[cross-exchange-arb]]：同類套利，但被資本管制擋住而不是速度
+

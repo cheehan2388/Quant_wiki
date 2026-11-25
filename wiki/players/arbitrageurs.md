@@ -2,6 +2,7 @@
 title: 套利者
 type: player
 sources: [pairs-trading-2006, hft-race-2015, crypto-arb-2020, limits-arbitrage-1997, ltcm-2006, twin-shares-2009]
+aliases: [套利者, arbitrageur, 避險基金]
 updated: 2026-11-23
 ---
 
@@ -28,6 +29,9 @@ updated: 2026-11-23
 
 ## 相關頁面
 
-- 被他狙擊的人：[[market-makers]]
-- 概念：[[transaction-costs]]、[[law-of-one-price]]
-- 總覽：[[who-pays]]
+- [[law-of-one-price]]：套利者在做的事：把價格推回一致
+- [[limits-of-arbitrage]]：套利者為什麼常常撐不住
+- [[market-makers]]：高頻套利者狙擊的對象
+- [[leverage]]：套利者放大報酬、也放大風險的工具
+- [[pairs-trading]]：慢速版的套利
+

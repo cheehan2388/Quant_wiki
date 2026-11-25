@@ -2,6 +2,7 @@
 title: 買贏家、賣輸家（Jegadeesh & Titman 1993）
 type: source
 sources: [momentum-1993]
+aliases: [Jegadeesh, Titman, 動量, momentum]
 updated: 2026-11-23
 ---
 
@@ -69,6 +70,8 @@ Wiki 的推論：如果作者說得對，賺的就是「反應慢的人」的錢
 
 ## 相關頁面
 
-- 策略：[[momentum]]
-- 概念：[[excess-return]]、[[transaction-costs]]、[[bps]]
-- 總覽：[[who-pays]]
+- [[momentum]]：這篇整理成的策略頁
+- [[excess-return]]：每月 0.95% 是超額報酬
+- [[transaction-costs]]：扣掉 0.5% 單邊成本後還剩多少
+- [[bps]]：論文提到的 23 bps 成本估計
+

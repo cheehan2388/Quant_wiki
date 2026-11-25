@@ -2,6 +2,7 @@
 title: 動量策略
 type: strategy
 sources: [momentum-1993]
+aliases: [動量, momentum, 追趨勢, 贏家輸家]
 updated: 2026-11-23
 ---
 
@@ -41,7 +42,8 @@ updated: 2026-11-23
 
 ## 相關頁面
 
-- 總覽：[[who-pays]]
-- 用濾波器抓趨勢的版本：[[kalman-trend]]
-- 方向相反：[[pairs-trading]]（動量賭偏離會延續，配對交易賭偏離會回來）
-- 概念：[[excess-return]]、[[transaction-costs]]
+- [[momentum-1993]]：這個策略的證據來源
+- [[pairs-trading]]：方向相反：動量賭偏離會延續，配對賭偏離會回來
+- [[kalman-trend]]：用濾波器抓趨勢的版本
+- [[excess-return]]：動量的報酬是超額報酬
+

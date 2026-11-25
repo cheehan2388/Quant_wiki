@@ -2,6 +2,7 @@
 title: 套利的極限（Shleifer & Vishny 1997）
 type: source
 sources: [limits-arbitrage-1997]
+aliases: [Shleifer, Vishny, 套利的極限, limits of arbitrage]
 updated: 2026-11-23
 ---
 
@@ -62,7 +63,8 @@ updated: 2026-11-23
 
 ## 相關頁面
 
-- 概念：[[limits-of-arbitrage]]
-- 案例：[[ltcm]]
-- 玩家：[[arbitrageurs]]
-- 策略：[[pairs-trading]]
+- [[limits-of-arbitrage]]：這篇整理成的概念頁
+- [[ltcm]]：理論發表一年後就發生的真實案例
+- [[arbitrageurs]]：論文描述的對象：用別人的錢做套利的人
+- [[pairs-trading]]：套用到配對交易上的風險
+

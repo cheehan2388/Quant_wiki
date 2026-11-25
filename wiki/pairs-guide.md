@@ -2,6 +2,7 @@
 title: 配對交易導覽：賭雙胞胎會回來
 type: overview
 sources: [pairs-trading-2006, pairs-decline-2010, twin-shares-2009, limits-arbitrage-1997, ltcm-2006]
+aliases: [配對交易, 導覽]
 updated: 2026-11-23
 ---
 

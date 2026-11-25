@@ -2,6 +2,7 @@
 title: 槓桿
 type: concept
 sources: [ltcm-2006, twin-shares-2009, limits-arbitrage-1997]
+aliases: [槓桿, leverage, 保證金, margin]
 updated: 2026-11-23
 ---
 
@@ -32,5 +33,7 @@ updated: 2026-11-23
 
 ## 相關頁面
 
-- 概念：[[limits-of-arbitrage]]
-- 案例：[[ltcm]]
+- [[limits-of-arbitrage]]：槓桿決定套利者能撐多久
+- [[ltcm]]：約 27 倍槓桿的真實後果
+- [[pairs-trading]]：配對交易每次賺得少，常靠槓桿放大
+

@@ -2,6 +2,7 @@
 title: 高頻交易軍備競賽（Budish, Cramton & Shim 2015）
 type: source
 sources: [hft-race-2015]
+aliases: [Budish, Cramton, Shim, 高頻, HFT, 延遲套利, 狙擊, 批次拍賣]
 updated: 2026-11-23
 ---
 
@@ -68,7 +69,8 @@ NBER 會議版全文的前半部（資料、實證結果、模型的主要結論
 
 ## 相關頁面
 
-- 策略：[[hft-latency-arb]]
-- 玩家：[[market-makers]]、[[arbitrageurs]]
-- 概念：[[bid-ask-spread]]、[[transaction-costs]]、[[law-of-one-price]]
-- 總覽：[[who-pays]]
+- [[hft-latency-arb]]：這篇整理成的策略頁
+- [[market-makers]]：論文說被狙擊、最後付錢的是做市商與一般投資人
+- [[bid-ask-spread]]：速度競爭讓價差變寬
+- [[law-of-one-price]]：ES 和 SPY 是同一個指數，價格應該一致
+

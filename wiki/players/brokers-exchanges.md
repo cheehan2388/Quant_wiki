@@ -2,6 +2,7 @@
 title: 券商與交易所
 type: player
 sources: [overtrading-2000]
+aliases: [券商, 交易所, broker, exchange, 佣金]
 updated: 2026-11-23
 ---
 
@@ -22,5 +23,7 @@ updated: 2026-11-23
 
 ## 相關頁面
 
-- 付佣金的一方：[[retail]]
-- 概念：[[transaction-costs]]
+- [[retail]]：付佣金的一方
+- [[transaction-costs]]：佣金是交易成本的一部分
+- [[overtrading-2000]]：佣金吃掉散戶報酬的證據
+

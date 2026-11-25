@@ -2,6 +2,7 @@
 title: 跨交易所套利
 type: strategy
 sources: [crypto-arb-2020]
+aliases: [跨交易所套利, 加密貨幣, 比特幣, 搬磚]
 updated: 2026-11-23
 ---
 
@@ -43,7 +44,8 @@ updated: 2026-11-23
 
 ## 相關頁面
 
-- 同類：[[hft-latency-arb]]（也是同一個東西兩個價格，但靠速度）、[[pairs-trading]]
-- 誰在做：[[arbitrageurs]]
-- 概念：[[law-of-one-price]]
-- 總覽：[[who-pays]]
+- [[crypto-arb-2020]]：這個策略的證據來源
+- [[law-of-one-price]]：同一個比特幣不同價的原理
+- [[hft-latency-arb]]：同樣是「同一個東西兩個價格」，但靠速度
+- [[arbitrageurs]]：誰在做這種套利
+

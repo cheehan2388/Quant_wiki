@@ -27,6 +27,7 @@ BANNED = ["穩賺", "必勝", "保證獲利", "穩定獲利"]
 ONE_LINER_MAX = 50
 MAX_READ_CHARS = 3000          # 讀者看到的字數上限，超過就提醒拆頁（AGENTS.md 第 7 節）
 NO_LENGTH_LIMIT = {"log", "todo", "index"}
+MAX_RELATED = 5
 MIN_LINKS = 2
 LINK_RE = re.compile(r"\[\[([a-z0-9\-]+)\]\]")
 
@@ -108,6 +109,24 @@ for slug, d in pages.items():
                 m = re.search(rf"^## {sec}\n(.*?)(?=^## |\Z)", body, re.M | re.S)
                 if m and len(m.group(1).strip()) < 15:
                     errors.append(f"{where}：「{sec}」幾乎是空的")
+    # 概念頁的「出現在哪些來源」要和開頭的 sources 欄位一致
+    if ptype == "concept":
+        m = re.search(r"^## 出現在哪些來源\n(.*?)(?=^## |\Z)", body, re.M | re.S)
+        if m:
+            listed, declared = set(LINK_RE.findall(m.group(1))), set(meta.get("sources", []))
+            if listed != declared:
+                errors.append(f"{where}：「出現在哪些來源」和 sources 欄位不一致"
+                              f"（只在段落裡：{sorted(listed - declared)}；只在欄位裡：{sorted(declared - listed)}）")
+    # 相關頁面：最多 5 條，每條一個連結加一句原因（AGENTS.md 第 3 節）
+    m = re.search(r"^## 相關頁面\n(.*?)(?=^---$|^## |\Z)", body, re.M | re.S)
+    if m and ptype in SECTIONS:
+        items = [l for l in m.group(1).splitlines() if l.strip().startswith("- ")]
+        if len(items) > MAX_RELATED:
+            errors.append(f"{where}：相關頁面有 {len(items)} 條，最多 {MAX_RELATED} 條（其他關係交給自動產生的「可能相關」）")
+        for l in items:
+            mm = re.match(r"^- \[\[([a-z0-9\-]+)\]\]：(.+)$", l.strip())
+            if not mm or LINK_RE.search(mm.group(2)) or len(mm.group(2).strip()) < 4:
+                errors.append(f"{where}：相關頁面這條格式不對，要寫成「- [[頁面]]：為什麼相關」：{l.strip()[:40]}")
     if ptype == "source":
         m = re.search(r"^## 原文與推論\n(.*?)(?=^## |\Z)", body, re.M | re.S)
         if m and not ("原文" in m.group(1) and "推論" in m.group(1)):

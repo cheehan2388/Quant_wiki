@@ -2,6 +2,7 @@
 title: 期望值、變異數與常態分布
 type: concept
 sources: [kalman-course-2001, kalman-gaussian-2012]
+aliases: [期望值, 變異數, 標準差, 常態分布, 高斯分布, 鐘形曲線, variance, normal distribution, z-score]
 updated: 2026-11-24
 ---
 
@@ -138,5 +139,7 @@ $\mu$ 讀作 mu，代表平均（曲線的中心）。代入數字：$\mu_{\text
 
 ## 相關頁面
 
-- 下一步：[[kalman-filter]]
-- 用到標準差的地方：[[pairs-trading]]（偏離 2 個標準差進場）
+- [[kalman-filter]]：下一步：用這一頁的兩個性質推出卡爾曼濾波器
+- [[pairs-trading]]：偏離 2 個標準差進場，用的就是標準差
+- [[kalman-gaussian-2012]]：兩條鐘形曲線相乘的出處
+

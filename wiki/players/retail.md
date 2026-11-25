@@ -2,6 +2,7 @@
 title: 散戶
 type: player
 sources: [overtrading-2000, pairs-trading-2006, crypto-arb-2020]
+aliases: [散戶, 個人投資人, retail]
 updated: 2026-11-23
 ---
 
@@ -24,5 +25,8 @@ updated: 2026-11-23
 
 ## 相關頁面
 
-- 收佣金的一方：[[brokers-exchanges]]
-- 總覽：[[who-pays]]
+- [[brokers-exchanges]]：散戶付佣金給他們
+- [[transaction-costs]]：散戶落後大盤主要輸在成本
+- [[market-makers]]：散戶付的價差可能流到這裡（推論）
+- [[crypto-arb-2020]]：在溢價市場買幣的散戶
+

@@ -2,6 +2,7 @@
 title: 簡單的配對交易還有用嗎？（Do & Faff 2010）
 type: source
 sources: [pairs-decline-2010]
+aliases: [Do, Faff, 配對交易, 利潤下降, 套利風險]
 updated: 2026-11-23
 ---
 
@@ -64,7 +65,8 @@ updated: 2026-11-23
 
 ## 相關頁面
 
-- 前一篇：[[pairs-trading-2006]]
-- 策略：[[pairs-trading]]
-- 概念：[[bps]]、[[excess-return]]
-- 總覽：[[who-pays]]
+- [[pairs-trading-2006]]：這篇延長測試的前一篇
+- [[pairs-trading]]：利潤下降已整理進策略頁
+- [[limits-of-arbitrage]]：三種套利風險解釋了最多 70% 的下降
+- [[bps]]：利潤用 bps 表示的變化
+

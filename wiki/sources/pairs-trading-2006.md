@@ -2,6 +2,7 @@
 title: 配對交易（Gatev, Goetzmann & Rouwenhorst 2006）
 type: source
 sources: [pairs-trading-2006]
+aliases: [Gatev, Goetzmann, Rouwenhorst, 配對交易, pairs trading, 距離法]
 updated: 2026-11-23
 ---
 
@@ -69,10 +70,9 @@ Wiki 的推論：付錢的是把其中一檔價格暫時推離夥伴的人，例
 
 ## 相關頁面
 
-- 策略：[[pairs-trading]]
-- 後續：[[pairs-decline-2010]]（延長測到 2009 年）
-- 風險：[[limits-of-arbitrage]]、[[ltcm]]
-- 概念：[[transaction-costs]]、[[bid-ask-spread]]、[[excess-return]]、[[bps]]、[[law-of-one-price]]
-- 玩家：[[arbitrageurs]]
-- 對照：方向相反的 [[momentum]]（動量賭偏離會延續，配對賭偏離會回來）
-- 總覽：[[who-pays]]
+- [[pairs-trading]]：這篇整理成的策略頁
+- [[pairs-decline-2010]]：延長測到 2009 年的後續研究
+- [[limits-of-arbitrage]]：配對交易可能撐不住的原因
+- [[bid-ask-spread]]：作者用價差估計成本約 162 bps
+- [[momentum]]：方向相反：動量賭偏離會延續，配對賭偏離會回來
+
