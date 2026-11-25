@@ -3,6 +3,7 @@ title: 配對交易
 type: strategy
 sources: [pairs-trading-2006, pairs-decline-2010, twin-shares-2009, ltcm-2006]
 aliases: [配對交易, pairs trading, 統計套利, 均值回歸, mean reversion, 價差]
+hub: pairs-guide
 updated: 2026-11-23
 ---
 

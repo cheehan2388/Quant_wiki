@@ -175,6 +175,15 @@ for slug, d in pages.items():
 for s in source_slugs:
     if s not in log_body:
         errors.append(f"log.md 沒有 {s} 的收錄紀錄")
+HUB_AT = 15
+for slug, inc in incoming.items():
+    meta = pages[slug]["meta"] or {}
+    real = inc - {"index", "log", "todo", "me"}
+    if pages[slug]["folder"] in FOLDER_TYPE and len(real) > HUB_AT and not meta.get("hub"):
+        warnings.append(f"{pages[slug]['path']}：被 {len(real)} 頁連到，考慮做一頁主題導覽（像 pairs-guide），"
+                        f"做好後在這頁開頭加 hub: 導覽頁檔名")
+    if meta.get("hub") and meta["hub"] not in pages:
+        errors.append(f"{pages[slug]['path']}：hub 欄位指向不存在的頁面 {meta['hub']}")
 for slug, inc in incoming.items():
     if pages[slug]["folder"] in FOLDER_TYPE and not (inc - {"index"}):
         warnings.append(f"{pages[slug]['path']}：除了目錄以外，沒有其他頁面連到它")
@@ -183,6 +192,58 @@ for ed in sorted((ROOT / "editions").glob("*.txt")) if (ROOT / "editions").exist
     for s in [l.strip() for l in ed.read_text(encoding="utf-8").splitlines() if l.strip()]:
         if s not in pages:
             errors.append(f"{ed.relative_to(ROOT)}：列了不存在的頁面 {s}")
+
+# 數字只住在來源頁（AGENTS.md 第 8 節）
+NUM_RE = re.compile(r"(?<![A-Za-z\d.])[−-]?\d[\d,]*(?:\.\d+)?")
+CHECK_ALL = {"strategy", "player", "case"}
+CHECK_OVERVIEW = {"who-pays", "pairs-guide"}
+
+
+def numbers(text):
+    out = []
+    for m in NUM_RE.findall(text):
+        try:
+            out.append(abs(float(m.replace(",", "").replace("−", "-"))))
+        except ValueError:
+            pass
+    return out
+
+
+def strip_for_numbers(text):
+    text = re.sub(r"\$\$.+?\$\$|\$[^$\n]+\$|`[^`\n]*`|\{\{figure:[^}]+\}\}", " ", text, flags=re.S)
+    # 章節、式子、表格、圖的編號不是事實數字
+    text = re.sub(r"第\s*[\d.]+\s*(節|章|頁)|式\s*[\d.–、\-]+|表\s*[\d.–\-]+|(Table|Figure|EQ)\s*[\d.–\-]+", " ", text)
+    return LINK_RE.sub(" ", text)
+
+
+source_numbers = {s: numbers(d["body"]) for s, d in pages.items() if d["folder"] == "sources"}
+for slug, d in pages.items():
+    meta, ptype = d["meta"] or {}, (d["meta"] or {}).get("type")
+    if not (ptype in CHECK_ALL or ptype == "concept" or slug in CHECK_OVERVIEW):
+        continue
+    allowed = [n for s in meta.get("sources", []) for n in source_numbers.get(s, [])]
+    section = ""
+    for line in d["body"].splitlines():
+        if line.startswith("## "):
+            section = line[3:].strip()
+        if line.startswith("#") or "算術" in line or "示意" in line:
+            continue  # 標明「Wiki 的算術」或「示意」的句子不檢查
+        if ptype == "concept" and section == "例子":
+            continue  # 概念頁的例子是教學用的示意數字
+        line_allowed = allowed + [n for s in LINK_RE.findall(line) for n in source_numbers.get(s, [])]
+        if ptype == "concept" and not any(s in source_numbers for s in LINK_RE.findall(line)):
+            continue  # 概念頁只檢查有標出處的句子；其他多半是示意數字
+        clean = strip_for_numbers(line)
+        for m in NUM_RE.finditer(clean):
+            try:
+                n = abs(float(m.group(0).replace(",", "").replace("−", "-")))
+            except ValueError:
+                continue
+            unit = re.match(r"\s*(%|％|倍|bps|個百分點|美元|億|萬|毫秒|指數點)", clean[m.end():])
+            if n <= 20 and n == int(n) and not unit:
+                continue  # 沒帶單位的小整數多半是步驟、天數、「2 個標準差」這類
+            if not any(abs(w - n) < 1e-9 or (n == int(n) and abs(w - n) < 0.5) for w in line_allowed):
+                errors.append(f"{d['path']}：數字 {n:g} 在它引用的來源頁 {meta.get('sources', [])} 裡找不到：{line.strip()[:50]}")
 
 counts = {k: sum(1 for d in pages.values() if d["folder"] == k) for k in FOLDER_TYPE}
 print("頁數：" + "、".join(f"{k} {v}" for k, v in counts.items()))

@@ -3,7 +3,7 @@ title: 交易成本
 type: concept
 sources: [momentum-1993, overtrading-2000, pairs-trading-2006, hft-race-2015, kalman-trend-2016]
 aliases: [交易成本, 手續費, 佣金, 滑價, 成本]
-updated: 2026-11-23
+updated: 2026-11-24
 ---
 
 # 交易成本
