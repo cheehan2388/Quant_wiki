@@ -10,7 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 WIKI = ROOT / "wiki"
 GROUPS = [("source", "來源（sources）"), ("strategy", "策略（strategies）"), ("case", "案例（cases）"),
-          ("player", "玩家（players）"), ("concept", "概念（concepts）")]
+          ("player", "玩家（players）"), ("concept", "概念（concepts）"), ("model", "模型（models）")]
 OTHER = [("pairs-guide", "配對交易導覽"), ("who-pays", "總覽：誰在付錢"), ("me", "我的程度（AI 解釋新知識前要先讀）"),
          ("log", "收錄紀錄"), ("todo", "待寫清單")]
 

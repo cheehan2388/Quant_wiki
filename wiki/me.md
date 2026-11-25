@@ -24,11 +24,11 @@ updated: 2026-11-25
 
 | 概念 | 推測的根據 | Wiki 頁 |
 |---|---|---|
-| z-score 怎麼算、用來做進出場訊號 | 自己跑過 BTC 價格 z-score 回測 | 尚無 |
+| z-score 怎麼算、用來做進出場訊號 | 自己跑過 BTC 價格 z-score 回測 | [[mean-reversion]]（s 分數是它的升級版） |
 | 回測切成 train／validation／test | 回測報告都有這樣切 | 尚無 |
 | 手續費會吃掉策略利潤 | 問過「方向對了為什麼還虧」 | [[transaction-costs]] |
 | bps（基點） | 回測設定裡用過 10 bps 手續費 | [[bps]] |
-| 協整檢定（cointegration）的用途 | 跑過大型加密貨幣的配對篩選 | 尚無 |
+| 協整檢定（cointegration）的用途 | 跑過大型加密貨幣的配對篩選 | [[cointegration]] |
 | 配對交易的基本做法 | 這次做了整份配對交易篇 | [[pairs-trading]] |
 
 ## 卡住過（看不懂的地方）
@@ -45,7 +45,7 @@ updated: 2026-11-25
 
 - **卡爾曼濾波器的公式**（2026-11-24 開始）：目標是「看得懂、也算得出」。學習順序：[[variance-normal]] → [[kalman-filter]] → 拖拉實驗頁 → [[kalman-velocity]]（加入速度與矩陣版本；你會矩陣乘法，可以直接讀）。
 
-- 共整合（cointegration）：配對交易篇想補，Wiki 還沒有來源。
+- **自己做加密貨幣永續合約的配對策略**（2026-11-25 開始）：先補數學。學習順序：[[regression]] → [[stationarity]] → [[cointegration]] → [[mean-reversion]]，再看 [[crypto-pairs-2020]] 和 [[perpetual-futures-2024]]。使用者希望直接讀 Wiki 學，看不懂的句子回報給 AI 改寫。
 - GARCH、資金費率套利、零佣金時代散戶交易的代價（見 [[todo]]）。
 
 ## 解釋方式偏好

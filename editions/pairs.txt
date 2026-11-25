@@ -14,4 +14,16 @@ transaction-costs
 bid-ask-spread
 bps
 excess-return
+regression
+stationarity
+cointegration
+mean-reversion
+pairs-review-2015
+statarb-ou-2010
+crypto-pairs-2020
+perpetual-futures-2024
+fpp3-2021
+backtest-overfitting-2014
+variance-normal
+kalman-filter
 log

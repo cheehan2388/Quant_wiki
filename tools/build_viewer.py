@@ -49,7 +49,7 @@ def protect_math(text):
         text = text.replace(key, code)
     return text, store
 GROUPS = [("overview", "總覽"), ("strategy", "策略"), ("case", "案例"), ("source", "來源"),
-          ("player", "玩家"), ("concept", "概念")]
+          ("player", "玩家"), ("concept", "概念"), ("model", "模型")]
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--edition")

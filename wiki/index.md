@@ -20,10 +20,16 @@ updated: 自動產生
 - [[pairs-trading-2006]]：配對交易（Gatev, Goetzmann & Rouwenhorst 2006）
 - [[twin-shares-2009]]：雙胞胎股票的套利風險（de Jong, Rosenthal & van Dijk 2009）
 - [[pairs-decline-2010]]：簡單的配對交易還有用嗎？（Do & Faff 2010）
+- [[statarb-ou-2010]]：用均值回歸模型做統計套利（Avellaneda & Lee 2010）
 - [[kalman-gaussian-2012]]：用兩條鐘形曲線理解卡爾曼濾波器（Faragher 2012）
+- [[backtest-overfitting-2014]]：回測過度配適（Bailey 等人 2014）
 - [[hft-race-2015]]：高頻交易軍備競賽（Budish, Cramton & Shim 2015）
+- [[pairs-review-2015]]：配對交易方法總整理（Krauss 2015）
 - [[kalman-trend-2016]]：用卡爾曼濾波器抓趨勢（Benhamou 2016）
 - [[crypto-arb-2020]]：加密貨幣的交易與套利（Makarov & Schoar 2020）
+- [[crypto-pairs-2020]]：加密貨幣的配對交易（Fil & Kristoufek 2020）
+- [[fpp3-2021]]：預測教科書：迴歸與平穩的章節（Hyndman & Athanasopoulos 2021）
+- [[perpetual-futures-2024]]：永續合約的基本面與資金費率（He 等人 2024）
 
 ## 策略（strategies）
 - [[momentum]]：動量策略
@@ -52,6 +58,12 @@ updated: 自動產生
 - [[leverage]]：槓桿
 - [[bid-ask-spread]]：買賣價差
 - [[excess-return]]：超額報酬
+
+## 模型（models）
+- [[cointegration]]：共整合：兩條亂走的線，價差會不會回來
+- [[mean-reversion]]：均值回歸與半衰期：價差多快回來、何時進出場
+- [[stationarity]]：平穩：會不會一直被拉回同一個地方
+- [[regression]]：迴歸：用一條直線算避險比例
 
 ## 其他
 - [[pairs-guide]]：配對交易導覽

@@ -20,9 +20,13 @@ SECTIONS = {
     "player": ["一句話", "他在哪裡賺錢", "他在哪裡付錢", "相關頁面"],
     "concept": ["一句話", "白話解釋", "例子", "出現在哪些來源", "相關頁面"],
     "case": ["一句話", "發生了什麼", "跟策略的關係", "學到什麼", "相關頁面"],
+    # 模型、公式類知識：以後要會用、會算、知道何時不能用（AGENTS.md 第 5 節）
+    "model": ["一句話", "需要先懂什麼", "白話解釋", "公式逐項白話", "手算一次",
+              "靠什麼假設", "什麼時候不能用", "出現在哪些來源", "相關頁面"],
 }
 FOLDER_TYPE = {"sources": "source", "strategies": "strategy",
-               "players": "player", "concepts": "concept", "cases": "case"}
+               "players": "player", "concepts": "concept", "cases": "case",
+               "models": "model"}
 BANNED = ["穩賺", "必勝", "保證獲利", "穩定獲利"]
 ONE_LINER_MAX = 50
 MAX_READ_CHARS = 3000          # 讀者看到的字數上限，超過就提醒拆頁（AGENTS.md 第 7 節）
@@ -86,7 +90,7 @@ for slug, d in pages.items():
     for s in meta.get("sources", []):
         if s not in source_slugs:
             errors.append(f"{where}：sources 列了不存在的來源頁 {s}")
-    if ptype in ("strategy", "player", "concept", "case") and not meta.get("sources"):
+    if ptype in ("strategy", "player", "concept", "case", "model") and not meta.get("sources"):
         errors.append(f"{where}：沒有任何來源支持（sources 是空的）")
 
     # 段落順序
@@ -105,13 +109,13 @@ for slug, d in pages.items():
             if n > ONE_LINER_MAX:
                 errors.append(f"{where}：一句話有 {n} 字，超過 {ONE_LINER_MAX} 字")
         # 四問題不能是空的
-        for sec in ["在賺誰的錢", "靠什麼假設", "什麼時候失效", "扣成本後剩多少"]:
+        for sec in ["在賺誰的錢", "靠什麼假設", "什麼時候失效", "扣成本後剩多少", "什麼時候不能用"]:
             if sec in want:
                 m = re.search(rf"^## {sec}\n(.*?)(?=^## |\Z)", body, re.M | re.S)
                 if m and len(m.group(1).strip()) < 15:
                     errors.append(f"{where}：「{sec}」幾乎是空的")
-    # 概念頁的「出現在哪些來源」要和開頭的 sources 欄位一致
-    if ptype == "concept":
+    # 概念頁、模型頁的「出現在哪些來源」要和開頭的 sources 欄位一致
+    if ptype in ("concept", "model"):
         m = re.search(r"^## 出現在哪些來源\n(.*?)(?=^## |\Z)", body, re.M | re.S)
         if m:
             listed, declared = set(LINK_RE.findall(m.group(1))), set(meta.get("sources", []))
@@ -224,7 +228,7 @@ def strip_for_numbers(text):
 source_numbers = {s: numbers(d["body"]) for s, d in pages.items() if d["folder"] == "sources"}
 for slug, d in pages.items():
     meta, ptype = d["meta"] or {}, (d["meta"] or {}).get("type")
-    if not (ptype in CHECK_ALL or ptype == "concept" or slug in CHECK_OVERVIEW):
+    if not (ptype in CHECK_ALL or ptype in ("concept", "model") or slug in CHECK_OVERVIEW):
         continue
     allowed = [n for s in meta.get("sources", []) for n in source_numbers.get(s, [])]
     section = ""
@@ -233,10 +237,10 @@ for slug, d in pages.items():
             section = line[3:].strip()
         if line.startswith("#") or "算術" in line or "示意" in line:
             continue  # 標明「Wiki 的算術」或「示意」的句子不檢查
-        if ptype == "concept" and section == "例子":
-            continue  # 概念頁的例子是教學用的示意數字
+        if (ptype == "concept" and section == "例子") or (ptype == "model" and section == "手算一次"):
+            continue  # 概念頁的例子、模型頁的手算是教學用的示意數字
         line_allowed = allowed + [n for s in LINK_RE.findall(line) for n in source_numbers.get(s, [])]
-        if ptype == "concept" and not any(s in source_numbers for s in LINK_RE.findall(line)):
+        if ptype in ("concept", "model") and not any(s in source_numbers for s in LINK_RE.findall(line)):
             continue  # 概念頁只檢查有標出處的句子；其他多半是示意數字
         clean = strip_for_numbers(line)
         for m in NUM_RE.finditer(clean):

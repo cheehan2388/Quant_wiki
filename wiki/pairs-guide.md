@@ -1,9 +1,9 @@
 ---
 title: 配對交易導覽：賭雙胞胎會回來
 type: overview
-sources: [pairs-trading-2006, pairs-decline-2010, twin-shares-2009, limits-arbitrage-1997, ltcm-2006]
+sources: [pairs-trading-2006, pairs-decline-2010, twin-shares-2009, limits-arbitrage-1997, ltcm-2006, pairs-review-2015, statarb-ou-2010, crypto-pairs-2020, perpetual-futures-2024, fpp3-2021]
 aliases: [配對交易, 導覽]
-updated: 2026-11-23
+updated: 2026-11-25
 ---
 
 # 配對交易導覽：賭雙胞胎會回來
@@ -38,6 +38,27 @@ updated: 2026-11-23
 **第 6 站｜為什麼撐不住**
 [[limits-of-arbitrage]]：錯價最大、機會最好的時候，套利者反而最沒錢。理論出自 [[limits-arbitrage-1997]]。
 
+## 想自己做一個配對策略
+
+上面六站讀完，你知道它為什麼賺、為什麼會死。要自己動手，再照這個順序讀，每一頁都有手算例子：
+
+**第 7 站｜避險比例**
+[[regression]]：用一條直線算「買 1 單位 A 要空多少 B」，以及為什麼漂亮的直線可能是假的。
+
+**第 8 站｜會不會被拉回來**
+[[stationarity]]：拴住的狗和沒拴的狗；單根檢定在檢查什麼。
+
+**第 9 站｜價差會不會回來**
+[[cointegration]]：兩條亂走的線，組出一條會回來的價差；一次檢定很多組時的假警報。
+
+**第 10 站｜何時進場、何時放棄**
+[[mean-reversion]]：用半衰期估計要等多久，用 s 分數決定進出場。
+
+**第 11 站｜放到加密貨幣上**
+[[crypto-pairs-2020]]：日線幾乎不賺，5 分鐘線很賺但很難真的做到；價格停損反而有害。用永續合約放空時，成本換成資金費率，見 [[perpetual-futures-2024]]。
+
+全部方法的地圖在 [[pairs-review-2015]]；均值回歸規則的原始論文是 [[statarb-ou-2010]]。
+
 ## 四個問題的答案
 
 | 問題 | 配對交易的答案 |
@@ -54,5 +75,6 @@ updated: 2026-11-23
 ## 想再深入
 
 - 概念：[[law-of-one-price]]、[[leverage]]、[[transaction-costs]]、[[bid-ask-spread]]、[[bps]]、[[excess-return]]
+- 模型：[[regression]]、[[stationarity]]、[[cointegration]]、[[mean-reversion]]
 - 玩家：[[arbitrageurs]]
 - 這一版收錄了哪些資料、怎麼檢查的：[[log]]
