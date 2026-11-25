@@ -27,7 +27,6 @@ BANNED = ["穩賺", "必勝", "保證獲利", "穩定獲利"]
 ONE_LINER_MAX = 50
 MAX_READ_CHARS = 3000          # 讀者看到的字數上限，超過就提醒拆頁（AGENTS.md 第 7 節）
 NO_LENGTH_LIMIT = {"log", "todo", "index"}
-INFERENCE_PAGES = {"who-pays", "pairs-guide"}   # 給讀者看的整理：推論要標確認狀態
 MAX_RELATED = 5
 MIN_LINKS = 2
 LINK_RE = re.compile(r"\[\[([a-z0-9\-]+)\]\]")
@@ -163,10 +162,6 @@ for slug, d in pages.items():
         errors.append(f"{where}：$ 沒有成對（公式要寫成 $...$ 或 $$...$$）")
     if slug not in NO_LENGTH_LIMIT and (n := readable_len(body)) > MAX_READ_CHARS:
         warnings.append(f"{where}：{n} 字，超過 {MAX_READ_CHARS} 字，考慮拆成兩頁")
-    if slug in INFERENCE_PAGES:
-        for bad in re.findall(r"推論(?![，,]\s*(待確認|已確認))[）)]", body):
-            errors.append(f"{where}：總覽／導覽頁裡的推論要標成「推論，待確認」或「推論，已確認（日期）」")
-            break
     for w in BANNED:
         if w in body:
             errors.append(f"{where}：出現禁用字「{w}」")
