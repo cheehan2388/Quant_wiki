@@ -52,6 +52,10 @@ body{background:var(--side);color:var(--ink);font:16px/1.55 "Manrope","Noto Sans
 .twins path{fill:none;stroke-width:7;stroke-linecap:round}
 .twins .tw-a{stroke:var(--ink)}.twins .tw-b{stroke:var(--link)}.twins .tw-gap{fill:var(--hl);opacity:.5;stroke:none}
 /* statement */
+math{font-family:"STIX Two Math","Cambria Math","Latin Modern Math","Noto Sans Math",math;font-size:1.1em}
+.mathblock{margin:10px 0 14px;padding:10px 16px;background:var(--side,#f4f4f2);border-radius:8px;overflow-x:auto;text-align:center}
+.mathblock math{font-size:1.25em}
+td math{white-space:nowrap}
 .ly-statement{justify-content:center}
 .ly-statement h2{font-size:28px;color:var(--muted);font-weight:700;margin-bottom:20px}
 .ly-statement p{font-size:40px;line-height:1.35;font-weight:700;max-width:24em;text-wrap:balance}
@@ -122,12 +126,12 @@ body{background:var(--side);color:var(--ink);font:16px/1.55 "Manrope","Noto Sans
 body.read{overflow:auto;background:var(--bg)}
 body.read #wrap{position:static;display:block;place-items:normal}
 body.read #stage{width:auto;height:auto;transform:none!important;box-shadow:none;overflow:visible}
-body.read .s{position:relative;display:flex;padding:34px 18px 70px;border-bottom:8px solid var(--side);--fs:17px!important;min-height:0}
+body.read .s{position:relative;display:flex;padding:34px 18px 22px;border-bottom:8px solid var(--side);--fs:17px!important;min-height:0}
 body.read .s h1{font-size:34px}body.read .s h2{font-size:25px;margin-bottom:16px}
 body.read .ly-cover{padding-right:18px;min-height:0}body.read .twins{position:static;width:100%;height:auto;max-width:300px;margin-top:10px}
 body.read .ly-cover p:nth-of-type(1){font-size:19px}
 body.read .ly-statement p{font-size:22px}body.read .ly-statement p+p{font-size:18px}
-body.read .foot{left:18px;right:18px;bottom:16px;font-size:12px;flex-wrap:wrap;gap:6px 12px}
+body.read .foot{position:static;margin-top:22px;font-size:12px;flex-wrap:wrap;gap:6px 12px}
 body.read .fig{overflow-x:auto}body.read .fig svg{min-width:560px;max-height:none;height:auto}
 body.read .tl{font-size:15px}body.read .tl li{grid-template-columns:minmax(0,1fr);gap:0}
 body.read .s table{font-size:14px}body.read .s th,body.read .s td{padding:8px}

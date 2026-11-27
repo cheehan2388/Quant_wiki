@@ -15,6 +15,7 @@ import sys
 from pathlib import Path
 
 import markdown
+from latex2mathml.converter import convert as latex_to_mathml
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "tools"))
@@ -35,6 +36,25 @@ titles = {}
 for p in (ROOT / "wiki").rglob("*.md"):
     m = re.search(r"^title:\s*(.+)$", p.read_text(encoding="utf-8"), re.M)
     titles[p.stem] = re.sub(r"（.*?）$", "", m.group(1).strip()) if m else p.stem
+
+
+MATH_BLOCK_RE = re.compile(r"\$\$(.+?)\$\$", re.S)
+MATH_INLINE_RE = re.compile(r"(?<!\$)\$(?!\$)(.+?)(?<!\$)\$(?!\$)")
+
+
+def protect_math(text):
+    """和 build_viewer.py 一樣：公式先換成記號，免得 markdown 弄壞底線與反斜線，最後換回 MathML。"""
+    store = {}
+
+    def keep(tex, display):
+        key = f"MATHTOKEN{len(store)}MATHTOKEN"
+        mathml = latex_to_mathml(tex.strip(), display="block" if display else "inline")
+        store[key] = f'<div class="mathblock">{mathml}</div>' if display else mathml
+        return key
+
+    text = MATH_BLOCK_RE.sub(lambda m: "\n\n" + keep(m.group(1), True) + "\n\n", text)
+    text = MATH_INLINE_RE.sub(lambda m: keep(m.group(1), False), text)
+    return text, store
 
 
 def figure(name):
@@ -68,7 +88,10 @@ def render(s):
     figs = re.findall(r"\{\{figure:([a-z0-9\-]+)\}\}", body)
     body = re.sub(r"\{\{figure:([a-z0-9\-]+)\}\}", r"FIGTOKEN\1FIGTOKEN", body)
     body = re.sub(r"^(> .*)$", r"\n\1\n", body, flags=re.M)      # 每行定義各自成一張卡
+    body, maths = protect_math(body)
     out = markdown.markdown(body, extensions=["tables"])
+    for key, val in maths.items():
+        out = out.replace(f"<p>{key}</p>", val).replace(key, val)
     for f in figs:
         out = out.replace(f"<p>FIGTOKEN{f}FIGTOKEN</p>", figure(f))
     return out

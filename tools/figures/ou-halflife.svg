@@ -1,0 +1,14 @@
+<svg viewBox="0 0 760 380" xmlns="http://www.w3.org/2000/svg" role="img" class="fig-svg" aria-label="示意圖：偏離從 100% 開始，b 等於 0.8 時大約 3 天剩一半、十幾天就幾乎歸零；b 等於 0.99 時 30 天後還剩約四分之三">
+<line x1="48" x2="740" y1="178.0" y2="178.0" class="f-band"/>
+<text x="740" y="172.0" text-anchor="end" class="f-lab">剩一半</text>
+<line x1="48" x2="740" y1="316" y2="316" class="f-zero"/>
+<text x="48.0" y="334" text-anchor="middle" class="f-tick">0</text><text x="163.3" y="334" text-anchor="middle" class="f-tick">5</text><text x="278.7" y="334" text-anchor="middle" class="f-tick">10</text><text x="394.0" y="334" text-anchor="middle" class="f-tick">15</text><text x="509.3" y="334" text-anchor="middle" class="f-tick">20</text><text x="624.7" y="334" text-anchor="middle" class="f-tick">25</text><text x="740.0" y="334" text-anchor="middle" class="f-tick">30</text><text x="40" y="320.0" text-anchor="end" class="f-tick">0%</text><text x="40" y="182.0" text-anchor="end" class="f-tick">50%</text><text x="40" y="44.0" text-anchor="end" class="f-tick">100%</text>
+<text x="394" y="354" text-anchor="middle" class="f-tick">天數</text>
+<path d="M48.0,40.0 L71.1,42.8 L94.1,45.5 L117.2,48.2 L140.3,50.9 L163.3,53.5 L186.4,56.2 L209.5,58.7 L232.5,61.3 L255.6,63.9 L278.7,66.4 L301.7,68.9 L324.8,71.4 L347.9,73.8 L370.9,76.2 L394.0,78.6 L417.1,81.0 L440.1,83.3 L463.2,85.7 L486.3,88.0 L509.3,90.3 L532.4,92.5 L555.5,94.7 L578.5,97.0 L601.6,99.2 L624.7,101.3 L647.7,103.5 L670.8,105.6 L693.9,107.7 L716.9,109.8 L740.0,111.8" class="k-ma"/>
+<path d="M48.0,40.0 L71.1,95.2 L94.1,139.4 L117.2,174.7 L140.3,203.0 L163.3,225.6 L186.4,243.6 L209.5,258.1 L232.5,269.7 L255.6,279.0 L278.7,286.4 L301.7,292.3 L324.8,297.0 L347.9,300.8 L370.9,303.9 L394.0,306.3 L417.1,308.2 L440.1,309.8 L463.2,311.0 L486.3,312.0 L509.3,312.8 L532.4,313.5 L555.5,314.0 L578.5,314.4 L601.6,314.7 L624.7,315.0 L647.7,315.2 L670.8,315.3 L693.9,315.5 L716.9,315.6 L740.0,315.7" class="k-kf"/>
+<circle cx="119.7" cy="178.0" r="6" class="f-in"/>
+<text x="209.5" y="202.0" class="f-lab">b = 0.8（紅）：約 3.1 天剩一半</text>
+<text x="736.0" y="139.4" text-anchor="end" class="f-lab">b = 0.99（藍）：30 天後還剩約 74%，要 69 天才剩一半</text>
+<text x="52" y="26" class="f-lab">離平衡點的距離（第 0 天 = 100%）</text>
+<text x="740" y="374" text-anchor="end" class="f-note">示意，沒有雜訊時的平均走法</text>
+</svg>

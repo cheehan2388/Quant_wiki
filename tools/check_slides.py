@@ -21,7 +21,8 @@ MAX_CHARS = 200
 JARGON = ["放空", "平倉", "標準差", "槓桿", "一價定律", "套利的極限", "保證金",
           "bps", "超額報酬", "相關性",
           "移動平均", "卡爾曼濾波器", "卡爾曼增益", "參數", "做多", "做空", "期貨",
-          "回撤", "夏普比率"]
+          "回撤", "夏普比率",
+          "迴歸", "自我迴歸", "半衰期", "OU 過程", "s 分數", "主成分"]
 NUM_RE = re.compile(r"(?<![A-Za-z])[−-]?\d[\d,]*(?:\.\d+)?")
 
 
@@ -85,7 +86,9 @@ def main(deck):
 
         if re.search(r"推論(?![，,]\s*(待確認|已確認))", body):
             errors.append(f"{tag}：推論要標成「推論，待確認」或「推論，已確認」（AGENTS.md 第 8 節）")
-        prose = [l for l in text_no_title.splitlines()
+        # 字數不算公式本身（LaTeX 原始碼很長，但畫面上只佔一行）
+        text_no_title_count = re.sub(r"\$\$.+?\$\$|\$[^$\n]+\$", "式", text_no_title, flags=re.S)
+        prose = [l for l in text_no_title_count.splitlines()
                  if not re.match(r"^\s*(\||\?\?|!!|- \[)", l)]
         n = len(re.sub(r"[\s*>#\-]", "", "".join(prose)))
         if n > MAX_CHARS and s["layout"] != "sources":

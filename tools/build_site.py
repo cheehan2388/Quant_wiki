@@ -24,7 +24,8 @@ DOCS = ROOT / "docs"
 SITE_URL = "https://cheehan2388.github.io/Quant_wiki/"
 REPO_URL = "https://github.com/cheehan2388/Quant_wiki"
 # (資料夾名稱, 網站上的檔名)；第一份是首頁的主要入口
-DECKS = [("pairs-trading", "slides.html"), ("kalman-trend", "kalman.html")]
+DECKS = [("pairs-trading", "slides.html"), ("kalman-trend", "kalman.html"),
+         ("mean-reversion", "mean-reversion.html")]
 sys.path.insert(0, str(ROOT / "tools"))
 from check_slides import parse  # noqa: E402
 PY = sys.executable

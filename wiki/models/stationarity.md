@@ -3,7 +3,7 @@ title: 平穩：會不會一直被拉回同一個地方
 type: model
 sources: [fpp3-2021, pairs-review-2015, statarb-ou-2010]
 aliases: [平穩, 定態, stationary, stationarity, 非平穩, 隨機漫步, random walk, 單根, unit root, 單根檢定, KPSS, ADF, 差分, AR(1)]
-updated: 2026-11-25
+updated: 2026-11-27
 ---
 
 # 平穩：會不會一直被拉回同一個地方
@@ -51,6 +51,7 @@ $$y_t = c + \phi\, y_{t-1} + \varepsilon_t$$
 | $\varepsilon_t$ | 今天的隨機變化 |
 
 AR 是「自我迴歸」：拿自己昨天的值當 [[regression]] 裡的 $x$。重點只有一條（見 [[fpp3-2021]]）：
+- $\phi = 0$、$c = 0$：每天都是全新的雜訊，和昨天無關（白雜訊）。
 - $\phi = 1$、$c = 0$：就是隨機漫步，不平穩。
 - 要平穩，必須 $-1 < \phi < 1$。$\phi$ 越接近 1，繩子越鬆，回來得越慢。
 

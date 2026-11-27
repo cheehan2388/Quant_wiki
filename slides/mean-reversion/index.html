@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>均值回歸配對交易：把價差當彈簧來量</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* VOICE: 給完全沒碰過交易的人上的一堂課：冷靜、清楚、一頁只講一件事
+   IDEA: 交易帳簿的一頁頁筆記：每頁底下都寫著「這頁的知識來自 Wiki 的哪一頁」
+   PICTURE: 封面是兩條分開又靠回來的線（雙胞胎）；內頁的圖表本身就是主角
+   COLOUR and TYPE: 白底、墨色 #101418、黃 #ffd84a 只用在重點與定義；Manrope + Noto Sans TC
+   LAYOUT: 1280×720 舞台等比縮放；窄螢幕改成上下捲動的閱讀模式 */
+:root{color-scheme:light dark;
+  --bg:light-dark(#ffffff,#101418);--ink:light-dark(#101418,#e8ecf0);--muted:light-dark(#5b6670,#9aa6b1);
+  --line:light-dark(#e3e7eb,#26303a);--side:light-dark(#f5f7f9,#151b21);--hl:#ffd84a;--hl-ink:#101418;
+  --link:light-dark(#1f4fd1,#8fb2ff);--bad:#d6453d;--good:#1f8a5b;--chip:light-dark(#eef1f4,#1e2630)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html,body{margin:0;height:100%}
+body{background:var(--side);color:var(--ink);font:16px/1.55 "Manrope","Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;overflow:hidden}
+#wrap{position:fixed;inset:0;display:grid;place-items:center}
+#stage{width:1280px;height:720px;position:relative;background:var(--bg);transform-origin:center center;box-shadow:0 2px 30px rgba(0,0,0,.08);overflow:hidden}
+.s{position:absolute;inset:0;padding:56px 84px 92px;display:none;flex-direction:column;--fs:29px;font-size:var(--fs)}
+.s.on{display:flex}
+.s h1{font-size:64px;line-height:1.08;margin:0 0 22px;font-weight:900;letter-spacing:-.02em;text-wrap:balance}
+.s h2{font-size:46px;line-height:1.15;margin:0 0 26px;font-weight:800;letter-spacing:-.015em;text-wrap:balance}
+.s p{margin:0 0 16px;line-height:1.55}
+.s ul{margin:0 0 14px;padding-left:1.1em}
+.s li{margin:0 0 12px;line-height:1.5}
+.s li::marker{color:var(--muted)}
+.s strong{background:linear-gradient(transparent 60%,rgba(255,216,74,.75) 60%)}
+.s blockquote{margin:10px 0 0;padding:10px 18px;border-left:6px solid var(--hl);background:var(--side);border-radius:0 8px 8px 0;font-size:.8em}
+.s blockquote p{margin:0}
+.s blockquote strong{background:none}
+.s table{border-collapse:collapse;width:100%;margin:4px 0 22px;font-size:.92em}
+.s th,.s td{text-align:left;padding:12px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+.s th{border-bottom:3px solid var(--ink);font-weight:800}
+.s td:last-child{font-variant-numeric:tabular-nums}
+.foot{position:absolute;left:84px;right:84px;bottom:26px;display:flex;gap:18px;align-items:center;font-size:15px;color:var(--muted);border-top:1px solid var(--line);padding-top:12px}
+.foot .src a{color:var(--ink);font-weight:700;text-decoration:underline;text-decoration-color:var(--hl);text-decoration-thickness:3px;text-underline-offset:3px}
+.foot .src a:hover{background:var(--hl);color:var(--hl-ink)}
+.foot .n{margin-left:auto;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tag{background:var(--chip);color:var(--ink);border-radius:4px;padding:1px 8px;font-size:13px;white-space:nowrap}
+/* cover */
+.ly-cover{justify-content:center;padding-right:520px}
+.ly-cover p:nth-of-type(1){display:inline-block;background:var(--hl);color:var(--hl-ink);font-weight:800;font-size:30px;padding:4px 14px;border-radius:4px;margin-bottom:26px}
+.ly-cover p:nth-of-type(2){color:var(--muted);font-size:20px}
+.twins{position:absolute;right:40px;top:110px;width:470px;height:470px}
+.twins path{fill:none;stroke-width:7;stroke-linecap:round}
+.twins .tw-a{stroke:var(--ink)}.twins .tw-b{stroke:var(--link)}.twins .tw-gap{fill:var(--hl);opacity:.5;stroke:none}
+/* statement */
+math{font-family:"STIX Two Math","Cambria Math","Latin Modern Math","Noto Sans Math",math;font-size:1.1em}
+.mathblock{margin:10px 0 14px;padding:10px 16px;background:var(--side,#f4f4f2);border-radius:8px;overflow-x:auto;text-align:center}
+.mathblock math{font-size:1.25em}
+td math{white-space:nowrap}
+.ly-statement{justify-content:center}
+.ly-statement h2{font-size:28px;color:var(--muted);font-weight:700;margin-bottom:20px}
+.ly-statement p{font-size:40px;line-height:1.35;font-weight:700;max-width:24em;text-wrap:balance}
+.ly-statement p+p{font-size:28px;font-weight:500;color:var(--ink)}
+/* figure */
+.fig{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;justify-content:center}
+.fig svg{width:100%;height:100%;max-height:460px}
+.ly-figure .fig{margin-bottom:8px}
+.fig-svg{font-family:inherit}
+.f-h{font-size:14px;font-weight:700;fill:var(--ink)}.f-lab{font-size:13px;fill:var(--ink)}
+.f-tick{font-size:12px;fill:var(--muted)}.f-note{font-size:12px;fill:var(--muted)}
+.f-a{fill:none;stroke:var(--ink);stroke-width:2}.f-b{fill:none;stroke:var(--link);stroke-width:2}
+.f-ka{fill:var(--ink)}.f-kb{fill:var(--link)}.f-s{fill:none;stroke:var(--ink);stroke-width:1.8}
+.f-band{stroke:var(--muted);stroke-dasharray:5 5}.f-zero{stroke:var(--muted)}.f-hold{fill:var(--hl);opacity:.3}
+.f-in{fill:var(--hl);stroke:var(--hl-ink);stroke-width:1.5}.f-out{fill:var(--bg);stroke:var(--ink);stroke-width:2}
+.k-dot{fill:var(--muted);opacity:.55}.k-ma{fill:none;stroke:var(--link);stroke-width:3}
+.k-kf{fill:none;stroke:#d6453d;stroke-width:3}.k-turn{stroke:var(--muted);stroke-dasharray:4 4}
+.kl text{font-size:16px;fill:var(--ink);text-anchor:middle}
+.kl .kl-t{font-size:22px;font-weight:800}.kl .kl-s{font-size:14px;fill:var(--muted);font-weight:600}
+.kl-n rect{fill:var(--bg);stroke:var(--ink);stroke-width:2.5}
+.kl-c rect{fill:var(--hl);stroke:var(--hl-ink);stroke-width:2.5}.kl-c text{fill:var(--hl-ink)}
+.kl-g rect{fill:var(--side);stroke:var(--line);stroke-width:1.5}.kl .kl-gt{font-weight:800}
+.kl-e{fill:none;stroke:var(--ink);stroke-width:2.5}.kl-head{fill:var(--ink)}
+.nb .nb-c{fill:none;stroke:var(--ink);stroke-width:3}.nb-1{fill:var(--hl);opacity:.55}.nb-2{fill:var(--hl);opacity:.22}
+.nb-ax{stroke:var(--muted);stroke-width:1.5}.nb text{font-size:14px;fill:var(--ink)}.nb .nb-big{font-size:22px;font-weight:800}
+.nb .nb-n{font-size:12px;fill:var(--muted)}
+.nf-a{fill:none;stroke:var(--ink);stroke-width:2.5}.nf-b{fill:none;stroke:var(--link);stroke-width:2.5}
+.nf-f{fill:rgba(214,69,61,.12);stroke:#d6453d;stroke-width:3.5}.nf-mid{stroke:#d6453d;stroke-dasharray:4 4}
+.nb .nf-ta{font-weight:700}.nb .nf-tb{font-weight:700;fill:var(--link)}.nb .nf-tf{font-weight:800;fill:#d6453d}
+.tl{list-style:none;margin:0;padding:0 0 0 22px;border-left:3px solid var(--line);font-size:21px}
+.tl li{position:relative;margin:0;padding:4px 0 7px 16px;display:grid;grid-template-columns:8.6em minmax(0,1fr);gap:14px}
+.tl li::before{content:"";position:absolute;left:-32px;top:12px;width:15px;height:15px;border-radius:50%;background:var(--bg);border:3px solid var(--ink)}
+.tl li.bad::before{background:var(--bad);border-color:var(--bad)}.tl li.good::before{background:var(--hl);border-color:var(--hl-ink)}
+.tl b{white-space:nowrap}.fig-src{font-size:14px;color:var(--muted);margin:6px 0 0!important}
+/* loop graph */
+.lg text{font-size:17px;fill:var(--ink);text-anchor:middle;font-weight:700}
+.lg .lg-s{font-size:13px;font-weight:500;fill:var(--muted)}
+.lg .lg-t{text-anchor:start;font-size:16px;font-weight:800}
+.lg .lg-rl{font-size:13px;fill:var(--bad);font-weight:700}.lg .lg-ll{font-size:13px;fill:var(--muted);font-weight:600}
+.lg-n rect{fill:var(--bg);stroke:var(--ink);stroke-width:2}
+.lg-c rect,.lg-kc{fill:var(--hl);stroke:var(--hl-ink);stroke-width:2}
+.lg-c text{fill:var(--hl-ink)}.lg-c .lg-s{fill:#3c4650}
+.lg-e,.lg-l{fill:none;stroke:var(--ink);stroke-width:2}.lg-l{stroke-dasharray:6 5;stroke:var(--muted)}
+.lg-r{fill:none;stroke:var(--bad);stroke-width:2;stroke-dasharray:5 4}
+.lg-head{fill:var(--ink)}.lg-headr{fill:var(--bad)}
+.lg-key text{text-anchor:start;font-size:13px;font-weight:600;fill:var(--muted)}
+/* quiz */
+.quiz{display:flex;flex-direction:column;gap:14px}
+.q .qq{font-weight:700;margin:0 0 8px;font-size:.88em}
+.opts{display:flex;flex-wrap:wrap;gap:10px}
+.opt{font:inherit;font-size:.72em;padding:9px 16px;min-height:44px;border-radius:8px;border:2px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer;text-align:left}
+.opt:hover:not(:disabled){border-color:var(--ink)}
+.opt:focus-visible,.nav button:focus-visible{outline:3px solid var(--link);outline-offset:2px}
+.opt.right{border-color:var(--good);background:light-dark(#e6f4ec,#14301f)}
+.opt.wrong{border-color:var(--bad);background:light-dark(#fbe9e8,#3a1715)}
+.opt:disabled{cursor:default}
+.why{font-size:.68em;color:var(--muted);margin:8px 0 0!important}
+.score{font-weight:800;font-size:.8em;margin-top:6px}
+.ly-sources li{font-size:.78em;margin-bottom:8px}
+.ill{background:var(--hl);color:var(--hl-ink)}
+/* nav */
+#bar{position:fixed;left:0;top:0;height:4px;background:var(--hl);transition:width .2s}
+.nav{position:fixed;right:18px;bottom:16px;display:flex;gap:8px}
+.nav button{width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:20px;cursor:pointer}
+.hint{position:fixed;left:18px;bottom:24px;font-size:13px;color:var(--muted)}
+.hint a{color:var(--ink);font-weight:700}
+/* reading mode (narrow screens) */
+body.read{overflow:auto;background:var(--bg)}
+body.read #wrap{position:static;display:block;place-items:normal}
+body.read #stage{width:auto;height:auto;transform:none!important;box-shadow:none;overflow:visible}
+body.read .s{position:relative;display:flex;padding:34px 18px 22px;border-bottom:8px solid var(--side);--fs:17px!important;min-height:0}
+body.read .s h1{font-size:34px}body.read .s h2{font-size:25px;margin-bottom:16px}
+body.read .ly-cover{padding-right:18px;min-height:0}body.read .twins{position:static;width:100%;height:auto;max-width:300px;margin-top:10px}
+body.read .ly-cover p:nth-of-type(1){font-size:19px}
+body.read .ly-statement p{font-size:22px}body.read .ly-statement p+p{font-size:18px}
+body.read .foot{position:static;margin-top:22px;font-size:12px;flex-wrap:wrap;gap:6px 12px}
+body.read .fig{overflow-x:auto}body.read .fig svg{min-width:560px;max-height:none;height:auto}
+body.read .tl{font-size:15px}body.read .tl li{grid-template-columns:minmax(0,1fr);gap:0}
+body.read .s table{font-size:14px}body.read .s th,body.read .s td{padding:8px}
+body.read .nav{display:none}body.read .hint{position:static;display:block;padding:18px;font-size:15px}body.read .keys{display:none}body.read #bar{display:none}
+@media(prefers-reduced-motion:no-preference){.s.on{animation:fade .25s ease-out}@keyframes fade{from{opacity:0}}}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<div id="wrap"><div id="stage" role="region" aria-roledescription="簡報" aria-label="均值回歸配對交易：把價差當彈簧來量"></div></div>
+<div class="nav"><button id="prev" aria-label="上一頁">←</button><button id="next" aria-label="下一頁">→</button></div>
+<div class="hint"><a href="https://cheehan2388.github.io/Quant_wiki/index.html" target="_top">← 網站首頁</a><span class="keys">　← → 鍵換頁</span></div>
+<script>
+{
+const SLIDES = [{"id": "cover", "layout": "cover", "html": "<h1>均值回歸配對交易：把價差當彈簧來量<\/h1>\n<p>從「拉太開就進場」，到「算出價差多快回來」<\/p>\n<p>開心的 Quant Wiki・論文導讀：Avellaneda &amp; Lee (2010)<\/p>", "cites": [{"t": "用均值回歸模型做統計套利", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#statarb-ou-2010"}, {"t": "均值回歸與半衰期：價差多快回來、何時進出場", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#mean-reversion"}], "illustrative": false}, {"id": "recap", "layout": "bullets", "html": "<h2>先複習：入門版配對交易<\/h2>\n<ul>\n<li>找一對平常一起動的，每天算兩者的差距。<\/li>\n<li>差距超過 2 個<strong>標準差<\/strong>：買落後的、<strong>做空<\/strong>領先的。<\/li>\n<li>差距回到 0 就<strong>平倉<\/strong>；6 個月還沒回來，強制平倉。<\/li>\n<\/ul>\n<blockquote>\n<p><strong>標準差<\/strong>：差距「平常晃多大」的尺。<\/p>\n<p><strong>做空<\/strong>：先借來賣掉，之後買回來還；價格跌就賺。<\/p>\n<p><strong>平倉<\/strong>：把買的賣掉、空的買回，結束這筆交易。<\/p>\n<\/blockquote>", "cites": [{"t": "配對交易", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#pairs-trading"}], "illustrative": false}, {"id": "why", "layout": "bullets", "html": "<h2>為什麼需要更好的方法：入門版有三個盲點<\/h2>\n<ul>\n<li><strong>不知道會不會回來<\/strong>：只看過去像不像，挑到的配對容易一路發散。<\/li>\n<li><strong>不知道要等多久<\/strong>：6 個月一刀切，回得快和回得慢的配對被一樣對待。<\/li>\n<li><strong>一把尺量所有配對<\/strong>：每一對都用 2 個標準差，不管它平常怎麼晃。<\/li>\n<\/ul>\n<p>美股的簡單版配對交易，每月多賺的報酬從 0.86% 降到 0.24%，越來越不能只靠簡單規則。<\/p>", "cites": [{"t": "配對交易", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#pairs-trading"}, {"t": "配對交易方法總整理", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#pairs-review-2015"}], "illustrative": false}, {"id": "idea", "layout": "statement", "html": "<h2>Avellaneda &amp; Lee 的想法<\/h2>\n<p>先用一條式子描述「價差怎麼動」，再決定怎麼交易。<\/p>\n<p>只要知道價差拉回多快、平常晃多大，就能回答：何時進場、要等多久、何時放棄。<\/p>", "cites": [{"t": "用均值回歸模型做統計套利", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#statarb-ou-2010"}, {"t": "均值回歸與半衰期：價差多快回來、何時進出場", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#mean-reversion"}], "illustrative": false}, {"id": "spring", "layout": "bullets", "html": "<h2>一個比喻：彈簧<\/h2>\n<ul>\n<li>價差拉離平均，像拉開一條彈簧：拉得越遠，往回拉的力越大。<\/li>\n<li>每天只回去「距離的一部分」，所以一開始回得快，越接近平均越慢。<\/li>\n<li>旁邊一直有人隨機推它，這就是每天的雜訊。<\/li>\n<\/ul>\n<blockquote>\n<p><strong>OU 過程<\/strong>：論文用來描述價差的模型。「彈簧」是 Wiki 的比喻，論文裡沒有這個詞。<\/p>\n<\/blockquote>", "cites": [{"t": "均值回歸與半衰期：價差多快回來、何時進出場", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#mean-reversion"}, {"t": "用均值回歸模型做統計套利", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#statarb-ou-2010"}], "illustrative": false}, {"id": "ar1", "layout": "bullets", "html": "<h2>第一塊積木：AR(1)，用昨天猜今天<\/h2>\n<div class=\"mathblock\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\"><mrow><msub><mi>X<\/mi><mrow><mi>n<\/mi><mo>&#x0002B;<\/mo><mn>1<\/mn><\/mrow><\/msub><mo>&#x0003D;<\/mo><mi>a<\/mi><mo>&#x0002B;<\/mo><mi>b<\/mi><mspace width=\"0.167em\" /><msub><mi>X<\/mi><mi>n<\/mi><\/msub><mo>&#x0002B;<\/mo><msub><mi>&#x003B6;<\/mi><mrow><mi>n<\/mi><mo>&#x0002B;<\/mo><mn>1<\/mn><\/mrow><\/msub><\/mrow><\/math><\/div>\n<ul>\n<li><math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><msub><mi>X<\/mi><mi>n<\/mi><\/msub><\/mrow><\/math>：第 <math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>n<\/mi><\/mrow><\/math> 天的價差。<\/li>\n<li><math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>b<\/mi><\/mrow><\/math>：昨天的偏離，今天還留下幾成。<strong>最重要的數字。<\/strong><\/li>\n<li><math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>a<\/mi><\/mrow><\/math>：決定平衡點在哪；<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>&#x003B6;<\/mi><\/mrow><\/math>：今天新的隨機推擠。<\/li>\n<\/ul>\n<blockquote>\n<p><strong>迴歸<\/strong>：在散點圖上找一條最貼近的直線。<\/p>\n<p><strong>自我迴歸 AR(1)<\/strong>：拿自己「昨天的值」當迴歸裡的 x。<\/p>\n<\/blockquote>", "cites": [{"t": "平穩：會不會一直被拉回同一個地方", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#stationarity"}, {"t": "均值回歸與半衰期：價差多快回來、何時進出場", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#mean-reversion"}, {"t": "預測教科書：迴歸與平穩的章節", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#fpp3-2021"}], "illustrative": false}, {"id": "bvalue", "layout": "table", "html": "<h2><math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>b<\/mi><\/mrow><\/math> 決定一切<\/h2>\n<table>\n<thead>\n<tr>\n<th><math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>b<\/mi><\/mrow><\/math><\/th>\n<th>像什麼<\/th>\n<th>半衰期<\/th>\n<\/tr>\n<\/thead>\n<tbody>\n<tr>\n<td>0<\/td>\n<td>沒有記憶，每天都是全新的雜訊<\/td>\n<td>—<\/td>\n<\/tr>\n<tr>\n<td>0.8<\/td>\n<td>繩子很緊的狗<\/td>\n<td>約 3.1 天<\/td>\n<\/tr>\n<tr>\n<td>0.99<\/td>\n<td>繩子很鬆的狗<\/td>\n<td>約 69 天<\/td>\n<\/tr>\n<tr>\n<td>1<\/td>\n<td>沒拴的狗（隨機漫步），不會回來<\/td>\n<td>永遠<\/td>\n<\/tr>\n<\/tbody>\n<\/table>\n<p>要會回來，<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>b<\/mi><\/mrow><\/math> 必須在 −1 和 1 之間。<\/p>\n<blockquote>\n<p><strong>半衰期<\/strong>：偏離縮成一半要幾天，<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>h<\/mi><mo>&#x0003D;<\/mo><mi>ln<\/mi><mn>2<\/mn><mo>&#x0002F;<\/mo><mo stretchy=\"false\">&#x00028;<\/mo><mo>&#x02212;<\/mo><mi>ln<\/mi><mi>b<\/mi><mo stretchy=\"false\">&#x00029;<\/mo><\/mrow><\/math>。<\/p>\n<\/blockquote>", "cites": [{"t": "均值回歸與半衰期：價差多快回來、何時進出場", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#mean-reversion"}, {"t": "平穩：會不會一直被拉回同一個地方", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#stationarity"}, {"t": "預測教科書：迴歸與平穩的章節", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#fpp3-2021"}], "illustrative": false}, {"id": "halflife", "layout": "figure", "html": "<h2>看得見的差別<\/h2>\n<div class=\"fig\"><svg viewBox=\"0 0 760 380\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" class=\"fig-svg\" aria-label=\"示意圖：偏離從 100% 開始，b 等於 0.8 時大約 3 天剩一半、十幾天就幾乎歸零；b 等於 0.99 時 30 天後還剩約四分之三\">\n<line x1=\"48\" x2=\"740\" y1=\"178.0\" y2=\"178.0\" class=\"f-band\"/>\n<text x=\"740\" y=\"172.0\" text-anchor=\"end\" class=\"f-lab\">剩一半<\/text>\n<line x1=\"48\" x2=\"740\" y1=\"316\" y2=\"316\" class=\"f-zero\"/>\n<text x=\"48.0\" y=\"334\" text-anchor=\"middle\" class=\"f-tick\">0<\/text><text x=\"163.3\" y=\"334\" text-anchor=\"middle\" class=\"f-tick\">5<\/text><text x=\"278.7\" y=\"334\" text-anchor=\"middle\" class=\"f-tick\">10<\/text><text x=\"394.0\" y=\"334\" text-anchor=\"middle\" class=\"f-tick\">15<\/text><text x=\"509.3\" y=\"334\" text-anchor=\"middle\" class=\"f-tick\">20<\/text><text x=\"624.7\" y=\"334\" text-anchor=\"middle\" class=\"f-tick\">25<\/text><text x=\"740.0\" y=\"334\" text-anchor=\"middle\" class=\"f-tick\">30<\/text><text x=\"40\" y=\"320.0\" text-anchor=\"end\" class=\"f-tick\">0%<\/text><text x=\"40\" y=\"182.0\" text-anchor=\"end\" class=\"f-tick\">50%<\/text><text x=\"40\" y=\"44.0\" text-anchor=\"end\" class=\"f-tick\">100%<\/text>\n<text x=\"394\" y=\"354\" text-anchor=\"middle\" class=\"f-tick\">天數<\/text>\n<path d=\"M48.0,40.0 L71.1,42.8 L94.1,45.5 L117.2,48.2 L140.3,50.9 L163.3,53.5 L186.4,56.2 L209.5,58.7 L232.5,61.3 L255.6,63.9 L278.7,66.4 L301.7,68.9 L324.8,71.4 L347.9,73.8 L370.9,76.2 L394.0,78.6 L417.1,81.0 L440.1,83.3 L463.2,85.7 L486.3,88.0 L509.3,90.3 L532.4,92.5 L555.5,94.7 L578.5,97.0 L601.6,99.2 L624.7,101.3 L647.7,103.5 L670.8,105.6 L693.9,107.7 L716.9,109.8 L740.0,111.8\" class=\"k-ma\"/>\n<path d=\"M48.0,40.0 L71.1,95.2 L94.1,139.4 L117.2,174.7 L140.3,203.0 L163.3,225.6 L186.4,243.6 L209.5,258.1 L232.5,269.7 L255.6,279.0 L278.7,286.4 L301.7,292.3 L324.8,297.0 L347.9,300.8 L370.9,303.9 L394.0,306.3 L417.1,308.2 L440.1,309.8 L463.2,311.0 L486.3,312.0 L509.3,312.8 L532.4,313.5 L555.5,314.0 L578.5,314.4 L601.6,314.7 L624.7,315.0 L647.7,315.2 L670.8,315.3 L693.9,315.5 L716.9,315.6 L740.0,315.7\" class=\"k-kf\"/>\n<circle cx=\"119.7\" cy=\"178.0\" r=\"6\" class=\"f-in\"/>\n<text x=\"209.5\" y=\"202.0\" class=\"f-lab\">b = 0.8（紅）：約 3.1 天剩一半<\/text>\n<text x=\"736.0\" y=\"139.4\" text-anchor=\"end\" class=\"f-lab\">b = 0.99（藍）：30 天後還剩約 74%，要 69 天才剩一半<\/text>\n<text x=\"52\" y=\"26\" class=\"f-lab\">離平衡點的距離（第 0 天 = 100%）<\/text>\n<text x=\"740\" y=\"374\" text-anchor=\"end\" class=\"f-note\">示意，沒有雜訊時的平均走法<\/text>\n<\/svg><\/div>", "cites": [{"t": "均值回歸與半衰期：價差多快回來、何時進出場", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#mean-reversion"}], "illustrative": true}, {"id": "ou", "layout": "bullets", "html": "<h2>第二塊積木：OU 過程，連續時間的彈簧<\/h2>\n<div class=\"mathblock\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\"><mrow><mi>d<\/mi><mi>X<\/mi><mo>&#x0003D;<\/mo><mi>&#x003BA;<\/mi><mspace width=\"0.167em\" /><mo stretchy=\"false\">&#x00028;<\/mo><mi>m<\/mi><mo>&#x02212;<\/mo><mi>X<\/mi><mo stretchy=\"false\">&#x00029;<\/mo><mspace width=\"0.167em\" /><mi>d<\/mi><mi>t<\/mi><mo>&#x0002B;<\/mo><mi>&#x003C3;<\/mi><mspace width=\"0.167em\" /><mi>d<\/mi><mi>W<\/mi><\/mrow><\/math><\/div>\n<ul>\n<li><math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>m<\/mi><\/mrow><\/math>：平衡點。<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>m<\/mi><mo>&#x02212;<\/mo><mi>X<\/mi><\/mrow><\/math>：被拉開多遠，在下面就往上拉。<\/li>\n<li><math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>&#x003BA;<\/mi><\/mrow><\/math>：彈簧多硬，也就是拉回的速度。<\/li>\n<li><math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>&#x003C3;<\/mi><mspace width=\"0.167em\" /><mi>d<\/mi><mi>W<\/mi><\/mrow><\/math>：一小段時間裡的隨機推擠，<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>&#x003C3;<\/mi><\/mrow><\/math> 是推擠的大小。<\/li>\n<\/ul>", "cites": [{"t": "用均值回歸模型做統計套利", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#statarb-ou-2010"}, {"t": "均值回歸與半衰期：價差多快回來、何時進出場", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#mean-reversion"}], "illustrative": false}, {"id": "bridge", "layout": "bullets", "html": "<h2>AR(1) 和 OU 是同一件事<\/h2>\n<ul>\n<li>OU 是「每一瞬間」的寫法；AR(1) 是「每天看一次」的寫法。<\/li>\n<li>由論文式 13：<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>b<\/mi><mo>&#x0003D;<\/mo><msup><mi>e<\/mi><mrow><mo>&#x02212;<\/mo><mi>&#x003BA;<\/mi><mi>&#x00394;<\/mi><mi>t<\/mi><\/mrow><\/msup><\/mrow><\/math>，所以 <math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>&#x003BA;<\/mi><mo>&#x0003D;<\/mo><mo>&#x02212;<\/mo><mi>ln<\/mi><mo stretchy=\"false\">&#x00028;<\/mo><mi>b<\/mi><mo stretchy=\"false\">&#x00029;<\/mo><mo>&#x000D7;<\/mo><mn>252<\/mn><\/mrow><\/math>。<\/li>\n<li>所以<strong>不用解微分方程<\/strong>：對價差做一次 AR(1) 迴歸，就能算出 <math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>&#x003BA;<\/mi><\/mrow><\/math>。<\/li>\n<li>252 是一年大約的交易日數；加密貨幣全年無休，可改用 365。<\/li>\n<\/ul>", "cites": [{"t": "均值回歸與半衰期：價差多快回來、何時進出場", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#mean-reversion"}, {"t": "用均值回歸模型做統計套利", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#statarb-ou-2010"}], "illustrative": false}, {"id": "sscore", "layout": "bullets", "html": "<h2>每一對都有自己的尺<\/h2>\n<div class=\"mathblock\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\"><mrow><mi>m<\/mi><mo>&#x0003D;<\/mo><mfrac><mrow><mi>a<\/mi><\/mrow><mrow><mn>1<\/mn><mo>&#x02212;<\/mo><mi>b<\/mi><\/mrow><\/mfrac><mspace width=\"2em\" /><mi>s<\/mi><mo>&#x0003D;<\/mo><mfrac><mrow><mi>X<\/mi><mo>&#x02212;<\/mo><mi>m<\/mi><\/mrow><mrow><msub><mi>&#x003C3;<\/mi><mrow><mi>e<\/mi><mi>q<\/mi><\/mrow><\/msub><\/mrow><\/mfrac><\/mrow><\/math><\/div>\n<div class=\"mathblock\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\"><mrow><msub><mi>&#x003C3;<\/mi><mrow><mi>e<\/mi><mi>q<\/mi><\/mrow><\/msub><mo>&#x0003D;<\/mo><msqrt><mrow><mfrac><mrow><mrow><mi mathvariant=\"normal\">V<\/mi><mi mathvariant=\"normal\">a<\/mi><mi mathvariant=\"normal\">r<\/mi><\/mrow><mo stretchy=\"false\">&#x00028;<\/mo><mi>&#x003B6;<\/mi><mo stretchy=\"false\">&#x00029;<\/mo><\/mrow><mrow><mn>1<\/mn><mo>&#x02212;<\/mo><msup><mi>b<\/mi><mn>2<\/mn><\/msup><\/mrow><\/mfrac><\/mrow><\/msqrt><\/mrow><\/math><\/div>\n<ul>\n<li><math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><msub><mi>&#x003C3;<\/mi><mrow><mi>e<\/mi><mi>q<\/mi><\/mrow><\/msub><\/mrow><\/math>：這條彈簧長期下來平常晃多大，由每一對自己的資料算出。<\/li>\n<li>所以同樣是「偏離 2 塊錢」，在很穩的配對可能很誇張，在很亂的配對可能很平常。<\/li>\n<\/ul>\n<blockquote>\n<p><strong>s 分數<\/strong>：現在離平衡點幾個「平常的晃動」。<\/p>\n<\/blockquote>", "cites": [{"t": "用均值回歸模型做統計套利", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#statarb-ou-2010"}, {"t": "均值回歸與半衰期：價差多快回來、何時進出場", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#mean-reversion"}], "illustrative": false}, {"id": "steps", "layout": "bullets", "html": "<h2>論文的五個步驟（每天收盤後做一次）<\/h2>\n<ol>\n<li>用過去 60 天，把股票報酬對它的產業 ETF 做迴歸，斜率 <math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>&#x003B2;<\/mi><\/mrow><\/math> 就是要做空多少 ETF。<\/li>\n<li>把扣掉產業後剩下的部分累加起來，得到價差 <math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>X<\/mi><\/mrow><\/math>。<\/li>\n<li>對 <math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>X<\/mi><\/mrow><\/math> 做 AR(1)，得到 <math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>a<\/mi><\/mrow><\/math>、<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>b<\/mi><\/mrow><\/math>。<\/li>\n<li>換算 <math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>&#x003BA;<\/mi><\/mrow><\/math>、<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>m<\/mi><\/mrow><\/math>、<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><msub><mi>&#x003C3;<\/mi><mrow><mi>e<\/mi><mi>q<\/mi><\/mrow><\/msub><\/mrow><\/math>，算出 s 分數。<\/li>\n<li>照規則進出場。<\/li>\n<\/ol>", "cites": [{"t": "用均值回歸模型做統計套利", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#statarb-ou-2010"}, {"t": "迴歸：用一條直線算避險比例", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#regression"}], "illustrative": false}, {"id": "rules", "layout": "table", "html": "<h2>進出場規則<\/h2>\n<table>\n<thead>\n<tr>\n<th>情況<\/th>\n<th>動作<\/th>\n<\/tr>\n<\/thead>\n<tbody>\n<tr>\n<td>s &lt; −1.25<\/td>\n<td>買進價差（買股票、做空 <math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>&#x003B2;<\/mi><\/mrow><\/math> 倍的 ETF）<\/td>\n<\/tr>\n<tr>\n<td>s &gt; +1.25<\/td>\n<td>賣出價差（反過來）<\/td>\n<\/tr>\n<tr>\n<td>多單的 s 回到 −0.50 以上<\/td>\n<td>平倉<\/td>\n<\/tr>\n<tr>\n<td>空單的 s 回到 0.75 以下<\/td>\n<td>平倉<\/td>\n<\/tr>\n<tr>\n<td><math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>&#x003BA;<\/mi><\/mrow><\/math> &lt; 8.4（回歸時間超過 1.5 個月）<\/td>\n<td>不開新倉，已開的平倉<\/td>\n<\/tr>\n<\/tbody>\n<\/table>\n<p>門檻是用 2000–2004 年的資料挑的。最後一列就是「何時放棄」：看彈簧多硬，不看價格虧多少。<\/p>", "cites": [{"t": "用均值回歸模型做統計套利", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#statarb-ou-2010"}], "illustrative": false}, {"id": "signals", "layout": "figure", "html": "<h2>看一次完整的進出場<\/h2>\n<div class=\"fig\"><svg viewBox=\"0 0 760 380\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" class=\"fig-svg\" aria-label=\"示意圖：一條模擬的 s 分數在 0 附近上下晃動。跌破負 1.25 時買進價差、回到負 0.5 以上平倉；漲破 1.25 時賣出價差、回到 0.75 以下平倉。圖上共有 5 筆交易\">\n<rect x=\"298.1\" y=\"40\" width=\"29.1\" height=\"276\" class=\"f-hold\"/><rect x=\"501.6\" y=\"40\" width=\"69.8\" height=\"276\" class=\"f-hold\"/><rect x=\"577.2\" y=\"40\" width=\"23.3\" height=\"276\" class=\"f-hold\"/><rect x=\"617.9\" y=\"40\" width=\"23.3\" height=\"276\" class=\"f-hold\"/><rect x=\"681.8\" y=\"40\" width=\"5.8\" height=\"276\" class=\"f-hold\"/>\n<line x1=\"48\" x2=\"740\" y1=\"120.5\" y2=\"120.5\" class=\"f-band\"/><text x=\"40\" y=\"124.5\" text-anchor=\"end\" class=\"f-tick\">+1.25<\/text><line x1=\"48\" x2=\"740\" y1=\"235.5\" y2=\"235.5\" class=\"f-band\"/><text x=\"40\" y=\"239.5\" text-anchor=\"end\" class=\"f-tick\">−1.25<\/text>\n<line x1=\"48\" x2=\"740\" y1=\"143.5\" y2=\"143.5\" class=\"k-turn\"/><text x=\"40\" y=\"147.5\" text-anchor=\"end\" class=\"f-tick\">0.75<\/text><line x1=\"48\" x2=\"740\" y1=\"201.0\" y2=\"201.0\" class=\"k-turn\"/><text x=\"40\" y=\"205.0\" text-anchor=\"end\" class=\"f-tick\">−0.5<\/text>\n<line x1=\"48\" x2=\"740\" y1=\"178.0\" y2=\"178.0\" class=\"f-zero\"/><text x=\"40\" y=\"182.0\" text-anchor=\"end\" class=\"f-tick\">0<\/text>\n<path d=\"M48.0,178.0 L53.8,198.4 L59.6,170.1 L65.4,197.8 L71.3,178.8 L77.1,212.7 L82.9,184.0 L88.7,185.0 L94.5,144.5 L100.3,127.8 L106.2,136.4 L112.0,152.5 L117.8,144.4 L123.6,152.1 L129.4,181.1 L135.2,163.6 L141.0,233.4 L146.9,223.6 L152.7,156.1 L158.5,146.0 L164.3,190.7 L170.1,158.1 L175.9,156.9 L181.7,177.3 L187.6,194.0 L193.4,186.9 L199.2,161.7 L205.0,167.5 L210.8,121.0 L216.6,149.1 L222.5,131.2 L228.3,182.4 L234.1,234.1 L239.9,225.1 L245.7,207.7 L251.5,150.3 L257.3,164.4 L263.2,158.7 L269.0,195.1 L274.8,190.1 L280.6,171.8 L286.4,183.3 L292.2,153.3 L298.1,119.1 L303.9,113.7 L309.7,127.2 L315.5,141.8 L321.3,131.4 L327.1,167.6 L332.9,142.3 L338.8,164.8 L344.6,158.8 L350.4,191.8 L356.2,213.6 L362.0,227.7 L367.8,202.5 L373.6,195.4 L379.5,188.8 L385.3,158.6 L391.1,185.9 L396.9,159.2 L402.7,178.0 L408.5,201.5 L414.4,210.7 L420.2,174.2 L426.0,128.9 L431.8,152.8 L437.6,186.3 L443.4,226.8 L449.2,215.3 L455.1,195.2 L460.9,180.1 L466.7,171.9 L472.5,134.5 L478.3,141.0 L484.1,136.5 L489.9,151.5 L495.8,182.1 L501.6,241.8 L507.4,227.5 L513.2,233.4 L519.0,236.0 L524.8,240.6 L530.7,226.3 L536.5,212.9 L542.3,267.0 L548.1,259.1 L553.9,230.5 L559.7,210.5 L565.5,209.9 L571.4,198.5 L577.2,238.0 L583.0,216.1 L588.8,216.0 L594.6,206.5 L600.4,182.8 L606.3,178.4 L612.1,209.5 L617.9,257.7 L623.7,254.7 L629.5,239.6 L635.3,221.2 L641.1,184.6 L647.0,172.6 L652.8,165.1 L658.6,216.1 L664.4,187.1 L670.2,180.8 L676.0,123.3 L681.8,113.3 L687.7,146.9 L693.5,150.3 L699.3,138.5 L705.1,171.9 L710.9,218.0 L716.7,197.9 L722.6,208.4 L728.4,207.5 L734.2,199.0 L740.0,202.6\" class=\"f-s\"/>\n<circle cx=\"298.1\" cy=\"119.1\" r=\"6\" class=\"f-in\"/><circle cx=\"327.1\" cy=\"167.6\" r=\"6\" class=\"f-out\"/><circle cx=\"501.6\" cy=\"241.8\" r=\"6\" class=\"f-in\"/><circle cx=\"571.4\" cy=\"198.5\" r=\"6\" class=\"f-out\"/><circle cx=\"577.2\" cy=\"238.0\" r=\"6\" class=\"f-in\"/><circle cx=\"600.4\" cy=\"182.8\" r=\"6\" class=\"f-out\"/><circle cx=\"617.9\" cy=\"257.7\" r=\"6\" class=\"f-in\"/><circle cx=\"641.1\" cy=\"184.6\" r=\"6\" class=\"f-out\"/><circle cx=\"681.8\" cy=\"113.3\" r=\"6\" class=\"f-in\"/><circle cx=\"687.7\" cy=\"146.9\" r=\"6\" class=\"f-out\"/>\n<g class=\"f-lab\"><circle cx=\"54\" cy=\"346\" r=\"6\" class=\"f-in\"/><text x=\"66\" y=\"350\">進場：s 超過 ±1.25<\/text>\n<circle cx=\"248\" cy=\"346\" r=\"6\" class=\"f-out\"/><text x=\"260\" y=\"350\">平倉：多單回到 −0.5 以上、空單回到 0.75 以下<\/text><\/g>\n<text x=\"52\" y=\"26\" class=\"f-lab\">s 分數（價差離平衡點幾個「平常的晃動」）<\/text>\n<text x=\"740\" y=\"374\" text-anchor=\"end\" class=\"f-note\">示意，非真實資料（模擬 b = 0.8 的價差）<\/text>\n<\/svg><\/div>", "cites": [{"t": "均值回歸與半衰期：價差多快回來、何時進出場", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#mean-reversion"}], "illustrative": true}, {"id": "handcalc", "layout": "table", "html": "<h2>手算一次（示意）<\/h2>\n<p>估出 <math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>a<\/mi><mo>&#x0003D;<\/mo><mn>0.1<\/mn><\/mrow><\/math>、<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>b<\/mi><mo>&#x0003D;<\/mo><mn>0.8<\/mn><\/mrow><\/math>、<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mrow><mi mathvariant=\"normal\">V<\/mi><mi mathvariant=\"normal\">a<\/mi><mi mathvariant=\"normal\">r<\/mi><\/mrow><mo stretchy=\"false\">&#x00028;<\/mo><mi>&#x003B6;<\/mi><mo stretchy=\"false\">&#x00029;<\/mo><mo>&#x0003D;<\/mo><mn>0.36<\/mn><\/mrow><\/math> → <math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>m<\/mi><mo>&#x0003D;<\/mo><mn>0.5<\/mn><\/mrow><\/math>、<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><msub><mi>&#x003C3;<\/mi><mrow><mi>e<\/mi><mi>q<\/mi><\/mrow><\/msub><mo>&#x0003D;<\/mo><mn>1<\/mn><\/mrow><\/math>。今天價差 −1.0 → <math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>s<\/mi><mo>&#x0003D;<\/mo><mo>&#x02212;<\/mo><mn>1.5<\/mn><\/mrow><\/math>，<strong>進場<\/strong>。<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>&#x003BA;<\/mi><mo>&#x02248;<\/mo><mn>56.2<\/mn><mo>&#x0003E;<\/mo><mn>8.4<\/mn><\/mrow><\/math>，可以做；半衰期約 3.1 天。<\/p>\n<table>\n<thead>\n<tr>\n<th>天<\/th>\n<th>0<\/th>\n<th>1<\/th>\n<th>2<\/th>\n<th>3<\/th>\n<th>4<\/th>\n<th>5<\/th>\n<\/tr>\n<\/thead>\n<tbody>\n<tr>\n<td>s 分數<\/td>\n<td>−1.5<\/td>\n<td>−1.2<\/td>\n<td>−0.96<\/td>\n<td>−0.77<\/td>\n<td>−0.61<\/td>\n<td>−0.49<\/td>\n<\/tr>\n<tr>\n<td>動作<\/td>\n<td>進場<\/td>\n<td>持有<\/td>\n<td>持有<\/td>\n<td>持有<\/td>\n<td>持有<\/td>\n<td><strong>平倉<\/strong><\/td>\n<\/tr>\n<\/tbody>\n<\/table>\n<p>（沒有雜訊時的平均走法：每天乘 0.8）<\/p>", "cites": [{"t": "均值回歸與半衰期：價差多快回來、何時進出場", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#mean-reversion"}], "illustrative": true}, {"id": "results", "layout": "table", "html": "<h2>結果：扣成本後有賺，但越來越難<\/h2>\n<table>\n<thead>\n<tr>\n<th>版本<\/th>\n<th>期間<\/th>\n<th>夏普比率<\/th>\n<\/tr>\n<\/thead>\n<tbody>\n<tr>\n<td>主成分<\/td>\n<td>1997–2007<\/td>\n<td>1.44<\/td>\n<\/tr>\n<tr>\n<td>主成分<\/td>\n<td>2003–2007<\/td>\n<td>0.9<\/td>\n<\/tr>\n<tr>\n<td>產業 ETF<\/td>\n<td>1997–2007<\/td>\n<td>1.1<\/td>\n<\/tr>\n<tr>\n<td>產業 ETF＋成交量<\/td>\n<td>2003–2007<\/td>\n<td>1.51<\/td>\n<\/tr>\n<\/tbody>\n<\/table>\n<p>已扣每筆一來一回 10 bps 的成本。<\/p>\n<blockquote>\n<p><strong>夏普比率<\/strong>：賺的錢除以帳戶起伏的大小，越高越穩。<\/p>\n<p><strong>主成分<\/strong>：不用產業 ETF，改從所有股票的共同走勢裡找出幾個「共同因子」當夥伴。<\/p>\n<p><strong>bps<\/strong>：萬分之一，10 bps 就是 0.1%。<\/p>\n<\/blockquote>", "cites": [{"t": "用均值回歸模型做統計套利", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#statarb-ou-2010"}, {"t": "bps", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#bps"}], "illustrative": false}, {"id": "risks", "layout": "bullets", "html": "<h2>什麼時候會出事<\/h2>\n<ul>\n<li><strong>回得太慢<\/strong>：<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>b<\/mi><\/mrow><\/math> 接近 1，模型不成立，直接不做。<\/li>\n<li><strong>大家同時平倉<\/strong>：2007 年 8 月，所有策略突然大幅回撤（主成分版 5%、ETF 版 10%），約 10 天後才回升。<\/li>\n<li><strong>門檻是歷史挑的<\/strong>：1.25 等數字來自美股 2000–2004 年，換市場要重新驗證。<\/li>\n<li><strong>加密貨幣日線<\/strong>：簡單配對每月只有 −0.07% 到 1.36%。<\/li>\n<\/ul>\n<blockquote>\n<p><strong>回撤<\/strong>：帳戶從最高點往下掉了多少。<\/p>\n<\/blockquote>", "cites": [{"t": "用均值回歸模型做統計套利", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#statarb-ou-2010"}, {"t": "加密貨幣的配對交易", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#crypto-pairs-2020"}], "illustrative": false}, {"id": "crypto", "layout": "bullets", "html": "<h2>想套到加密貨幣上（推論，待確認）<\/h2>\n<ul>\n<li>把「股票對產業 ETF」換成「幣對幣」，或「幣對一籃子大幣」。<\/li>\n<li>252 改成 365。<\/li>\n<li>用永續合約做空，成本是資金費率：幣安每 8 小時付一次，平靜時 0.01%。<\/li>\n<li>這些是 Wiki 的想法，論文只做了美股。<\/li>\n<\/ul>", "cites": [{"t": "均值回歸與半衰期：價差多快回來、何時進出場", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#mean-reversion"}, {"t": "永續合約的基本面與資金費率", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#perpetual-futures-2024"}, {"t": "用均值回歸模型做統計套利", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#statarb-ou-2010"}], "illustrative": false}, {"id": "answers", "layout": "table", "html": "<h2>回到四個問題<\/h2>\n<table>\n<thead>\n<tr>\n<th>問題<\/th>\n<th>這篇的答案<\/th>\n<\/tr>\n<\/thead>\n<tbody>\n<tr>\n<td>在賺誰的錢？<\/td>\n<td>原文：市場反應過度，資產暫時被高估或低估，之後會修正<\/td>\n<\/tr>\n<tr>\n<td>靠什麼假設？<\/td>\n<td>價差能用最簡單的 OU 過程描述；參數在 60 天內不變<\/td>\n<\/tr>\n<tr>\n<td>什麼時候失效？<\/td>\n<td>回得太慢；大家同時平倉；2003 年以後績效下降<\/td>\n<\/tr>\n<tr>\n<td>扣成本後剩多少？<\/td>\n<td>扣一來一回 10 bps 後，夏普比率 0.9 到 1.51<\/td>\n<\/tr>\n<\/tbody>\n<\/table>\n<blockquote>\n<p><strong>參數<\/strong>：模型裡要從資料估出來的數字，例如 <math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>a<\/mi><\/mrow><\/math>、<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>b<\/mi><\/mrow><\/math>、<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mi>&#x003BA;<\/mi><\/mrow><\/math>。<\/p>\n<\/blockquote>", "cites": [{"t": "用均值回歸模型做統計套利", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#statarb-ou-2010"}, {"t": "均值回歸與半衰期：價差多快回來、何時進出場", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#mean-reversion"}], "illustrative": false}, {"id": "quiz", "layout": "quiz", "html": "<h2>小測驗<\/h2><div class=\"quiz\"><div class=\"q\" data-q=\"0\"><p class=\"qq\">1. 某組配對估出 b = 0.99，照論文的規則該怎麼辦？<\/p><div class=\"opts\"><button class=\"opt\" data-ok=\"0\">馬上進場，因為它很穩<\/button><button class=\"opt\" data-ok=\"1\">不做：κ 約 2.5，低於 8.4，回得太慢<\/button><button class=\"opt\" data-ok=\"0\">把門檻放寬到 2 個標準差<\/button><\/div><p class=\"why\" hidden>回歸太慢，半衰期約 69 天，模型的「參數不變」假設撐不住，論文直接不交易。<\/p><\/div><div class=\"q\" data-q=\"1\"><p class=\"qq\">2. s 分數是 −1.5，代表什麼？<\/p><div class=\"opts\"><button class=\"opt\" data-ok=\"1\">價差在平衡點下方 1.5 個「平常的晃動」，可以買進價差<\/button><button class=\"opt\" data-ok=\"0\">價差每天會跌 1.5%<\/button><button class=\"opt\" data-ok=\"0\">還要 1.5 天才會回來<\/button><\/div><p class=\"why\" hidden>s 分數是「偏離 ÷ 長期平常的晃動」；低於 −1.25 就買進價差。<\/p><\/div><div class=\"q\" data-q=\"2\"><p class=\"qq\">3. 為什麼論文可以用一次 AR(1) 迴歸，就估出 OU 過程的拉回速度？<\/p><div class=\"opts\"><button class=\"opt\" data-ok=\"0\">因為 OU 過程只能用在股票上<\/button><button class=\"opt\" data-ok=\"1\">每天看一次的 OU 過程就是 AR(1)，b 和 κ 可以互相換算<\/button><button class=\"opt\" data-ok=\"0\">因為迴歸可以消除所有雜訊<\/button><\/div><p class=\"why\" hidden>b = e^(−κΔt)，所以 κ = −ln(b) × 252。<\/p><\/div><\/div><p class=\"score\" aria-live=\"polite\"><\/p>", "cites": [{"t": "均值回歸與半衰期：價差多快回來、何時進出場", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#mean-reversion"}, {"t": "用均值回歸模型做統計套利", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#statarb-ou-2010"}], "illustrative": false}, {"id": "takeaway", "layout": "statement", "html": "<h2>一句話帶走<\/h2>\n<p><strong>先量出價差這條彈簧有多硬、平常晃多大，再決定何時進場、等多久、何時放棄。<\/strong><\/p>\n<p>這套方法讓每一組配對都有自己的尺，但門檻和參數都要在你自己的市場上重新驗證。<\/p>", "cites": [{"t": "均值回歸與半衰期：價差多快回來、何時進出場", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#mean-reversion"}, {"t": "用均值回歸模型做統計套利", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#statarb-ou-2010"}], "illustrative": false}, {"id": "sources", "layout": "sources", "html": "<h2>參考資料<\/h2>\n<ul>\n<li>Avellaneda, M. &amp; Lee, J.-H. (2010). Statistical arbitrage in the US equities market. <em>Quantitative Finance<\/em>, 10(7), 761–782. 本簡報讀的是 2009 年 6 月 15 日的工作論文版。<\/li>\n<li>Hyndman, R. J. &amp; Athanasopoulos, G. (2021). <em>Forecasting: Principles and Practice<\/em>, 3rd ed. OTexts.（AR(1) 的平穩條件）<\/li>\n<li>Krauss, C. (2015). Statistical arbitrage pairs trading strategies: Review and outlook. FAU Discussion Papers 09/2015.<\/li>\n<li>Fil, M. &amp; Kristoufek, L. (2020). Pairs trading in cryptocurrency markets. <em>IEEE Access<\/em>, 8.<\/li>\n<li>He, S., Manela, A., Ross, O. &amp; von Wachter, V. (2024). Fundamentals of perpetual futures. arXiv:2212.06888.<\/li>\n<li>兩張示意圖用模擬資料畫成，不是論文的資料。<\/li>\n<\/ul>\n<p>所有內容都來自「開心的 Quant Wiki」的模型頁「均值回歸與半衰期」「平穩」「迴歸」與相關來源頁。<\/p>", "cites": [{"t": "用均值回歸模型做統計套利", "h": "https://cheehan2388.github.io/Quant_wiki/pairs.html#statarb-ou-2010"}], "illustrative": false}];
+const stage = document.getElementById('stage');
+const twins = `<svg class="twins" viewBox="0 0 470 470" aria-hidden="true">
+  <path class="tw-gap" d="M40,250 C120,240 160,230 200,200 C240,170 260,150 300,150 C340,150 360,190 430,200 L430,210 C360,205 330,300 290,300 C250,300 230,260 200,250 C160,240 120,255 40,255 Z"/>
+  <path class="tw-a" d="M40,255 C120,255 160,240 200,250 C230,260 250,300 290,300 C330,300 360,205 430,210"/>
+  <path class="tw-b" d="M40,250 C120,240 160,230 200,200 C240,170 260,150 300,150 C340,150 360,190 430,200"/></svg>`;
+stage.innerHTML = SLIDES.map((s, i) => `
+  <section class="s ly-${s.layout}" id="s${i + 1}" aria-label="第 ${i + 1} 頁">
+    ${s.html}${s.layout === 'cover' ? twins : ''}
+    <div class="foot"><span class="src">知識來源（Wiki）：${s.cites.map(c => `<a href="${c.h}" target="_top">${c.t}</a>`).join('、')}</span>
+      ${s.illustrative ? '<span class="tag ill">示意數字</span>' : ''}
+      <span class="n">${i + 1} / ${SLIDES.length}</span></div>
+  </section>`).join('');
+const secs = [...stage.querySelectorAll('.s')];
+let cur = 0;
+function fit(sec) {
+  if (document.body.classList.contains('read')) return;
+  let fs = 29;
+  sec.style.setProperty('--fs', fs + 'px');
+  const limit = 720 - 92;
+  const tooTall = () => [...sec.children].filter(c => !c.classList.contains('foot') && !c.classList.contains('twins'))
+    .some(c => c.offsetTop + c.offsetHeight > limit);
+  while (tooTall() && fs > 17) { fs -= 1; sec.style.setProperty('--fs', fs + 'px'); }
+}
+function show(i) {
+  cur = Math.max(0, Math.min(SLIDES.length - 1, i));
+  secs.forEach((s, k) => s.classList.toggle('on', k === cur));
+  fit(secs[cur]);
+  document.getElementById('bar').style.width = ((cur + 1) / SLIDES.length * 100) + '%';
+  if (location.hash !== '#s' + (cur + 1)) history.replaceState(null, '', '#s' + (cur + 1));
+}
+function scale() {
+  const read = innerWidth < 760 || innerHeight < 430;
+  document.body.classList.toggle('read', read);
+  if (read) { secs.forEach(s => s.classList.add('on')); stage.style.transform = ''; return; }
+  secs.forEach((s, k) => s.classList.toggle('on', k === cur));
+  const k = Math.min(innerWidth / 1280, innerHeight / 720) * 0.96;
+  stage.style.transform = `scale(${k})`;
+  fit(secs[cur]);
+}
+document.getElementById('prev').onclick = () => show(cur - 1);
+document.getElementById('next').onclick = () => show(cur + 1);
+addEventListener('keydown', e => {
+  if (document.body.classList.contains('read')) return;
+  if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); show(cur + 1); }
+  if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); show(cur - 1); }
+  if (e.key === 'Home') show(0);
+  if (e.key === 'End') show(SLIDES.length - 1);
+});
+let tx = null;
+stage.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive: true});
+stage.addEventListener('touchend', e => {
+  if (tx === null || document.body.classList.contains('read')) return;
+  const dx = e.changedTouches[0].clientX - tx;
+  if (Math.abs(dx) > 50) show(cur + (dx < 0 ? 1 : -1));
+  tx = null;
+});
+for (const q of stage.querySelectorAll('.q')) {
+  q.addEventListener('click', e => {
+    const b = e.target.closest('.opt');
+    if (!b || b.disabled) return;
+    const btns = [...q.querySelectorAll('.opt')];
+    btns.forEach(x => { x.disabled = true; if (x.dataset.ok === '1') x.classList.add('right'); });
+    if (b.dataset.ok !== '1') b.classList.add('wrong');
+    q.dataset.done = b.dataset.ok;
+    q.querySelector('.why').hidden = false;
+    const all = [...stage.querySelectorAll('.q')], done = all.filter(x => x.dataset.done !== undefined);
+    const sc = q.closest('.s').querySelector('.score');
+    if (done.length === all.length) sc.textContent = `答對 ${done.filter(x => x.dataset.done === '1').length} / ${all.length} 題`;
+    fit(q.closest('.s'));
+  });
+}
+const m = location.hash.match(/^#s(\d+)$/);
+cur = m ? Number(m[1]) - 1 : 0;
+addEventListener('resize', scale);
+addEventListener('hashchange', () => { const h = location.hash.match(/^#s(\d+)$/); if (h) show(Number(h[1]) - 1); });
+scale(); show(cur);
+}
+</script>
+</body>
+</html>
