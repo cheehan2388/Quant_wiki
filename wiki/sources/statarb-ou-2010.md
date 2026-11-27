@@ -3,7 +3,7 @@ title: 用均值回歸模型做統計套利（Avellaneda & Lee 2010）
 type: source
 sources: [statarb-ou-2010]
 aliases: [Avellaneda, Lee, 統計套利, statistical arbitrage, OU, Ornstein-Uhlenbeck, s-score, s 分數, 均值回歸, 半衰期, ETF, PCA]
-updated: 2026-11-26
+updated: 2026-11-27
 ---
 
 # 用均值回歸模型做統計套利（Avellaneda & Lee 2010）
@@ -63,6 +63,7 @@ updated: 2026-11-26
 - 方法的七個步驟、所有式子與門檻、1.44／0.9／1.1／1.51、7 天與 300 bps、10 bps 成本、與市場反應過度的關係、2007 年的觀察。
 
 **推論（Wiki 補的）**
+- 一句話裡的「彈簧」是 Wiki 的比喻，論文沒有用這個詞，只說多空組合在一個統計平衡點附近來回晃（第 1 節）。
 - 「半衰期」（偏離縮小一半要多久）是 $\ln 2/\kappa$，由式 13 推出，論文自己用的是回歸時間 $1/\kappa$。這是 Wiki 的算術，寫在 [[mean-reversion]]。
 - 同一套做法可以直接套到兩檔加密貨幣：把 ETF 換成配對的另一檔。這只是 Wiki 的想法，論文只做了美股。
 
